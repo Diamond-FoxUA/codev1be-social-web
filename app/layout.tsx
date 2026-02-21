@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Nunito_Sans, Sora } from 'next/font/google';
+import { Nunito_Sans, Inter } from 'next/font/google';
 import './globals.css';
 
 
@@ -9,11 +9,11 @@ const nunito = Nunito_Sans({
   subsets: ['latin', 'cyrillic'],
   display: 'swap',
 });
-// TODO: change font Sora to Inter
-const sora = Sora({
-  variable: '--font-sora',
+
+const inter = Inter({
+  variable: '--font-inter',
   weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
+  subsets: ['latin', 'cyrillic'],
   display: 'swap',
 });
 
@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${nunito.variable} ${sora.variable}`}>
+      <body className={`${nunito.variable} ${inter.variable}`}>
         <QueryProvider>
           <Header />
           <main>{children}</main>
