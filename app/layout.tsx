@@ -24,8 +24,6 @@ export const metadata: Metadata = {
 
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
-// TODO: move About to the mainPage
-import About from '@/components/About/About';
 import QueryProvider from './providers/QueryProvider';
 
 export default function RootLayout({
@@ -38,7 +36,6 @@ export default function RootLayout({
       <body className={`${nunito.variable} ${sora.variable}`}>
         <QueryProvider>
           <Header />
-          <About />
           <main>{children}</main>
           <Footer />
         </QueryProvider>
