@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import TravellersList from "./TravellersList";
 import { getTravellers } from "@/lib/travellers-api";
-import { Traveller } from "@/types/traveller";
+import { User } from "@/types/user";
 import css from "./OurTravellers.module.css";
 
 export default function OurTravellers() {
-  const [travellers, setTravellers] = useState<Traveller[]>([]);
+  const [travellers, setTravellers] = useState<User[]>([]);
 
   useEffect(() => {
     async function loadTravellers() {
@@ -20,16 +20,18 @@ export default function OurTravellers() {
   }, []);
 
   return (
-    <section className={css.section}>
-      <div className={css.container}>
-        <h2 className={css.title}>Наші Мандрівники</h2>
+    <div className="container">
+      <section className={css.section}>
+        <div className={css.inner}>
+          <h2 className={css.title}>Наші Мандрівники</h2>
 
-        <TravellersList travellers={travellers} />
+          <TravellersList travellers={travellers} />
 
-        <Link href="/travellers" className={css.viewAllBtn}>
-          Переглянути всіх
+          <Link href="/travellers" className={css.viewAllBtn}>
+            Переглянути всіх
           </Link>
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
   );
 }

@@ -6,7 +6,7 @@
     background-color: var(--color-scheme-2-background);
 }
 
-.container {
+.inner {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -174,7 +174,7 @@
 
 /* Tablet */
 @media (min-width: 768px) {
-    .container {
+    .inner {
         --columns: 2;
         --card-width: 340px;
         --gap: 24px;
@@ -183,7 +183,7 @@
 
 /* Desktop */
 @media (min-width: 1440px) {
-    .container {
+    .inner {
         --columns: 4;
         --card-width: 310px;
         --gap: 32px;

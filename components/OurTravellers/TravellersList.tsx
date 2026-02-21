@@ -1,9 +1,9 @@
-import { Traveller } from "@/types/traveller";
+import { User } from "@/types/user";
 import TravellerInfo from "./TravellerInfo";
 import css from "./OurTravellers.module.css";
 
 interface Props {
-  travellers: Traveller[];
+  travellers: User[];
 }
 
 export default function TravellersList({ travellers }: Props) {

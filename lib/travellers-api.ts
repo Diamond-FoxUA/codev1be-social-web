@@ -1,7 +1,7 @@
-import { Traveller } from "@/types/traveller"
+import { User } from "@/types/user"
 
 interface TravellersResponse {
-  items: Traveller[];
+  items: User[];
   hasMore: boolean;
 }
 

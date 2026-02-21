@@ -1,4 +1,4 @@
-export interface Traveller {
+export interface User {
   _id: string;
   name: string;
   avatarUrl: string;
