@@ -1,11 +1,9 @@
-/* ── Base (mobile від 320px) ── */
 .about {
   max-width: 1312px;
   margin: 0 auto;
   padding: 40px 16px;
 }
 
-/* ── Intro блок ── */
 .intro {
   display: grid;
   grid-template-columns: 1fr;
@@ -16,7 +14,6 @@
 .title {
   font-weight: 700;
   font-size: 28px;
-  /* line-height: 120%; */
   letter-spacing: -0.01em;
   margin: 0;
 }
@@ -29,7 +26,6 @@
   margin: 0;
 }
 
-/* ── Features ── */
 .features {
   display: grid;
   grid-template-columns: 1fr;
@@ -76,7 +72,6 @@
 
   .intro {
     grid-template-columns: 1fr 1fr;
-    /* align-items: center; */
     gap: 24px;
     margin-bottom: 64px;
   }
