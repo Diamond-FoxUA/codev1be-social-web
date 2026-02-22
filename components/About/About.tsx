@@ -10,7 +10,7 @@ type IconProps = {
   className?: string;
 };
 
-const SPRITE = '/svg/symbol-defs.svg';
+const SPRITE = '/svg/icons.svg';
 
 function Icon({ id, className }: IconProps) {
   return (

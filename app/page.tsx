@@ -1,9 +1,15 @@
-// Сюди будуть йти компоненти для головної сторінки окрім Header та Footer
+import './globals.css';
+import css from './page.module.css';
+import Hero from '@/components/Hero/Hero';
+import About from '@/components/About/About';
 
 export default function Home() {
   return (
-    <div>
-        <h1>Main Page</h1>
-    </div>
+    <main>
+      <div className={css.container}>
+        <Hero />
+        <About />
+      </div>
+    </main>
   );
 }

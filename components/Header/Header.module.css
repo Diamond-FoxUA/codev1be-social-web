@@ -1,0 +1,134 @@
+.header {
+  width: 100%;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  transition: all 0.3s ease;
+}
+
+.homeHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  color: var(--color-white);
+}
+
+.homeHeader a {
+  color: var(--color-white);
+}
+
+.homeHeader .burgerLine {
+  background-color: var(--color-white);
+}
+
+.pageHeader {
+  position: relative;
+  background-color: #ffffff;
+  color: currentColor;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.pageHeader a {
+  color: #111827;
+}
+
+.header a {
+  color: var(--color-white);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--color-scheme-1-background);
+}
+
+.header a:hover {
+  color: #ddd;
+}
+
+.logoLink {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 156px;
+  height: 40px;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 3px;
+}
+
+.logoIcon {
+  display: block;
+}
+
+.menuBtn {
+  border: 1px solid var(--opacity-transparent);
+  border-radius: 8px;
+  padding: 4px;
+  width: 32px;
+  height: 32px;
+  background: var(--opacity-white-10);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 12px;
+}
+
+.logoText {
+  font-family: var(--second-family);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-white);
+}
+
+.navigation {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 32px;
+}
+
+.navigation li a {
+  color: var(--color-white);
+  font-size: 1rem;
+}
+
+.navigation li a:hover {
+  color: #ddd;
+}
+
+.desktopNav {
+  display: none;
+  align-items: center;
+  gap: 40px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 32px;
+}
+
+@media (min-width: 1440px) {
+  .desktopNav {
+    display: flex;
+  }
+
+  .menuBtn {
+    display: none;
+  }
+  .navigation li a {
+    font-size: 18px;
+  }
+}
