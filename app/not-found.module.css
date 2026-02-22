@@ -11,10 +11,6 @@
   margin: 0;
 }
 
-.messageError {
-  font-size: 26px;
-}
-
 .messageContainer {
   display: flex;
   flex-direction: column;
@@ -39,4 +35,10 @@
 .link:active {
   border: 1px solid var(--color-scheme-1-text);
   background-color: var(--color-neutral-lighter);
+}
+
+@media screen and (max-width: 375px) {
+  .messageTitle {
+    font-size: 25px;
+  }
 }
