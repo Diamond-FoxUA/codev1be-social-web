@@ -4,7 +4,6 @@ import './globals.css';
 
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
-import About from '@/components/About/About';
 
 const nunito = Nunito_Sans({
   variable: '--font-nunito-sans',
@@ -34,7 +33,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.variable} ${sora.variable}`}>
         <Header />
-        <About />
+
         <main>{children}</main>
         <Footer />
       </body>

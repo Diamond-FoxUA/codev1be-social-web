@@ -96,6 +96,8 @@
 .navLink:focus-visible {
   border-color: #000;
   border: 1px solid #000;
+  border-radius: 8px;
+  padding: 0px 8px;
   outline: none;
   background-color: transparent;
 }
