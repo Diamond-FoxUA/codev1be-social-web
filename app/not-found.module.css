@@ -11,6 +11,10 @@
   margin: 0;
 }
 
+.messageError {
+  font-size: 26px;
+}
+
 .messageContainer {
   display: flex;
   flex-direction: column;
