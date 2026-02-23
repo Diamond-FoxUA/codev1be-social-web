@@ -12,7 +12,7 @@ export default function TravellerInfo({ traveller }: Props) {
     <div className={css.card}>
       <div className={css.avatar}>
         <Image
-          src={traveller.avatarUrl}
+          src={traveller.avatarUrl ?? "/default-avatar.png"}
           alt={traveller.name}
           width={112}
           height={112}
@@ -22,7 +22,7 @@ export default function TravellerInfo({ traveller }: Props) {
       <h3 className={css.name}>{traveller.name}</h3>
 
       <p className={css.description}>
-        {traveller.description}
+        {traveller.description ?? "Немає опису"}
       </p>
 
       <Link

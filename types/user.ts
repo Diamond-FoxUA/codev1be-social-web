@@ -1,7 +1,9 @@
 export interface User {
   _id: string;
   name: string;
-  avatarUrl: string;
-  description: string;
+  email: string;
+  avatarUrl?: string;
   articlesAmount: number;
+  description?: string;
+  favoriteStories: string[];
 }

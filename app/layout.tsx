@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Nunito_Sans, Inter } from 'next/font/google';
 import './globals.css';
 
-
 const nunito = Nunito_Sans({
   variable: '--font-nunito-sans',
   weight: ['400', '500', '600', '700'],
@@ -29,7 +28,7 @@ export const metadata: Metadata = {
     images: [
       {
         // TODO: add preview.png
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/preview.png`,
+        url: `/preview.png`,
         width: 1200,
         height: 630,
         alt: 'Podorozhnyky preview image'
@@ -42,7 +41,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Подорожники',
     description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-    images: [`${process.env.NEXT_PUBLIC_APP_URL}/preview.png`],
+    images: [`/preview.png`],
   }
 };
 

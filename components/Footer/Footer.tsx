@@ -2,9 +2,9 @@
 import css from './Footer.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import api from '@/lib/api/api';
+import { nextServer } from '@/lib/api/api';
 
-const SPRITE = '/svg/symbol-defs.svg';
+const SPRITE = '/svg/icons.svg';
 
 type IconProps = {
   id: string;
@@ -40,7 +40,7 @@ export default function Footer() {
   useEffect(() => {
     const fetchUser = async() => {
       try {
-        const res = await api.get('/api/users/me'); 
+        const res = await nextServer.get('/api/users/me'); 
         setIsLoggedIn(res.status === 200);
       } catch {
         setIsLoggedIn(false);
@@ -58,7 +58,7 @@ export default function Footer() {
         <div className={css.topRow}>
           <Link href="/" className={css.logo}>
             <svg className={css.logoIcon} aria-hidden="true">
-              <use href={`${SPRITE}#plant_logo`} />
+              <use href={`/svg/logo.svg`} />
             </svg>
             <span>Подорожники</span>
           </Link>
