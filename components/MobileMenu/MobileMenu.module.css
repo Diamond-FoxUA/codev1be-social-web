@@ -17,7 +17,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 32px;
-  transition: all 0.3s ease;
+  transition: all 300ms ease-in-out;
 }
 
 .logoLink {
@@ -85,7 +85,11 @@
   justify-content: center;
   flex-direction: row;
   gap: 8px;
-  transition: color 0.3s ease;
+
+  transition: 
+    color 300ms ease-in-out,
+    border 300ms ease-in-out,
+    background-color 300ms ease-in-out;
 }
 
 .navLink:hover,
@@ -94,7 +98,7 @@
 }
 
 .navLink:active {
-  background: var(--color-neutral-lighter);
+  background-color: var(--color-neutral-lighter);
 }
 
 .grayButton,
@@ -112,8 +116,8 @@
   gap: 8px;
   margin: 0 auto;
   transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
 }
 
 .grayButton:hover,
