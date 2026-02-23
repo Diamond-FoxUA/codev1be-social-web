@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Join() {
   return (
-    <section className="section">
+    <section className={css.section}>
       <div className={`container ${css.container}`}>
         <div className={css.contentContainer}>
           <h2 className={css.sectionHeading}>Приєднуйтесь до нашої спільноти</h2>
