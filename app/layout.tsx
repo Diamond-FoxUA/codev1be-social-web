@@ -17,6 +17,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
   title: 'Подорожники',
   description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
   keywords: ['nextjs', 'react', 'social network', 'travel stories'],
@@ -27,7 +28,6 @@ export const metadata: Metadata = {
     url: process.env.NEXT_PUBLIC_APP_URL,
     images: [
       {
-        // TODO: add preview.png
         url: `/preview.png`,
         width: 1200,
         height: 630,
