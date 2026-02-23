@@ -1,6 +1,4 @@
-.about {
-  margin: 0 auto;
-}
+/* ── Base (mobile від 320px) ── */
 
 .intro {
   display: grid;
@@ -9,20 +7,8 @@
   margin-bottom: 64px;
 }
 
-.title {
-  font-weight: 700;
-  font-size: 28px;
-  letter-spacing: -0.01em;
-  margin: 0;
-  width: 335px;
-}
-
 .description {
-  font-weight: 400;
-  font-size: 16px;
   line-height: 150%;
-
-  margin: 0;
 }
 
 .features {
@@ -38,29 +24,21 @@
 }
 
 .icon {
-  width: 28px;
-  height: 28px;
+  width: 48px;
+  height: 48px;
   color: var(--color-scheme-2-text);
   flex-shrink: 0;
 }
 
 .featureTitle {
-  font-family: var(--second-family);
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 130%;
-  letter-spacing: -0.01em;
-  color: var(--color-scheme-2-text);
   margin: 0;
+  padding: 0;
 }
 
 .featureText {
-  font-family: var(--font-family);
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  color: var(--color-scheme-2-text);
   margin: 0;
+  padding: 0;
+  line-height: 150%;
 }
 
 /* ── Tablet (768px+) ── */
@@ -70,15 +48,6 @@
     gap: 24px;
     margin-bottom: 64px;
   }
-
-  .title {
-    font-size: 44px;
-  }
-
-  .description {
-    font-size: 16px;
-  }
-
   .features {
     grid-template-columns: repeat(3, 1fr);
 
@@ -90,12 +59,11 @@
     height: 40px;
   }
 
-  .featureTitle {
-    font-size: 24px;
-  }
-
   .featureText {
     font-size: 16px;
+  }
+  .description {
+    padding-top: 8px;
   }
 }
 
@@ -103,18 +71,9 @@
 @media (min-width: 1440px) {
   .intro {
     align-items: start;
+    grid-template-columns: 755px 1fr;
     gap: 24px;
     margin-bottom: 64px;
-  }
-
-  .title {
-    font-size: 52px;
-    width: 755px;
-  }
-
-  .description {
-    font-size: 20px;
-    padding: 8px 0 0;
   }
 
   .feature {
@@ -130,11 +89,18 @@
     height: 48px;
   }
 
-  .featureTitle {
-    font-size: 32px;
+  .title {
+    margin: 0;
+    line-height: 120%;
   }
 
-  .featureText {
-    font-size: 18px;
+  .featureTitle {
+    max-width: 755px;
+    align-self: start;
+  }
+
+  .description {
+    max-width: 533px;
+    margin-top: 8px;
   }
 }
