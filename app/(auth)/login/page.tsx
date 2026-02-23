@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import styles from './login.module.css';
 import { useRouter } from 'next/navigation';
 import { Formik } from 'formik';
@@ -29,18 +28,13 @@ export default function LoginPage() {
   return (
     <div className={styles.authWrapper}>
       <div className={styles.authCard}>
-
-
         <div className={styles.inner}>
           <div className={styles.content}>
             <div className={styles.tabs}>
               <Link href="/register" className={styles.tab}>
                 Реєстрація
               </Link>
-              <Link
-                href="/login"
-                className={`${styles.tab} ${styles.tabActive}`}
-              >
+              <Link href="/login" className={`${styles.tab} ${styles.tabActive}`}>
                 Вхід
               </Link>
             </div>
@@ -55,8 +49,8 @@ export default function LoginPage() {
                 helpers.setStatus(null);
 
                 try {
-                  // ✅ ВАЖНО: идём через Next proxy
-                  await api.post('/api/auth/login', values);
+                  // ✅ напрямую на backend
+                  await api.post('/auth/login', values);
 
                   router.push('/');
                   router.refresh();
@@ -98,9 +92,7 @@ export default function LoginPage() {
                       disabled={isSubmitting}
                     />
                     {touched.email && errors.email && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>
-                        {errors.email}
-                      </span>
+                      <span style={{ color: 'crimson', fontSize: 12 }}>{errors.email}</span>
                     )}
                   </label>
 
@@ -117,30 +109,18 @@ export default function LoginPage() {
                       disabled={isSubmitting}
                     />
                     {touched.password && errors.password && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>
-                        {errors.password}
-                      </span>
+                      <span style={{ color: 'crimson', fontSize: 12 }}>{errors.password}</span>
                     )}
                   </label>
 
-                  {status && (
-                    <div style={{ color: 'crimson', fontSize: 12 }}>
-                      {status}
-                    </div>
-                  )}
+                  {status && <div style={{ color: 'crimson', fontSize: 12 }}>{status}</div>}
 
-                  <button
-                    className={styles.button}
-                    type="submit"
-                    disabled={isSubmitting}
-                  >
+                  <button className={styles.button} type="submit" disabled={isSubmitting}>
                     {isSubmitting ? '...' : 'Увійти'}
                   </button>
                 </form>
               )}
             </Formik>
-
-            
           </div>
         </div>
       </div>

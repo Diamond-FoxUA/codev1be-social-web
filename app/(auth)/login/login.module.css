@@ -1,60 +1,40 @@
-/* ================= MOBILE FIRST ================= */
-
+/* Серый фон занимает весь main между Header и Footer */
 .authWrapper {
-  min-height: 100vh;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+
   background: #d7d2cd;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px; /* mobile frame padding */
+
+  padding: 24px 20px;
 }
 
-/* Auth card (mobile макет: 335x668, padding 64 0) */
+/* MOBILE: карточка как в макете */
 .authCard {
   width: 335px;
   height: 668px;
+
   background: #fff;
   padding: 64px 0;
-  position: relative;
+
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
 }
 
-/* Лого */
-.logoRow {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-}
-
-.logoLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  text-decoration: none;
-}
-
-.logoIcon {
-  object-fit: contain;
-}
-
-.logoText {
-  font-size: 14px;
-  font-weight: 600;
-  color: #111;
-}
-
-/* Внутренний слой карточки */
 .inner {
   height: 100%;
-  padding: 0 20px; /* внутренний боковой padding на mobile/tablet */
+  padding: 0 20px;
   display: flex;
 }
 
-/* Контентный контейнер (ключ для desktop) */
 .content {
   width: 100%;
-  max-width: 644px; /* Figma: content width */
-  margin: 0 auto; /* центр по карточке */
+  max-width: 644px;
+  margin: 0 auto;
+
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -157,54 +137,41 @@
   transform: translateY(1px);
 }
 
-/* Footer pinned to bottom */
-.footer {
-  margin-top: auto;
-  text-align: center;
-  font-size: 12px;
-  padding-top: 20px;
-  color: rgba(17, 17, 17, 0.6);
-}
-
-/* ================= TABLET (768+) ================= */
+/* TABLET (768+) */
 @media (min-width: 768px) {
   .authWrapper {
-    padding: 0 32px;
+    padding: 32px;
   }
 
   .authCard {
     width: 704px;
     height: 756px;
-    padding: 64px 0;
   }
 
   .inner {
     padding: 0 32px;
   }
 
-  .title {
-    font-size: 36px;
-  }
-
   .tabs {
     gap: 64px;
   }
+
+  .title {
+    font-size: 36px;
+  }
 }
 
-/* ================= DESKTOP (1440+) ================= */
+/* DESKTOP (1440+) — большой белый блок как в макете */
 @media (min-width: 1440px) {
   .authWrapper {
-    padding: 0 64px; /* Figma: frame padding 0 64 */
+    padding: 64px;
   }
 
   .authCard {
-    width: 1312px; /* Figma: card width */
-    height: 756px; /* Figma: card height */
-    padding: 64px 0;
+    width: 1312px;
+    height: 756px;
   }
 
-  /* на desktop внутренний padding не нужен,
-     потому что width контролирует .content (644px) */
   .inner {
     padding: 0;
   }

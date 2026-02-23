@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  // ходим в Next route handlers (same-origin)
-  baseURL: '',
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
