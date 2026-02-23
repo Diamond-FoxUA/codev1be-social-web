@@ -42,3 +42,9 @@
     font-size: 25px;
   }
 }
+
+@media (min-width: 768px) {
+  .link {
+    margin-top: 12px;
+  }
+}
