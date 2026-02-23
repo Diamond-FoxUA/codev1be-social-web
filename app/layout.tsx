@@ -16,8 +16,10 @@ const inter = Inter({
   display: 'swap',
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
+
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+  metadataBase: new URL(baseUrl!),
   title: 'Подорожники',
   description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
   keywords: ['nextjs', 'react', 'social network', 'travel stories'],
@@ -25,10 +27,10 @@ export const metadata: Metadata = {
     title: 'Подорожники',
     description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
     siteName: 'Подорожники',
-    url: process.env.NEXT_PUBLIC_APP_URL,
+    url: baseUrl,
     images: [
       {
-        url: `/preview.png`,
+        url: `${baseUrl}/preview.png`,
         width: 1200,
         height: 630,
         alt: 'Podorozhnyky preview image'
@@ -41,7 +43,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Подорожники',
     description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-    images: [`/preview.png`],
+    images: [`${baseUrl}/preview.png`],
   }
 };
 
