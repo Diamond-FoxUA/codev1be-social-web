@@ -40,7 +40,7 @@ export default function Footer({ isLoggedIn = false }) {
 
   return (
     <footer className={css.footer}>
-      <div className={css.container}>
+      <div className="container">
         <div className={css.inner}>
           <div className={css.topRow}>
             <Link href="/" className={css.logo}>

@@ -1,5 +1,4 @@
 import css from './About.module.css';
-
 type IconProps = {
   id: string;
   className?: string;
@@ -18,10 +17,10 @@ function Icon({ id, className }: IconProps) {
 export default function About() {
   return (
     <section className={css.about}>
-      <div className={css.container}>
+      <div className="container">
         <div className={css.intro}>
           <h2 className={css.title}>
-            Проєкт, створений для тих,&nbsp;хто живе подорожами
+            Проєкт, створений для тих, хто живе подорожами
           </h2>
           <p className={css.description}>
             Ми віримо, що кожна подорож — це унікальна історія, варта того, щоб

@@ -1,7 +1,5 @@
 .about {
-  max-width: 1312px;
   margin: 0 auto;
-  padding: 40px 16px;
 }
 
 .intro {
@@ -66,10 +64,6 @@
 
 /* ── Tablet (768px+) ── */
 @media (min-width: 768px) {
-  .about {
-    padding: 64px 32px;
-  }
-
   .intro {
     grid-template-columns: 1fr 1fr;
     gap: 24px;
@@ -106,22 +100,20 @@
 
 /* ── Desktop (1440px+) ── */
 @media (min-width: 1440px) {
-  .about {
-    padding: 72px 64px;
-  }
-
   .intro {
-    align-items: center;
+    grid-template-columns: 1.2fr 1fr;
+    align-items: start;
     gap: 24px;
     margin-bottom: 64px;
   }
 
   .title {
-    font-size: 52px;
+    font-size: 51px;
   }
 
   .description {
     font-size: 20px;
+    padding: 8px 0 0;
   }
 
   .feature {
