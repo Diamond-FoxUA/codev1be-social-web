@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import TravellersList from "./TravellersList";
-import Skeleton from "@/components/Skeleton";
+import Skeleton from "../Skeleton/Skeleton";
 import { getTravellers } from "@/lib/travellers-api";
 import { User } from "@/types/user";
 import css from "./OurTravellers.module.css";
@@ -15,8 +15,9 @@ export default function OurTravellers() {
   useEffect(() => {
     async function loadTravellers() {
       try {
-        const data = await getTravellers({ page: 1, limit: 4 });
-        setTravellers(data.items);
+        const data = await getTravellers({ page: 1, perPage: 4 });
+        console.log("Data from API:", data); 
+        setTravellers(data.users);
       } catch (error) {
         console.error("Failed to load travellers", error);
       } finally {

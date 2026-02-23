@@ -104,6 +104,8 @@ h4,
 p {
   font-family: var(--font-inter);
   font-weight: 700;
+  margin: 0;
+  padding: 0;
 }
 
 h1 {
@@ -123,6 +125,7 @@ h4 {
 }
 
 p {
+  font-family: var(--font-nunito-sans);
   font-weight: 400;
   font-size: 16px;
 }
