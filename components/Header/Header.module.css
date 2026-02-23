@@ -97,6 +97,7 @@
   margin: 0;
   padding: 0;
   display: flex;
+  align-items: center;
   gap: 32px;
 }
 
@@ -121,6 +122,9 @@
 }
 
 @media (min-width: 1440px) {
+  .homeHeader {
+    padding: 16px 24px;
+  }
   .desktopNav {
     display: flex;
   }
@@ -130,5 +134,8 @@
   }
   .navigation li a {
     font-size: 18px;
+  }
+  .mobileActions {
+    display: none;
   }
 }
