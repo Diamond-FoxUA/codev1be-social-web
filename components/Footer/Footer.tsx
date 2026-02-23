@@ -1,9 +1,8 @@
+'use client';
 import css from './Footer.module.css';
 import Link from 'next/link';
-
-{
-  //  <Footer isLoggedIn={!!session} />;
-}
+import { useState, useEffect } from 'react';
+import api from '@/lib/api/api';
 
 const SPRITE = '/svg/symbol-defs.svg';
 
@@ -35,54 +34,67 @@ const navBase = [
 
 const navProfile = { href: '/profile', label: 'Профіль' };
 
-export default function Footer({ isLoggedIn = false }) {
-  const nav = isLoggedIn ? navBase : [...navBase, navProfile];
+export default function Footer() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchUser = async() => {
+      try {
+        const res = await api.get('/api/users/me'); 
+        setIsLoggedIn(res.status === 200);
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+
+    fetchUser();
+  }, []);
+  
+  const nav = isLoggedIn ? [...navBase, navProfile] : navBase;
 
   return (
     <footer className={css.footer}>
       <div className="container">
-        <div className={css.inner}>
-          <div className={css.topRow}>
-            <Link href="/" className={css.logo}>
-              <svg className={css.logoIcon} aria-hidden="true">
-                <use href={`${SPRITE}#plant_logo`} />
-              </svg>
-              <span>Подорожники</span>
-            </Link>
+        <div className={css.topRow}>
+          <Link href="/" className={css.logo}>
+            <svg className={css.logoIcon} aria-hidden="true">
+              <use href={`${SPRITE}#plant_logo`} />
+            </svg>
+            <span>Подорожники</span>
+          </Link>
 
-            <ul className={css.socials}>
-              {socials.map(({ id, href, label }) => (
-                <li key={id}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className={css.socialLink}
-                  >
-                    <Icon id={id} />
-                  </a>
+          <ul className={css.socials}>
+            {socials.map(({ id, href, label }) => (
+              <li key={id}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className={css.socialLink}
+                >
+                  <Icon id={id} />
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <nav aria-label="Навігація футера">
+            <ul className={css.nav}>
+              {nav.map(({ href, label }) => (
+                <li key={href}>
+                  <Link href={href} className={css.navLink}>
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>
-
-            <nav aria-label="Навігація футера">
-              <ul className={css.nav}>
-                {nav.map(({ href, label }) => (
-                  <li key={href}>
-                    <Link href={href} className={css.navLink}>
-                      {label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
-
-          <hr className={css.divider} />
-
-          <p className={css.copy}>© 2025 Подорожники. Усі права захищені.</p>
+          </nav>
         </div>
+
+        <hr className={css.divider} />
+
+        <p className={css.copy}>© 2025 Подорожники. Усі права захищені.</p>
       </div>
     </footer>
   );
