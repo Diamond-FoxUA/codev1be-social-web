@@ -1,0 +1,215 @@
+/* ================= MOBILE FIRST ================= */
+
+.authWrapper {
+  min-height: 100vh;
+  background: #d7d2cd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px; /* mobile frame padding */
+}
+
+/* Auth card (mobile макет: 335x668, padding 64 0) */
+.authCard {
+  width: 335px;
+  height: 668px;
+  background: #fff;
+  padding: 64px 0;
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+/* Лого */
+.logoRow {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+}
+
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.logoIcon {
+  object-fit: contain;
+}
+
+.logoText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* Внутренний слой карточки */
+.inner {
+  height: 100%;
+  padding: 0 20px; /* внутренний боковой padding на mobile/tablet */
+  display: flex;
+}
+
+/* Контентный контейнер (ключ для desktop) */
+.content {
+  width: 100%;
+  max-width: 644px; /* Figma: content width */
+  margin: 0 auto; /* центр по карточке */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 24px;
+}
+
+.tab {
+  font-size: 12px;
+  text-decoration: none;
+  color: rgba(17, 17, 17, 0.55);
+  padding-bottom: 8px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab:hover {
+  color: rgba(17, 17, 17, 0.85);
+}
+
+.tabActive {
+  color: #111;
+  border-bottom-color: #111;
+}
+
+/* Title */
+.title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(17, 17, 17, 0.75);
+  margin: 0 0 22px;
+}
+
+/* Form */
+.form {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.label {
+  font-size: 12px;
+  color: rgba(17, 17, 17, 0.8);
+}
+
+.input {
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #e6e6e6;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input::placeholder {
+  color: rgba(17, 17, 17, 0.4);
+}
+
+.input:focus {
+  border-color: #4f6ef7;
+  box-shadow: 0 0 0 4px rgba(79, 110, 247, 0.15);
+}
+
+.button {
+  margin-top: 8px;
+  height: 38px;
+  border-radius: 8px;
+  border: none;
+  background: #4f6ef7;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.05s ease;
+}
+
+.button:hover {
+  opacity: 0.92;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+/* Footer pinned to bottom */
+.footer {
+  margin-top: auto;
+  text-align: center;
+  font-size: 12px;
+  padding-top: 20px;
+  color: rgba(17, 17, 17, 0.6);
+}
+
+/* ================= TABLET (768+) ================= */
+@media (min-width: 768px) {
+  .authWrapper {
+    padding: 0 32px;
+  }
+
+  .authCard {
+    width: 704px;
+    height: 756px;
+    padding: 64px 0;
+  }
+
+  .inner {
+    padding: 0 32px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  .tabs {
+    gap: 64px;
+  }
+}
+
+/* ================= DESKTOP (1440+) ================= */
+@media (min-width: 1440px) {
+  .authWrapper {
+    padding: 0 64px; /* Figma: frame padding 0 64 */
+  }
+
+  .authCard {
+    width: 1312px; /* Figma: card width */
+    height: 756px; /* Figma: card height */
+    padding: 64px 0;
+  }
+
+  /* на desktop внутренний padding не нужен,
+     потому что width контролирует .content (644px) */
+  .inner {
+    padding: 0;
+  }
+
+  .title {
+    font-size: 44px;
+  }
+}

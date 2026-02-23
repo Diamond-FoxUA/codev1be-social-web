@@ -34,7 +34,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.variable} ${sora.variable}`}>
         <Header />
-        <About />
         <main>{children}</main>
         <Footer />
       </body>
