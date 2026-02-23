@@ -14,8 +14,8 @@ export default function TravellerInfo({ traveller }: Props) {
         <Image
           src={traveller.avatarUrl}
           alt={traveller.name}
-          width={80}
-          height={80}
+          width={112}
+          height={112}
         />
       </div>
 

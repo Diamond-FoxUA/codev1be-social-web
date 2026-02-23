@@ -20,7 +20,7 @@ export async function getTravellers(
   params: GetTravellersParams
 ): Promise<TravellersResponse> {
   try {
-    const res = await axios.get<TravellersResponse>(`${BASE_URL}/users`, {
+    const res = await axios.get<TravellersResponse>(`${BASE_URL}/api/users`, {
       params: {
         page: params.page,
         perPage: params.perPage,
