@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     images: [
       {
         // TODO: add preview.png
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/preview.png`,
+        url: `/preview.png`,
         width: 1200,
         height: 630,
         alt: 'Podorozhnyky preview image'
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Подорожники',
     description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-    images: [`${process.env.NEXT_PUBLIC_APP_URL}/preview.png`],
+    images: [`/preview.png`],
   }
 };
 
