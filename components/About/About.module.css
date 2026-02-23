@@ -1,11 +1,5 @@
 /* ── Base (mobile від 320px) ── */
-.about {
-  max-width: 1312px;
-  margin: 0 auto;
-  padding: 40px 16px;
-}
 
-/* ── Intro блок ── */
 .intro {
   display: grid;
   grid-template-columns: 1fr;
@@ -13,23 +7,10 @@
   margin-bottom: 64px;
 }
 
-.title {
-  font-weight: 700;
-  font-size: 28px;
-  /* line-height: 120%; */
-  letter-spacing: -0.01em;
-  margin: 0;
-}
-
 .description {
-  font-weight: 400;
-  font-size: 16px;
   line-height: 150%;
-
-  margin: 0;
 }
 
-/* ── Features ── */
 .features {
   display: grid;
   grid-template-columns: 1fr;
@@ -43,52 +24,30 @@
 }
 
 .icon {
-  width: 28px;
-  height: 28px;
+  width: 48px;
+  height: 48px;
   color: var(--color-scheme-2-text);
   flex-shrink: 0;
 }
 
 .featureTitle {
-  font-family: var(--second-family);
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 130%;
-  letter-spacing: -0.01em;
-  color: var(--color-scheme-2-text);
   margin: 0;
+  padding: 0;
 }
 
 .featureText {
-  font-family: var(--font-family);
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 150%;
-  color: var(--color-scheme-2-text);
   margin: 0;
+  padding: 0;
+  line-height: 150%;
 }
 
 /* ── Tablet (768px+) ── */
 @media (min-width: 768px) {
-  .about {
-    padding: 64px 32px;
-  }
-
   .intro {
     grid-template-columns: 1fr 1fr;
-    /* align-items: center; */
     gap: 24px;
     margin-bottom: 64px;
   }
-
-  .title {
-    font-size: 44px;
-  }
-
-  .description {
-    font-size: 16px;
-  }
-
   .features {
     grid-template-columns: repeat(3, 1fr);
 
@@ -100,33 +59,21 @@
     height: 40px;
   }
 
-  .featureTitle {
-    font-size: 24px;
-  }
-
   .featureText {
     font-size: 16px;
+  }
+  .description {
+    padding-top: 8px;
   }
 }
 
 /* ── Desktop (1440px+) ── */
 @media (min-width: 1440px) {
-  .about {
-    padding: 72px 64px;
-  }
-
   .intro {
-    align-items: center;
+    align-items: start;
+    grid-template-columns: 755px 1fr;
     gap: 24px;
     margin-bottom: 64px;
-  }
-
-  .title {
-    font-size: 52px;
-  }
-
-  .description {
-    font-size: 20px;
   }
 
   .feature {
@@ -142,11 +89,18 @@
     height: 48px;
   }
 
-  .featureTitle {
-    font-size: 32px;
+  .title {
+    margin: 0;
+    line-height: 120%;
   }
 
-  .featureText {
-    font-size: 18px;
+  .featureTitle {
+    max-width: 755px;
+    align-self: start;
+  }
+
+  .description {
+    max-width: 533px;
+    margin-top: 8px;
   }
 }
