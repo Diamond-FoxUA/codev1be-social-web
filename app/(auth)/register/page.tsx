@@ -37,18 +37,7 @@ export default function RegisterPage() {
   return (
     <div className={styles.authWrapper}>
       <div className={styles.authCard}>
-        <div className={styles.logoRow}>
-          <Link href="/" className={styles.logoLink}>
-            <Image
-              src="/svg/logo.svg"
-              alt="Подорожники"
-              width={18}
-              height={18}
-              className={styles.logoIcon}
-            />
-            <span className={styles.logoText}>Подорожники</span>
-          </Link>
-        </div>
+
 
         <div className={styles.inner}>
           <div className={styles.content}>
@@ -180,7 +169,6 @@ export default function RegisterPage() {
               )}
             </Formik>
 
-            <div className={styles.footer}>© 2025 Подорожники</div>
           </div>
         </div>
       </div>
