@@ -53,14 +53,11 @@
   --second-family: 'Inter', sans-serif;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
-html {
+html,
+body {
+  height: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -90,6 +87,32 @@ main {
   flex: 1;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  width: 100%;
+  min-width: 320px;
+  max-width: 375px;
+
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.section {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
 h1,
 h2,
 h3,
@@ -97,6 +120,11 @@ h4,
 p {
   font-family: var(--font-inter);
   font-weight: 700;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
   font-size: 32px;
 }
 
@@ -113,24 +141,9 @@ h4 {
 }
 
 p {
+  font-family: var(--font-nunito-sans);
   font-weight: 400;
   font-size: 16px;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
-  margin: 0;
 }
 
 a {
@@ -148,36 +161,50 @@ button {
   -webkit-tap-highlight-color: transparent;
 }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-  border: 0;
+@media screen and (min-width: 375px) {
+  .container {
+    max-width: 375px;
+  }
 }
 
-.container {
-  width: 100%;
-  min-width: 320px;
-  max-width: 375px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-@media only screen and (min-width: 768px) {
+@media screen and (min-width: 768px) {
   .container {
     max-width: 768px;
     padding: 0 32px;
   }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 44px;
+  }
 }
 
-@media only screen and (min-width: 1440px) {
+@media screen and (min-width: 1440px) {
   .container {
     max-width: 1440px;
     padding: 0 64px;
+  }
+
+  h1 {
+    font-size: 56px;
+  }
+
+  h2 {
+    font-size: 52px;
+  }
+
+  h3 {
+    font-size: 32px;
+  }
+
+  h4 {
+    font-size: 26px;
+  }
+
+  p {
+    font-size: 20px;
   }
 }
