@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Nunito_Sans, Inter } from 'next/font/google';
 import './globals.css';
 
-
 const nunito = Nunito_Sans({
   variable: '--font-nunito-sans',
   weight: ['400', '500', '600', '700'],
