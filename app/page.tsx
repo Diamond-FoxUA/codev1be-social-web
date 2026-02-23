@@ -5,7 +5,6 @@ import Join from '@/components/Join/Join';
 export default function Home() {
   return (
     <div>
-      <h1>Main Page</h1>
       <About />
       <Join />
     </div>
