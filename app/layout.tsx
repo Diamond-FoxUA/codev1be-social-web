@@ -32,11 +32,7 @@ export const metadata: Metadata = {
     url: baseUrl,
     images: [
       {
-<<<<<<< feature/auth-forms
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/preview.png`,
-=======
         url: `${baseUrl}/preview.png`,
->>>>>>> main
         width: 1200,
         height: 630,
         alt: 'Podorozhnyky preview image',
@@ -48,16 +44,9 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Подорожники',
-<<<<<<< feature/auth-forms
-    description:
-      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-    images: [`${process.env.NEXT_PUBLIC_APP_URL}/preview.png`],
-  },
-=======
     description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
     images: [`${baseUrl}/preview.png`],
   }
->>>>>>> main
 };
 
 import Header from '@/components/Header/Header';
