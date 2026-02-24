@@ -63,6 +63,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
+          <div id="modal-root"></div>
         </QueryProvider>
       </body>
     </html>
