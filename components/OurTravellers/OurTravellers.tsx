@@ -29,7 +29,7 @@ export default function OurTravellers() {
 
   return (
     <div className="container">
-      <section className={css.section}>
+      <section className={`section ${css.section}`}>
         <div className={css.inner}>
           <h2 className={css.title}>Наші Мандрівники</h2>
 

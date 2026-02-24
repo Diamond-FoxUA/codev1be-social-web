@@ -188,6 +188,10 @@ button {
     padding: 0 64px;
   }
 
+  .section {
+    padding: 72px 0;
+  }
+
   h1 {
     font-size: 56px;
   }
