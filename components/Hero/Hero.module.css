@@ -1,0 +1,106 @@
+.heroSection {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.bgWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.bgImage {
+  object-fit: cover;
+  max-height: 812px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52));
+}
+
+.heroContent {
+  color: white;
+  max-width: 740px;
+  padding: 196px 0 331px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.description {
+  font-size: 16px;
+  margin-bottom: 32px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ctaButton {
+  background-color: var(--color-royal-blue);
+  color: white;
+  font-weight: 500;
+  padding: 16px 32px;
+  border: 1px solid var(--color-royal-blue);
+  border-radius: 8px;
+  padding: 6px 12px;
+  width: 335px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 8px;
+  max-width: 335px;
+  width: 100%;
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
+}
+
+.ctaButton:hover,
+.ctaButton:focus {
+  background-color: var(--color-royal-blue-lighter);
+  border: 1px solid var(--color-royal-blue);
+  color: var(--color-scheme-2-text);
+}
+
+.ctaButton:active {
+  background-color: var(--color-royal-blue-light);
+}
+
+@media (min-width: 768px) {
+  .heroContent {
+    max-width: 700px;
+  }
+
+  .title {
+    font-size: 48px;
+    max-width: 600px;
+  }
+
+  .ctaButton {
+    max-width: 115px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .heroContent {
+    max-width: 600px;
+  }
+
+  .title {
+    font-size: 56px;
+  }
+
+  .ctaButton {
+    max-width: 126px;
+    font-size: 18px;
+  }
+}

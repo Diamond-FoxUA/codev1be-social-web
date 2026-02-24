@@ -1,19 +1,10 @@
-// Сюди будуть йти компоненти для головної сторінки окрім Header та Footer
-// import About from '@/components/About/About';
-
-// export default function Home() {
-//   return (
-//     <div>
-//       <h1>Main Page</h1>
-//       <About />
-//     </div>
-//   );
-// }
-
 "use client";
-
+import './globals.css';
 import { useState } from "react";
-import About from "@/components/About/About";
+import Hero from '@/components/Hero/Hero';
+import About from '@/components/About/About';
+import OurTravellers from "@/components/OurTravellers/OurTravellers";
+import Join from '@/components/Join/Join';
 import { ConfirmModal } from "@/components/ConfirmModal/ConfirmModal";
 
 export default function Home() {
@@ -29,17 +20,18 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Main Page</h1>
-
+      <Hero />
+      <About />
+      <OurTravellers />
+      <Join />
+      
       <button
         onClick={() => setIsConfirmOpen(true)}
         className="px-4 py-2 bg-blue-600 text-white rounded"
       >
         Відкрити ConfirmModal
       </button>
-
-      <About />
-
+      
       {isConfirmOpen && (
         <ConfirmModal
           title="Ви точно хочете вийти?"

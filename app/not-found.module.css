@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .messageTitle,
@@ -14,6 +16,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .link {
@@ -22,6 +25,10 @@
   padding: 8px;
   font-weight: 500;
   font-size: 18px;
+
+  transition: 
+    border 300ms ease-in-out,
+    background-color 300ms ease-in-out;
 }
 
 .link:hover,
@@ -32,4 +39,16 @@
 .link:active {
   border: 1px solid var(--color-scheme-1-text);
   background-color: var(--color-neutral-lighter);
+}
+
+@media screen and (max-width: 375px) {
+  .messageTitle {
+    font-size: 25px;
+  }
+}
+
+@media (min-width: 768px) {
+  .link {
+    margin-top: 12px;
+  }
 }
