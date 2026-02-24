@@ -2,7 +2,7 @@
 
 import css from './PopularStoriesSection.module.css';
 import Image from 'next/image';
-import api from '@/lib/api/api';
+import { nextServer } from '@/lib/api/api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 type IconProps = {
@@ -49,12 +49,12 @@ function Icon({ id, className }: IconProps) {
 }
 
 const getStories = async () => {
-  const { data } = await api.get<Resp>('/api/stories?perPage=4');
+  const { data } = await nextServer.get<Resp>('/api/stories?perPage=4');
   return data;
 };
 
 const addToFav = async (id: string) => {
-  await api.post(`/api/stories/${id}/save`);
+  await nextServer.post(`/api/stories/${id}/save`);
 };
 
 export default function PopularStoriesSection() {
