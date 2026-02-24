@@ -24,8 +24,15 @@ type Stories = [
     img: string;
     title: string;
     article: string;
-    category: string;
-    ownerId: string;
+    category: {
+      _id: string;
+      name: string;
+    };
+    ownerId: {
+      _id: string;
+      name: string;
+      avatarUrl: string;
+    };
     date: string;
     favoriteCount: number;
   },
@@ -87,19 +94,19 @@ export default function PopularStoriesSection() {
                 className={css.articlePic}
               />
               <div className={css.articleContent}>
-                <p className={css.articleCategory}>{story.category}</p>
+                <p className={css.articleCategory}>{story.category.name}</p>
                 <h3 className={css.articleTitle}>{story.title}</h3>
                 <p className={css.articleTxt}>{story.article}</p>
                 <div className={css.articleMeta}>
                   <Image
-                    src="https://ftp.goit.study/img/harmoniq/users/6881563901add19ee16fcff5.webp"
+                    src={story.ownerId.avatarUrl}
                     alt="avatar"
                     width={48}
                     height={48}
                     className={css.avatar}
                   />
                   <div className={css.info}>
-                    <p className={css.name}>{story.ownerId}</p>
+                    <p className={css.name}>{story.ownerId.name}</p>
                     <p className={css.data}>
                       {story.date} • {story.favoriteCount}
                       <Icon id="savesmall" className={css.icon} />
