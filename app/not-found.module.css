@@ -25,6 +25,10 @@
   padding: 8px;
   font-weight: 500;
   font-size: 18px;
+
+  transition: 
+    border 300ms ease-in-out,
+    background-color 300ms ease-in-out;
 }
 
 .link:hover,
@@ -40,5 +44,11 @@
 @media screen and (max-width: 375px) {
   .messageTitle {
     font-size: 25px;
+  }
+}
+
+@media (min-width: 768px) {
+  .link {
+    margin-top: 12px;
   }
 }
