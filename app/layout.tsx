@@ -5,6 +5,8 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import QueryProvider from './providers/QueryProvider';
+import ToastProvider from '@/components/ToastProvider/ToastProvider';
+import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
 
 const nunito = Nunito_Sans({
   variable: '--font-nunito-sans',
@@ -64,11 +66,16 @@ export const metadata: Metadata = {
 
     title: 'Подорожники',
 
-import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer';
-import QueryProvider from './providers/QueryProvider';
-import ToastProvider from '@/components/ToastProvider/ToastProvider';
-import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
+    description:
+      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
+
+    images: ['/preview.png'],
+  },
+
+  icons: {
+    icon: '/favicon.ico',
+  },
+};
 
 export default function RootLayout({
   children,
@@ -79,12 +86,10 @@ export default function RootLayout({
     <html lang="uk">
       <body className={`${nunito.variable} ${inter.variable}`}>
         <QueryProvider>
-
           <Header />
-
           <main>{children}</main>
-
           <Footer />
+          
           <ToastProvider />
           <AuthNavModal />
           <div id="modal-root"></div>
