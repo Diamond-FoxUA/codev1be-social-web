@@ -23,7 +23,7 @@ const inter = Inter({
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL!;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
+  // metadataBase: new URL(baseUrl),//Runtime TypeError Invalid URL
 
   title: {
     default: 'Подорожники',
@@ -84,13 +84,11 @@ export default function RootLayout({
     <html lang="uk">
       <body className={`${nunito.variable} ${inter.variable}`}>
         <QueryProvider>
-
           <Header />
 
           <main>{children}</main>
 
           <Footer />
-
         </QueryProvider>
       </body>
     </html>

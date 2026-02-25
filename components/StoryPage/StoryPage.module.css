@@ -1,22 +1,22 @@
+/* Базовые стили (Mobile first) */
 .wrapper {
   padding: 32px 20px;
   width: 375px;
-  /* height: 511px; */
-  background-color: var(--foreground);
   color: var(--background);
+  background: var(--color-scheme-2-background);
 }
-.article {
-  width: 335px;
-  border: 1px solid blueviolet; /**/
-}
+
+.article,
 .header {
   width: 335px;
-  /* height: 106px; */
+}
+
+.header {
   padding-top: 32px;
 }
+
 .title {
-  /* height: 70px; */
-  /* margin-top: 32px; */
+  margin-bottom: 32px;
   font-family: var(--second-family);
   font-weight: 700;
   font-size: 32px;
@@ -24,59 +24,67 @@
   letter-spacing: -0.01em;
   color: var(--color-scheme-2-text);
 }
-.text {
+
+/* Общие правила для текстов */
+.text,
+.accent,
+.textArticle,
+.textSaveContainer {
   font-family: var(--font-family);
+  line-height: 150%;
+}
+
+.text {
   font-weight: 700;
   font-size: 16px;
-  line-height: 150%;
   color: var(--color-scheme-2-text);
   margin-bottom: 16px;
 }
+
 .accent {
-  font-family: var(--font-family);
   font-weight: 400;
   font-size: 16px;
-  line-height: 150%;
   color: var(--color-scheme-2-text);
 }
+
 .category {
   font-family: var(--font-family);
   font-weight: 600;
   font-size: 12px;
   line-height: 150%;
-  /* color: var(--color-neutral-darkest); */
-  background-color: blueviolet; /**/
-
+  background: var(--opacity-neutral-darkest-5);
   border: 1px solid var(--opacity-transparent);
   border-radius: 6px;
   padding: 4px 10px;
   width: 76px;
-  height: 26px;
+  /* height: 26px; */
 }
+
 .image {
   border-radius: 24px;
   width: 335px;
   height: 223px;
-  margin-bottom: 32px;
-  margin-top: 16px;
+  margin: 16px 0 32px;
   display: block;
-  background-color: #dd8a8a; /**/
+  background-color: var(--color-neutral-light); /**/
 }
+
 .textArticle {
-  font-family: var(--font-family);
   font-weight: 400;
   font-size: 16px;
-  line-height: 150%;
   color: var(--color-scheme-2-text);
-
   padding-top: 32px;
   margin-bottom: 24px;
 }
 
+/* Стили блока сохранения */
 .saveContainer {
+  border-radius: 24px;
   padding: 32px 20px;
-  border: 1px solid blueviolet; /**/
+  width: 335px;
+  background: var(--color-scheme-1-foreground);
 }
+
 .titleSaveContainer {
   font-family: var(--second-family);
   font-weight: 700;
@@ -84,300 +92,150 @@
   line-height: 140%;
   letter-spacing: -0.01em;
   color: var(--color-scheme-1-text);
-  background: var(--color-scheme-1-foreground);
-
   margin-bottom: 16px;
 }
+
 .textSaveContainer {
-  font-family: var(--font-family);
   font-weight: 400;
   font-size: 16px;
-  line-height: 150%;
   color: var(--color-scheme-1-text);
   margin-bottom: 16px;
 }
+
 .buttonSaveContainer {
   border: 1px solid var(--color-royal-blue);
   border-radius: 8px;
   padding: 6px 12px;
   width: 295px;
   height: 48px;
-  background: blue;
-
+  background: var(--color-royal-blue);
   font-family: var(--font-family);
   font-weight: 500;
   font-size: 16px;
-  line-height: 150%;
   color: var(--color-white);
 }
 
-/* ── Tablet (768px+) ───────────────────────────────────────────────── */
+/* ====================
+   Кнопка "Зберегти"
+==================== */
+.buttonSaveContainer:hover,
+.buttonSaveContainer:focus {
+  background-color: var(--color-royal-blue-lighter);
+  color: var(--color-scheme-2-text);
+}
+
+.buttonSaveContainer:active {
+  background-color: var(--color-royal-blue-light);
+  color: var(--color-scheme-2-text);
+}
+
+.buttonSaveContainer:disabled {
+  background-color: var(--color-royal-blue);
+  color: var(--color-white);
+  opacity: 0.3;
+}
+/* Tablet (768px+) */
 @media (min-width: 768px) {
   .wrapper {
     padding: 32px;
     width: 768px;
   }
+  .article,
+  .header,
+  .title {
+    width: 704px;
+  }
 
-  .article {
-    width: 704px;
-    /* border: 1px solid blueviolet;  */
-  }
-  .header {
-    width: 704px;
-    /* height: 106px; */
-    padding-top: 32px;
-    /* display: flex; */
-  }
   .headerGroup {
     display: flex;
-    flex-direction: row;
-    /* justify-content: space-between; */
     align-items: center;
     gap: 48px;
   }
+
   .title {
-    /* height: 70px; */
-    /* margin-top: 32px; */
-    width: 704px;
-    font-family: var(--second-family);
-    font-weight: 700;
     font-size: 48px;
-    line-height: 110%;
-    letter-spacing: -0.01em;
-    color: var(--color-scheme-2-text);
   }
-  .text {
-    font-family: var(--font-family);
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 150%;
-    color: var(--color-scheme-2-text);
-    /* width: 187px; */
-    margin-bottom: 16px;
-  }
-  .accent {
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 150%;
-    color: var(--color-scheme-2-text);
-  }
+
   .category {
-    font-family: var(--font-family);
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 150%;
     color: var(--color-neutral-darkest);
     margin-left: auto;
-    /* color: var(--color-neutral-darkest); */
-    background-color: blueviolet; /**/
-
-    border: 1px solid var(--opacity-transparent);
-    border-radius: 6px;
-    padding: 4px 10px;
-    width: 76px;
-    height: 26px;
   }
+
   .image {
-    border-radius: 24px;
     width: 704px;
     height: 469px;
-
-    margin-top: 16px;
-    margin-bottom: 32px;
-  }
-  .textArticle {
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 150%;
-    color: var(--color-scheme-2-text);
-
-    padding-top: 32px;
-    margin-bottom: 24px;
   }
 
   .saveContainer {
-    /* padding: 32px 20px; */
-    border: 1px solid blueviolet; /**/
-    border: 0px solid var(--color-scheme-1-border);
-    border-radius: 24px;
     padding: 32px;
     width: 418px;
-    /* height: 217px; */
   }
-  .titleSaveContainer {
-    font-family: var(--second-family);
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 140%;
-    letter-spacing: -0.01em;
-    color: var(--color-scheme-1-text);
-    margin-bottom: 16px;
-  }
-  .textSaveContainer {
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 150%;
-    color: var(--color-scheme-1-text);
-    margin-bottom: 16px;
-    width: 354px;
-  }
+  .textSaveContainer,
   .buttonSaveContainer {
-    border: 1px solid var(--color-royal-blue);
-    border-radius: 8px;
-    padding: 6px 12px;
     width: 354px;
-    height: 48px;
-    background: blue;
-
-    font-family: var(--font-family);
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 150%;
-    color: var(--color-white);
   }
 }
 
-/* ── Desktop (1440px+) ────────────────────────────────────────────────────── */
+/* Desktop (1440px+) */
 @media (min-width: 1440px) {
   .wrapper {
     padding: 48px 64px;
     width: 1440px;
-    /* height: 511px; */
     background-color: var(--foreground);
-    color: var(--background);
   }
 
-  .article {
+  .article,
+  .header,
+  .title {
     width: 1312px;
-    /* border: 1px solid blueviolet;  */
   }
   .header {
-    width: 1312px;
-    /* height: 106px; */
     padding-top: 48px;
-    /* display: flex; */
   }
   .headerGroup {
-    display: flex;
-    flex-direction: row;
-    /* justify-content: space-between; */
-    align-items: center;
     margin-top: 32px;
   }
-  .title {
-    /* height: 70px; */
-    /* margin-top: 32px; */
-    width: 1312px;
-    font-family: var(--second-family);
-    font-weight: 700;
-    font-size: 56px;
-    line-height: 110%;
-    letter-spacing: -0.01em;
-    color: var(--color-scheme-2-text);
-  }
-  .text {
-    font-family: var(--font-family);
-    font-weight: 700;
-    font-size: 18px;
-    line-height: 150%;
-    color: var(--color-scheme-2-text);
-    /* width: 187px; */
-    margin-bottom: 21px;
-  }
-  .accent {
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 150%;
-    color: var(--color-scheme-2-text);
-  }
-  .category {
-    font-family: var(--font-family);
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 150%;
-    color: var(--color-neutral-darkest);
-    margin-left: auto;
-    /* color: var(--color-neutral-darkest); */
-    background-color: blueviolet; /**/
 
-    border: 1px solid var(--opacity-transparent);
-    border-radius: 6px;
-    padding: 4px 10px;
-    width: auto;
+  .title {
+    font-size: 56px;
+  }
+  .text,
+  .accent {
+    font-size: 18px;
+  }
+
+  .category {
+    font-size: 16px;
     height: 32px;
+    width: auto;
   }
   .image {
-    border-radius: 24px;
     width: 1312px;
     height: 874px;
-
-    margin-top: 16px;
     margin-bottom: 48px;
   }
+
   .textArticleGroup {
     display: flex;
     gap: 24px;
   }
   .textArticle {
-    font-family: var(--font-family);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 150%;
-    color: var(--color-scheme-2-text);
-
-    padding-top: 32px;
-    margin-bottom: 24px;
-
+    font-size: 18px;
     width: 865px;
     height: 162px;
   }
 
   .saveContainer {
-    /* padding: 32px 20px; */
-    border: 1px solid var(--opacity-transparent);
-    border-radius: 6px;
-    padding: 4px 10px;
-    border: 0px solid var(--color-scheme-1-border);
-    border-radius: 24px;
-    padding: 32px;
-    width: 418px;
-    /* height: 234px; */
     display: inline-block;
-    background-color: aqua; /**/
+    width: 418px;
   }
   .titleSaveContainer {
-    font-family: var(--second-family);
-    font-weight: 700;
     font-size: 26px;
-    line-height: 140%;
-    color: var(--color-scheme-1-text);
-    margin-bottom: 16px;
   }
   .textSaveContainer {
-    font-family: var(--font-family);
-    font-weight: 400;
     font-size: 18px;
-    line-height: 150%;
-    color: var(--color-scheme-1-text);
-    margin-bottom: 16px;
-    width: 354px;
   }
   .buttonSaveContainer {
-    border: 1px solid var(--color-royal-blue);
-    border-radius: 8px;
-    padding: 6px 12px;
-    width: 354px;
-    height: 48px;
-    background: blue;
-    /* margin-bottom: 32px; */
-    font-family: var(--font-family);
-    font-weight: 500;
     font-size: 18px;
-    line-height: 150%;
-    color: var(--color-white);
   }
 }
