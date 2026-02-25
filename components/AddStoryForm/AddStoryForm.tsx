@@ -60,11 +60,9 @@ const AddStoryForm = () => {
           description: '',
         }}
         validationSchema={validationSchema}
-        validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values) => {
           mutate(values);
-          setSubmitting(false);
         }}
       >
         {({ values, setFieldValue, setFieldTouched, errors, touched }) => {
@@ -81,8 +79,8 @@ const AddStoryForm = () => {
                 <StoryFormImage
                   initialFile={values.img}
                   onFileSelect={(file) => {
-                    setFieldValue('img', file);
-                    setFieldTouched('img', true);
+                    setFieldValue('img', file, true);
+                    setFieldTouched('img', true, false);
                   }}
                 />
                 <ErrorMessage name="img" component="p" className="error" />

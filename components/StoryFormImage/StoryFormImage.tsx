@@ -3,6 +3,7 @@
 import css from './StoryFormImage.module.css';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Skeleton from '../Skeleton/Skeleton';
 
 interface StoryFormImageProps {
   onFileSelect: (file: File | null) => void;
@@ -11,15 +12,18 @@ interface StoryFormImageProps {
 
 const StoryFormImage = ({ onFileSelect, initialFile }: StoryFormImageProps) => {
   const [previewUrl, setPreviewUrl] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!(initialFile instanceof File)) {
       setPreviewUrl('');
+      setLoading(false);
       return;
     }
 
     const url = URL.createObjectURL(initialFile);
     setPreviewUrl(url);
+    setLoading(true);
 
     return () => URL.revokeObjectURL(url);
   }, [initialFile]);
@@ -28,7 +32,15 @@ const StoryFormImage = ({ onFileSelect, initialFile }: StoryFormImageProps) => {
     <>
       <div className={css.imageCover}>
         {previewUrl ? (
-          <Image src={previewUrl} alt="Preview" fill priority quality={90} />
+          <Image
+            src={previewUrl}
+            alt="Preview"
+            fill
+            priority
+            quality={90}
+            onLoadingComplete={() => setLoading(false)}
+            onError={() => setLoading(false)}
+          />
         ) : (
           <Image
             src="/img/placeholder-image.jpg"
@@ -38,6 +50,8 @@ const StoryFormImage = ({ onFileSelect, initialFile }: StoryFormImageProps) => {
             quality={90}
           />
         )}
+
+        {loading && <Skeleton />}
       </div>
 
       <label className={css.labelBtn}>
@@ -54,7 +68,6 @@ const StoryFormImage = ({ onFileSelect, initialFile }: StoryFormImageProps) => {
               return;
             }
 
-            setPreviewUrl(file ? URL.createObjectURL(file) : '');
             onFileSelect(file);
           }}
           className={css.hiddenInput}

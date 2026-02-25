@@ -26,6 +26,7 @@
   padding: 4px 8px;
   background: var(--opacity-neutral-darkest-5);
   transition: all 0.2s ease-in-out;
+  text-align: center;
 }
 .labelBtn:hover {
   background-color: var(--color-royal-blue);
