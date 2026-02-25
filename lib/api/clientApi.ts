@@ -45,6 +45,10 @@ export async function createStory(payload: CreateStoryData) {
   return data;
 }
 
+export const saveStory = async (storyId: string) => {
+  return nextServer.post(`/api/stories/${storyId}/save`);
+};
+
 // Ендпоінт для "Збереженого" (те, що ми писали на бекенді)
 export const toggleFavorite = async (
   storyId: string,
