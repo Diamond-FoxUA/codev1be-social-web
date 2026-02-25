@@ -11,10 +11,28 @@
   align-items: center;
 }
 
-.homeHeader {
+/* .homeHeader {
   position: absolute;
   top: 0;
   left: 0;
+  background: transparent;
+  color: var(--color-white);
+} */
+
+/* .homeHeader {
+  position: relative;
+  z-index: 10;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52)),
+    url('/img/hero-bg.jpg');
+  background-size: cover;
+  background-position: center top;
+  color: var(--color-white);
+} */
+
+.homeHeader {
+  position: relative;
+  z-index: 10;
   background: transparent;
   color: var(--color-white);
 }
@@ -122,7 +140,7 @@
 
 @media (min-width: 1440px) {
   .homeHeader {
-    padding: 16px 24px;
+    padding: 16px 0px;
   }
   .desktopNav {
     display: flex;

@@ -28,9 +28,8 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   };
 
   return (
-    <div className={css.overlay}>
-      <div className={css.menuContainer}>
-        {/* ВЕРХНЯ ЧАСТИНА: Лого та Закрити */}
+    <div className={css.menu}>
+      <div className="container">
         <div className={css.header}>
           <Link href="/" className={css.logoLink} aria-label="Home">
             <div className={css.logoWrapper}>
@@ -56,7 +55,6 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           </button>
         </div>
 
-        {/* ЦЕНТРАЛЬНА ЧАСТИНА: Навігація */}
         <nav className={css.nav}>
           <Link href="/" onClick={onClose} className={css.navLink}>
             Головна

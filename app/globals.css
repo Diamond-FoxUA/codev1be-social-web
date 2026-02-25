@@ -103,7 +103,6 @@ main {
   width: 100%;
   min-width: 320px;
   max-width: 375px;
-
   padding: 0 20px;
   margin: 0 auto;
 }
@@ -159,12 +158,6 @@ button {
   color: inherit;
   background-color: transparent;
   -webkit-tap-highlight-color: transparent;
-}
-
-@media screen and (min-width: 375px) {
-  .container {
-    max-width: 375px;
-  }
 }
 
 @media screen and (min-width: 768px) {
