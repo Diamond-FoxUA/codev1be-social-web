@@ -9,48 +9,27 @@ interface AuthStore {
   clearIsAuthenticated: () => void;
 }
 
-// export const useAuthStore = create<AuthStore>()(
-//   persist(
-//     (set) => ({
-//       isAuthenticated: false,
-//       user: null,
-
-//       setUser: (user) =>
-//         set({
-//           user,
-//           isAuthenticated: !!user,
-//         }),
-
-//       clearIsAuthenticated: () =>
-//         set({
-//           user: null,
-//           isAuthenticated: false,
-//         }),
-//     }),
-//     {
-//       name: 'auth-storage', // назва ключа в localStorage
-//       storage: createJSONStorage(() => localStorage),
-//     },
-//   ),
-// );
-
 export const useAuthStore = create<AuthStore>()(
   persist(
     (set) => ({
-      // ТИМЧАСОВО ПОСТАВ true ТА ДАНІ ЮЗЕРА
-      isAuthenticated: true,
-      user: {
-        _id: '1',
-        name: 'Анастасія',
-        email: 'test@mail.com',
-        avatarUrl: 'https://randomuser.me/api/portraits/women/44.jpg', // або null
-        articlesAmount: 5,
-        favoriteStories: [],
-      },
+      isAuthenticated: false,
+      user: null,
 
-      setUser: (user) => set({ user, isAuthenticated: !!user }),
-      clearIsAuthenticated: () => set({ user: null, isAuthenticated: false }),
+      setUser: (user) =>
+        set({
+          user,
+          isAuthenticated: !!user,
+        }),
+
+      clearIsAuthenticated: () =>
+        set({
+          user: null,
+          isAuthenticated: false,
+        }),
     }),
-    { name: 'auth-storage' },
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => localStorage),
+    },
   ),
 );

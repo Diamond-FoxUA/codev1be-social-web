@@ -51,7 +51,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             aria-label="Закрити меню"
           >
             <svg width="24" height="24" className={css.iconClose}>
-              <use href="/svg/icons.svg#icon-close" />
+              <use href="/svg/icons.svg#close" />
             </svg>
           </button>
         </div>
@@ -86,7 +86,14 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <div className={css.userRow}>
                 <div className={css.avatar}>
                   {user?.avatarUrl ? (
-                    <img src={user.avatarUrl} alt="Avatar" />
+                    <Image
+                      src={user.avatarUrl}
+                      alt="Avatar"
+                      width={32}
+                      height={32}
+                      className={css.avatarImage}
+                      unoptimized
+                    />
                   ) : (
                     <div className={css.avatarPlaceholder} />
                   )}

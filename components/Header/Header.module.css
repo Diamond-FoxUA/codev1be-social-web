@@ -1,11 +1,14 @@
 .header {
   width: 100%;
   z-index: 100;
+  padding: 16px 0;
+  transition: all 0.3s ease;
+}
+
+.headerContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
-  transition: all 0.3s ease;
 }
 
 .homeHeader {
@@ -18,10 +21,6 @@
 
 .homeHeader a {
   color: var(--color-white);
-}
-
-.homeHeader .burgerLine {
-  background-color: var(--color-white);
 }
 
 .pageHeader {
