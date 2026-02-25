@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import TravellersList from "./TravellersList";
-import Skeleton from "../Skeleton/Skeleton";
-import { getTravellers } from "@/lib/api/travellers-api";
-import { User } from "@/types/user";
-import css from "./OurTravellers.module.css";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import TravellersList from './TravellersList';
+import Skeleton from '../Skeleton/Skeleton';
+import { getTravellers } from '@/lib/api/travellers-api';
+import { User } from '@/types/user';
+import css from './OurTravellers.module.css';
 
 export default function OurTravellers() {
   const [travellers, setTravellers] = useState<User[]>([]);
@@ -18,7 +18,7 @@ export default function OurTravellers() {
         const data = await getTravellers({ page: 1, perPage: 4 });
         setTravellers(data.users);
       } catch (error) {
-        console.error("Failed to load travellers", error);
+        console.error('Failed to load travellers', error);
       } finally {
         setLoading(false);
       }
@@ -36,7 +36,7 @@ export default function OurTravellers() {
           {loading ? (
             <div className={css.grid}>
               {Array.from({ length: 4 }).map((_, index) => (
-                <Skeleton key={index} />
+                <Skeleton key={index} height={397}/>
               ))}
             </div>
           ) : (

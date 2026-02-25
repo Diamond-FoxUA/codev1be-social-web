@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
 import css from './AuthNavigation.module.css';
+import Image from 'next/image';
 
 export default function AuthNavigation() {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function AuthNavigation() {
             <span className={css.userName}>{user.name || user.email}</span>
             <div className={css.avatarCircle}>
               {user.avatarUrl ? (
-                <img
+                <Image
                   src={user.avatarUrl}
                   alt="Avatar"
                   className={css.avatarImg}
