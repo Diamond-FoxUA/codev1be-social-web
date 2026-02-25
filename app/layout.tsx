@@ -50,6 +50,8 @@ export const metadata: Metadata = {
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import QueryProvider from './providers/QueryProvider';
+import ToastProvider from '@/components/ToastProvider/ToastProvider';
+import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
 
 export default function RootLayout({
   children,
@@ -63,6 +65,8 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
+          <ToastProvider />
+          <AuthNavModal />
           <div id="modal-root"></div>
         </QueryProvider>
       </body>

@@ -186,13 +186,14 @@
     justify-self: center;
     align-items: center;
     justify-content: center;
-    width: 147px;
-    height: 48px;
+    padding: 6px 12px;
     border: none;
     border-radius: 8px;
     background-color: var(--color-royal-blue);
     color: var(--color-white);
     display: none;
+    border: 1px solid transparent;
+
     transition:
             background-color 300ms ease-in-out,
             color 300ms ease-in-out,

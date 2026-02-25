@@ -36,7 +36,7 @@ export default function OurTravellers() {
           {loading ? (
             <div className={css.grid}>
               {Array.from({ length: 4 }).map((_, index) => (
-                <Skeleton key={index} />
+                <Skeleton key={index} height={397}/>
               ))}
             </div>
           ) : (
