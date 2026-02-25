@@ -21,11 +21,13 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl!),
   title: 'Подорожники',
-  description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
+  description:
+    'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
   keywords: ['nextjs', 'react', 'social network', 'travel stories'],
   openGraph: {
     title: 'Подорожники',
-    description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
+    description:
+      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
     siteName: 'Подорожники',
     url: baseUrl,
     images: [
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
         url: `${baseUrl}/preview.png`,
         width: 1200,
         height: 630,
-        alt: 'Podorozhnyky preview image'
+        alt: 'Podorozhnyky preview image',
       },
     ],
     locale: 'uk_UA',
@@ -42,9 +44,10 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Подорожники',
-    description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
+    description:
+      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
     images: [`${baseUrl}/preview.png`],
-  }
+  },
 };
 
 import Header from '@/components/Header/Header';
@@ -57,8 +60,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${nunito.variable} ${inter.variable}`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${nunito.variable} ${inter.variable}`}
+        suppressHydrationWarning
+      >
         <QueryProvider>
           <Header />
           <main>{children}</main>
