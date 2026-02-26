@@ -1,3 +1,8 @@
+.section {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}
+
 .contentContainer {
   display: flex;
   flex-direction: column;
@@ -10,10 +15,13 @@
   padding: 20px;
 
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+    linear-gradient(
+      var(--opacity-neutral-darkest-20),
+      var(--opacity-neutral-darkest-20)
+    ),
     image-set(
-      url('/sections/Join/mob/join-background.webp') 1x,
-      url('/sections/Join/mob/join-background@2x.webp') 2x
+      url('/img/sections/Join/mob/join-background.webp') 1x,
+      url('/img/sections/Join/mob/join-background@2x.webp') 2x
     );
   background-size: cover;
   background-position: center;
@@ -50,7 +58,7 @@
   margin-top: 4px;
   padding: 12px 0;
 
-  transition: 
+  transition:
     color 300ms ease-in-out,
     background-color 300ms ease-in-out;
 }
@@ -72,10 +80,13 @@
     gap: 8px;
 
     background-image:
-      linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+      linear-gradient(
+        var(--opacity-neutral-darkest-20),
+        var(--opacity-neutral-darkest-20)
+      ),
       image-set(
-        url('/sections/Join/tab/join-background-tablet.webp') 1x,
-        url('/sections/Join/tab/join-background-tablet@2x.webp') 1x
+        url('/img/sections/Join/tab/join-background-tablet.webp') 1x,
+        url('/img/sections/Join/tab/join-background-tablet@2x.webp') 2x
       );
   }
   .sectionHeading {
@@ -92,15 +103,22 @@
 }
 
 @media screen and (min-width: 1440px) {
+  .section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
   .contentContainer {
     gap: 24px;
     padding: 64px;
 
     background-image:
-      linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+      linear-gradient(
+        var(--opacity-neutral-darkest-20),
+        var(--opacity-neutral-darkest-20)
+      ),
       image-set(
-        url('/sections/Join/desk/join-background-desktop.webp') 1x,
-        url('/sections/Join/desk/join-background-desktop.webp') 2x
+        url('/img/sections/Join/desk/join-background-desktop.webp') 1x,
+        url('/img/sections/Join/desk/join-background-desktop.webp') 2x
       );
   }
   .sectionHeading {

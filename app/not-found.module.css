@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 80vh;
 }
 
 .messageTitle,
@@ -11,30 +11,64 @@
   margin: 0;
 }
 
+.messageError{
+  position: relative;
+  padding-left: 25px;
+}
+
+.messageError::before {
+  position: absolute;
+  content: '';
+
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+
+  background-color: var(--color-scheme-1-border);
+}
+
 .messageContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.StatusCode {
+  display: flex;
+  align-items: center;
+  gap: 25px;
 }
 
 .link {
-  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+
+  padding: 6px 12px;
+  height: 44px;
+  border: 1px solid var(--color-royal-blue);
   border-radius: 8px;
-  padding: 8px;
-  font-weight: 500;
+  margin-top: 20px;
+
   font-size: 18px;
+  color: var(--color-white);
+  background-color: var(--color-royal-blue);
+
+  transition:
+    color 300ms ease-in-out,
+    background-color 300ms ease-in-out;
 }
 
 .link:hover,
 .link:focus {
-  border: 1px solid var(--color-scheme-1-text);
+  color: var(--color-scheme-2-text);
+  background-color: var(--color-royal-blue-lighter);
 }
 
 .link:active {
-  border: 1px solid var(--color-scheme-1-text);
-  background-color: var(--color-neutral-lighter);
+  background-color: var(--color-royal-blue-light);
 }
 
 @media screen and (max-width: 375px) {

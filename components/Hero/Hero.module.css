@@ -1,0 +1,128 @@
+.heroSection {
+  margin-top: -72px;
+  padding: 196px 0px 331px;
+  z-index: 1;
+  position: relative;
+
+  background-image:
+    linear-gradient(
+      var(--opacity-neutral-darkest-50),
+      var(--opacity-neutral-darkest-50)
+    ),
+    image-set(
+      url('/img/sections/hero/hero-bg-mob.webp') 1x,
+      url('/img/sections/hero/hero-bg-mob@2x.webp') 2x
+    );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 812px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.heroContent {
+  color: var(--color-white);
+}
+
+.title {
+  line-height: 1.1;
+  margin-bottom: 24px;
+}
+
+.description {
+  font-size: 16px;
+  margin-bottom: 32px;
+  color: var(--color-white);
+}
+
+.ctaButton {
+  background-color: var(--color-royal-blue);
+  color: var(--color-white);
+  font-weight: 500;
+  padding: 16px 32px;
+  border: 1px solid var(--color-royal-blue);
+  border-radius: 8px;
+  padding: 6px 12px;
+  width: 335px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 8px;
+  max-width: 335px;
+  width: 100%;
+  transition:
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
+}
+
+.ctaButton:hover,
+.ctaButton:focus {
+  background-color: var(--color-royal-blue-lighter);
+  border: 1px solid var(--color-royal-blue);
+  color: var(--color-scheme-2-text);
+}
+
+.ctaButton:active {
+  background-color: var(--color-royal-blue-light);
+}
+
+@media (min-width: 768px) {
+  .heroSection {
+    background-image:
+      linear-gradient(
+        var(--opacity-neutral-darkest-50),
+        var(--opacity-neutral-darkest-50)
+      ),
+      image-set(
+        url('/img/sections/hero/hero-bg-tab.webp') 1x,
+        url('/img/sections/hero/hero-bg-tab@2x.webp') 2x
+      );
+    padding: 224px 0px 117px;
+    min-height: 634px;
+  }
+
+  .heroContent {
+    color: var(--color-white);
+  }
+
+  .title {
+    max-width: 600px;
+  }
+
+  .ctaButton {
+    max-width: 115px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .heroSection {
+    background-image:
+      linear-gradient(
+        var(--opacity-neutral-darkest-50),
+        var(--opacity-neutral-darkest-50)
+      ),
+      image-set(
+        url('/img/sections/hero/hero-bg-desktop.webp') 1x,
+        url('/img/sections/hero/hero-bg-desktop@2x.webp') 2x
+      );
+    padding: 224px 0px 347px;
+    min-height: 900px;
+  }
+
+  .heroContent {
+    max-width: 750px;
+  }
+
+  .description {
+    font-size: 20px;
+  }
+
+  .ctaButton {
+    max-width: 126px;
+    font-size: 18px;
+  }
+}

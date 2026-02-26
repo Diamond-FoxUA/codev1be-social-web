@@ -2,6 +2,12 @@ import type { Metadata } from 'next';
 import { Nunito_Sans, Inter } from 'next/font/google';
 import './globals.css';
 
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
+import QueryProvider from './providers/QueryProvider';
+import ToastProvider from '@/components/ToastProvider/ToastProvider';
+import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
+
 const nunito = Nunito_Sans({
   variable: '--font-nunito-sans',
   weight: ['400', '500', '600', '700'],
@@ -16,46 +22,47 @@ const inter = Inter({
   display: 'swap',
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000';
+
 export const metadata: Metadata = {
-  title: 'Подорожники',
-  description:
-    'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-  keywords: ['nextjs', 'react', 'social network', 'travel stories'],
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: 'Подорожники',
+    template: '%s | Подорожники',
+  },
+  description: 'Подорожники — платформа для публікації історій, подорожей та досвіду.',
+  keywords: ['travel', 'stories', 'social network', 'nextjs'],
   openGraph: {
     title: 'Подорожники',
-    description:
-      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
+    description: 'Подорожники — платформа для публікації історій, подорожей та досвіду.',
+    url: baseUrl,
     siteName: 'Подорожники',
-    url: process.env.NEXT_PUBLIC_APP_URL,
-    images: [
-      {
-        url: `${process.env.NEXT_PUBLIC_APP_URL}/preview.png`,
-        width: 1200,
-        height: 630,
-        alt: 'Podorozhnyky preview image',
-      },
-    ],
     locale: 'uk_UA',
     type: 'website',
+    images: [
+      {
+        url: '/preview.png',
+        width: 1200,
+        height: 630,
+        alt: 'Podorozhnyky preview',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Подорожники',
-    description:
-      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-    images: [`${process.env.NEXT_PUBLIC_APP_URL}/preview.png`],
+    description: 'Подорожники — платформа для публікації історій, подорожей та досвіду.',
+    images: ['/preview.png'],
+  },
+  icons: {
+    icon: [{ url: '/favicon.ico' }],
+  },
+  alternates: {
+    canonical: '/',
   },
 };
 
-import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer';
-import QueryProvider from './providers/QueryProvider';
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="uk">
       <body className={`${nunito.variable} ${inter.variable}`}>
@@ -63,6 +70,10 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
+
+          <ToastProvider />
+          <AuthNavModal />
+          <div id="modal-root"></div>
         </QueryProvider>
       </body>
     </html>

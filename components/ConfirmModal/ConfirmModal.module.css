@@ -1,0 +1,140 @@
+/* ========= BACKDROP ========= */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 17, 17, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+/* ========= MODAL ========= */
+.modal {
+  background: #fafaff;
+  border-radius: 20px;
+  padding: 40px 48px;
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0px 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* ========= CLOSE (X) ========= */
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 22px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* ========= TITLE ========= */
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* ========= TEXT ========= */
+.text {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 28px;
+}
+
+/* ========= BUTTON ACTIONS ========= */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* BUTTON DEFAULT */
+.cancel,
+.confirm {
+  padding: 12px 32px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+/* CANCEL BUTTON */
+.cancel {
+  background: #ececec;
+  color: #333;
+}
+
+.cancel:hover {
+  background: #d9d9d9;
+}
+
+/* CONFIRM BUTTON */
+.confirm {
+  background: #4f6ef7;
+  color: #fff;
+}
+
+.confirm:hover {
+  background: #3d5ae6;
+}
+
+/* ========== TABLET ========== */
+@media (max-width: 1024px) {
+  .modal {
+    padding: 32px 36px;
+    max-width: 560px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .text {
+    font-size: 15px;
+    margin-bottom: 24px;
+  }
+
+  .cancel,
+  .confirm {
+    padding: 10px 28px;
+    font-size: 15px;
+  }
+}
+
+/* ========== MOBILE ========== */
+@media (max-width: 600px) {
+  .modal {
+    padding: 24px 24px;
+    border-radius: 18px;
+    width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .cancel,
+  .confirm {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .text {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+}

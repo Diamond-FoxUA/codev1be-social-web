@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import styles from './login.module.css';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -24,6 +25,7 @@ type ApiErrorData = {
 
 export default function LoginPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   return (
     <div className={styles.authWrapper}>
@@ -49,17 +51,25 @@ export default function LoginPage() {
                 helpers.setStatus(null);
 
                 try {
-                  // ✅ напрямую на backend
-                  await api.post('/auth/login', values);
+                  const response = await api.post('/auth/login', values);
 
-                  router.push('/');
-                  router.refresh();
+                  if (response.status === 200 || response.status === 201) {
+                    // Очисти кеш пользователя
+                    await queryClient.invalidateQueries({ 
+                      queryKey: ['currentUser'] 
+                    });
+
+                    router.push('/');
+                    router.refresh();
+                  }
                 } catch (err: unknown) {
                   let msg = 'Invalid credentials';
 
                   if (axios.isAxiosError(err)) {
                     const data = err.response?.data as ApiErrorData | undefined;
                     msg = data?.message ?? err.message ?? msg;
+                  } else if (err instanceof Error) {
+                    msg = err.message;
                   }
 
                   helpers.setStatus(msg);

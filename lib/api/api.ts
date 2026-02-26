@@ -1,10 +1,29 @@
-import axios from "axios";
+import axios from 'axios';
 
-const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+export const nextServer = axios.create({
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
-export default api;
+nextServer.interceptors.response.use(
+
+  response => response,
+
+  error => {
+
+    if (error.response?.status === 401) {
+
+      return Promise.resolve({
+        data: null,
+      });
+
+    }
+
+    return Promise.reject(error);
+
+  }
+
+);
