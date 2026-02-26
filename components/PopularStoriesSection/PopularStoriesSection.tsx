@@ -4,7 +4,7 @@ import css from './PopularStoriesSection.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { nextServer } from '@/lib/api/api';
+import { nextServer } from '@/lib/api/server';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 

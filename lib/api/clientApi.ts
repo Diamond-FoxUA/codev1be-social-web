@@ -1,4 +1,4 @@
-import { nextServer } from './api'; // Шлях до вашого axios екземпляра
+import { nextServer } from './server'; // Шлях до вашого axios екземпляра
 import type { Story } from '@/types/story'; // Тип, який ми створювали раніше
 import type { User } from '@/types/user';
 

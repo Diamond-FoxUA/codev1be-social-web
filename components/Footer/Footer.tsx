@@ -2,7 +2,7 @@
 import css from './Footer.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { nextServer } from '@/lib/api/api';
+import { nextServer } from '@/lib/api/server';
 import Image from 'next/image';
 
 const SPRITE = '/svg/icons.svg';
