@@ -31,26 +31,17 @@ export const metadata: Metadata = {
     default: 'Подорожники',
     template: '%s | Подорожники',
   },
-
   description:
-    'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
+    'Подорожники — платформа для публікації історій, подорожей та досвіду.',
   keywords: ['travel', 'stories', 'social network', 'nextjs'],
-
   openGraph: {
     title: 'Подорожники',
-
     description:
-      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
-    url: '/',
-
+      'Подорожники — платформа для публікації історій, подорожей та досвіду.',
+    url: baseUrl,
     siteName: 'Подорожники',
-
     locale: 'uk_UA',
-
     type: 'website',
-
     images: [
       {
         url: '/preview.png',
@@ -60,20 +51,18 @@ export const metadata: Metadata = {
       },
     ],
   },
-
   twitter: {
     card: 'summary_large_image',
-
     title: 'Подорожники',
-
     description:
-      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
+      'Подорожники — платформа для публікації історій, подорожей та досвіду.',
     images: ['/preview.png'],
   },
-
   icons: {
-    icon: '/favicon.ico',
+    icon: [{ url: '/favicon.ico' }],
+  },
+  alternates: {
+    canonical: '/',
   },
 };
 
@@ -89,7 +78,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
-          
+
           <ToastProvider />
           <AuthNavModal />
           <div id="modal-root"></div>
