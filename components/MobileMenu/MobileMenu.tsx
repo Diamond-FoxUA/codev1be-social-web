@@ -28,9 +28,8 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   };
 
   return (
-    <div className={css.overlay}>
-      <div className={css.menuContainer}>
-        {/* ВЕРХНЯ ЧАСТИНА: Лого та Закрити */}
+    <div className={css.menu}>
+      <div className="container">
         <div className={css.header}>
           <Link href="/" className={css.logoLink} aria-label="Home">
             <div className={css.logoWrapper}>
@@ -51,12 +50,11 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             aria-label="Закрити меню"
           >
             <svg width="24" height="24" className={css.iconClose}>
-              <use href="/svg/icons.svg#icon-close" />
+              <use href="/svg/icons.svg#close" />
             </svg>
           </button>
         </div>
 
-        {/* ЦЕНТРАЛЬНА ЧАСТИНА: Навігація */}
         <nav className={css.nav}>
           <Link href="/" onClick={onClose} className={css.navLink}>
             Головна
@@ -86,7 +84,14 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               <div className={css.userRow}>
                 <div className={css.avatar}>
                   {user?.avatarUrl ? (
-                    <img src={user.avatarUrl} alt="Avatar" />
+                    <Image
+                      src={user.avatarUrl}
+                      alt="Avatar"
+                      width={32}
+                      height={32}
+                      className={css.avatarImage}
+                      unoptimized
+                    />
                   ) : (
                     <div className={css.avatarPlaceholder} />
                   )}

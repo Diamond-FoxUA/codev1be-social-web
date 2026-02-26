@@ -33,9 +33,10 @@ export default function AuthNavigation() {
                 <Image
                   src={user.avatarUrl}
                   alt="Avatar"
+                  width={32}
+                  height={32}
                   className={css.avatarImg}
-                  width={50}
-                  height={50}
+                  unoptimized
                 />
               ) : (
                 (user.name || 'U').charAt(0).toUpperCase()
