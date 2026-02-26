@@ -1,6 +1,18 @@
 import css from './not-found.module.css';
 import LinkButton from "@/components/LinkButton/LinkButton";
 import Image from 'next/image';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL!),
+
+  title: "Сторінку не знайдено",
+  description: 'Сторінка, яку ви шукаєте, не існує або була видалена.',
+  robots: {
+    index: false,
+    follow: false,
+  },
+}
 
 export default function NotFound() {
   return (
