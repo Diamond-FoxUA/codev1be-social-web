@@ -24,10 +24,7 @@ function Header() {
           <Logo />
           <nav aria-label="Main Navigation" className={css.desktopNav}>
             <ul className={css.navList}>
-              <NavLinks
-                linkClassName={isHomePage ? css.navLinkLight : ''}
-                showProfile={isAuthenticated}
-              />
+              <NavLinks isDark={isHomePage} showProfile={isAuthenticated} />
               <AuthNavigation isDark={isHomePage} />
             </ul>
           </nav>

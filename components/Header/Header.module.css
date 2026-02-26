@@ -36,11 +36,6 @@
   gap: 16px;
 }
 
-.navLinkLight:hover,
-.navLinkLight:focus-visible {
-  border-color: var(--color-white);
-}
-
 .menuBtn {
   border: 1px solid var(--opacity-transparent);
   border-radius: 8px;
