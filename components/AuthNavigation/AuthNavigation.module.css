@@ -74,6 +74,7 @@
 
 .authButtons .registerBtn:active {
   background-color: var(--color-neutral-dark);
+  border-color: var(--color-neutral);
 }
 
 .authButtons .registerBtnLight,
