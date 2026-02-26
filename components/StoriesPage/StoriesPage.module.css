@@ -1,0 +1,184 @@
+.section {
+  padding-top: 32px; /* Зменшено верхній відступ для мобільних пристроїв */
+}
+
+.sectionTitle {
+  line-height: 1.1;
+  /* letter-spacing: 0.01em; */
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Mobile dropdown */
+.filterDropdown {
+  font-family: var(--font-family);
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  border-radius: 8px;
+  padding: 8px;
+  background: var(--opacity-transparent);
+  /*  */
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  gap: 16px;
+}
+
+.filterSelect {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-scheme-1-text);
+  background: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none; /* Для Safari */
+  -moz-appearance: none; /* Для Firefox */
+}
+
+.iconRight {
+  /* color: rgba(0, 0, 0, 0.6); */
+  flex-shrink: 0;
+  pointer-events: none;
+  fill: var(--opacity-neutral-darkest-60);
+}
+
+/* Desktop tabs */
+.filterTabs {
+  display: none;
+}
+
+.filterBtn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-neutral);
+  background: transparent;
+  border: 1.5px solid var(--color-neutral-lighter);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 300ms ease-in-out;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filterBtn:hover {
+  border-color: var(--color-royal-blue);
+  color: var(--color-royal-blue);
+  background: var(--color-royal-blue-lighter);
+}
+
+.filterBtnActive {
+  background: var(--color-royal-blue);
+  color: var(--color-white);
+  border-color: var(--color-royal-blue);
+}
+
+.filterBtnActive:hover {
+  background: var(--color-royal-blue-dark);
+  border-color: var(--color-royal-blue-dark);
+}
+
+.noResults {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 16px;
+  color: var(--color-neutral);
+}
+
+.loading,
+.error {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 16px;
+}
+
+.error {
+  color: var(--color-red);
+}
+
+.loadMoreBtn {
+  display: block;
+  margin: 48px auto 0;
+  padding: 16px 48px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-white);
+  background-color: var(--color-royal-blue);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 300ms ease-in-out;
+  min-width: 200px;
+}
+
+.loadMoreBtn:hover {
+  background-color: var(--color-royal-blue-dark);
+}
+
+/* Tablet (768px) */
+@media (min-width: 768px) {
+  .heading {
+    font-size: 36px;
+    margin-bottom: 28px;
+  }
+
+  /* .filterHeading {
+    font-size: 18px;
+    margin-bottom: 16px;
+    text-align: center;
+  } */
+
+  /* Hide mobile dropdown on tablet/desktop */
+  .filterDropdown {
+    display: none;
+  }
+
+  /* Show desktop tabs */
+  .filterTabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filterBtn {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+}
+
+/* Desktop (1440px) */
+@media (min-width: 1440px) {
+  .section {
+    padding-top: 48px; /* Збільшено верхній відступ для десктопів */
+  }
+
+  .heading {
+    font-size: 42px;
+    margin-bottom: 32px;
+  }
+
+  /* .filterHeading {
+    font-size: 20px;
+    margin-bottom: 20px;
+  } */
+
+  .filterBtn {
+    padding: 12px 28px;
+    font-size: 16px;
+  }
+}
