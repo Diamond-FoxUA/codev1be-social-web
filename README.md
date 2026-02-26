@@ -1,32 +1,81 @@
 # CodeV1be Social Web
 
-Фронтенд на Next.js для соціальної мережі Подорожники.
+A fullstack social media platform built by the CodeV1be Team for sharing stories.
 
 ---
 
-## Як запустити
+## Project Overview
 
-1. Клонувати репозиторій:
+This project is a modern social media platform built to demonstrate fullstack capabilities using Next.js and Node.js.  
 
-git clone https://github.com/Diamond-FoxUA/codev1be-social-web.git
+**Key Highlights:**
+- User authentication with db sessions
+- CRUD operations for posts and user profiles
+- Image uploads via Cloudinary
+- Efficient client-side caching with React Query
+- Modal previews with Next.js App Router intercepted routes
 
-2. Перейти в папку проєкту:
+---
 
-cd codev1be-social-web
+## Architecture
 
-3. Встановити залежності:
- 
-npm i
+**Backend:**  
+- Node.js, Express.js 
+- MongoDB with Mongoose ORM  
+- Centralized error handling and input validation with `celebrate`  
 
-4. Запустити в режимі розробки:
+**Frontend:**  
+- Next.js 14 App Router  
+- Server and Client components separation  
+- React Query for data fetching and caching  
+- Modern-normalize + CSS Modules for styling
 
-npm run dev
+---
 
-Відкрий у браузері: http://localhost:3000￼
+## Technologies
 
-## Структура
+| Layer      | Technologies |
+|------------|--------------|
+| Frontend   | Next.js, React, React Query |
+| Backend    | Node.js, Express, MongoDB, Mongoose, Celebrate |
+| Deployment | Render.com, Vercel.com |
+| Other      | Cloudinary for media |
 
-app/ – маршрути сторінок |
-components/ - компоненти |
-public/ – статичні файли (зображення, іконки)
+---
 
+## Features
+
+- User registration, login, logout
+- DB sessions & refresh token authentication
+- CRUD for posts and users
+- Image uploads
+- Real-time modals with intercepted routes
+- Category-based filtering
+
+---
+
+## Technical Challenges Solved
+
+- Handling secure JWT authentication and refresh tokens  
+- Optimizing server/client rendering with Next.js App Router  
+- Implementing modal previews without full page reload  
+- Managing React Query cache efficiently  
+- Configuring CORS and environment variables for multiple services  
+- Deploying backend and frontend separately on Render  
+
+---
+
+## Getting Started
+
+**Requirements:**
+- Node.js >= 20
+- npm
+- MongoDB instance
+
+**Steps:**
+- git clone https://github.com/Diamond-FoxUA/codev1be-social-web
+- cd codev1be-social
+- npm install
+- cp .env.example .env
+# fill in your environment variables
+- npm run dev

@@ -3,6 +3,7 @@ import css from './Footer.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { nextServer } from '@/lib/api/api';
+import Image from 'next/image';
 
 const SPRITE = '/svg/icons.svg';
 
@@ -35,12 +36,13 @@ const navBase = [
 const navProfile = { href: '/profile', label: 'Профіль' };
 
 export default function Footer() {
+  const year = new Date().getFullYear();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchUser = async() => {
+    const fetchUser = async () => {
       try {
-        const res = await nextServer.get('/api/users/me'); 
+        const res = await nextServer.get('/api/users/me');
         setIsLoggedIn(res.status === 200);
       } catch {
         setIsLoggedIn(false);
@@ -49,7 +51,7 @@ export default function Footer() {
 
     fetchUser();
   }, []);
-  
+
   const nav = isLoggedIn ? [...navBase, navProfile] : navBase;
 
   return (
@@ -57,9 +59,14 @@ export default function Footer() {
       <div className="container">
         <div className={css.topRow}>
           <Link href="/" className={css.logo}>
-            <svg className={css.logoIcon} aria-hidden="true">
-              <use href={`/svg/logo.svg`} />
-            </svg>
+            <Image
+              src="/svg/logo.svg"
+              alt="Лого 'Подорожники'"
+              width={23}
+              height={23}
+              priority
+              className={css.logoIcon}
+            />
             <span>Подорожники</span>
           </Link>
 
@@ -94,7 +101,7 @@ export default function Footer() {
 
         <hr className={css.divider} />
 
-        <p className={css.copy}>© 2025 Подорожники. Усі права захищені.</p>
+        <p className={css.copy}>© {year} Подорожники. Усі права захищені.</p>
       </div>
     </footer>
   );
