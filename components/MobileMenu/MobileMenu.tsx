@@ -5,6 +5,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
 import css from './MobileMenu.module.css';
 import Image from 'next/image';
+import Logo from '@/components/Logo/Logo';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -31,19 +32,7 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     <div className={css.menu}>
       <div className="container">
         <div className={css.header}>
-          <Link href="/" className={css.logoLink} aria-label="Home">
-            <div className={css.logoWrapper}>
-              <Image
-                src="/svg/logo.svg"
-                alt="Лого 'Подорожники'"
-                width={23}
-                height={23}
-                priority
-                className={css.logoIcon}
-              />
-              <span className={css.logoText}>Подорожники</span>
-            </div>
-          </Link>
+          <Logo />
           <button
             className={css.closeBtn}
             onClick={onClose}
