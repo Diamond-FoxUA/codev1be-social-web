@@ -1,5 +1,5 @@
-import { nextServer } from './server'; // Шлях до вашого axios екземпляра
-import type { Story } from '@/types/story'; // Тип, який ми створювали раніше
+import { nextServer } from './api';
+import type { Story, CreateStoryData } from '@/types/story'; 
 import type { User } from '@/types/user';
 
 // --- Типи для запитів ---
@@ -39,6 +39,11 @@ export const fetchStories = async () => {
   const { data } = await nextServer.get('/stories');
   return data;
 };
+
+export async function createStory(payload: CreateStoryData) {
+  const { data } = await nextServer.post<Story>('api/stories', payload);
+  return data;
+}
 
 export const saveStory = async (storyId: string) => {
   return nextServer.post(`/api/stories/${storyId}/save`);

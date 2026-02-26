@@ -2,8 +2,8 @@
 import css from './Footer.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { nextServer } from '@/lib/api/server';
-import Image from 'next/image';
+import { nextServer } from '@/lib/api/api';
+import Logo from '@/components/Logo/Logo';
 
 const SPRITE = '/svg/icons.svg';
 
@@ -58,17 +58,7 @@ export default function Footer() {
     <footer className={css.footer}>
       <div className="container">
         <div className={css.topRow}>
-          <Link href="/" className={css.logo}>
-            <Image
-              src="/svg/logo.svg"
-              alt="Лого 'Подорожники'"
-              width={23}
-              height={23}
-              priority
-              className={css.logoIcon}
-            />
-            <span>Подорожники</span>
-          </Link>
+          <Logo className={css.logo} />
 
           <ul className={css.socials}>
             {socials.map(({ id, href, label }) => (

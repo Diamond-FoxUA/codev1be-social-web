@@ -1,0 +1,209 @@
+.form {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+}
+.columLeft {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 865px;
+}
+.formLabel {
+  margin-bottom: 8px;
+
+  font-family: var(--font-family);
+  margin-top: 24px;
+}
+.formInput {
+  padding: 8px;
+  font-size: 18px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  font-family: var(--font-family);
+}
+.formInput::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+.formInput::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+}
+.formInput:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.formInput::placeholder {
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+}
+.formTextarea {
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  max-width: 865px;
+  height: 180px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.formTextarea::placeholder {
+  font-family: var(--font-family);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--opacity-neutral-darkest-60);
+  opacity: 1;
+}
+.columRight {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 423px;
+  margin-top: 60px;
+  gap: 16px;
+}
+
+.formButton {
+  border: 1px solid;
+  border-radius: 8px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-white);
+}
+
+.buttonSave {
+  background-color: var(--color-royal-blue);
+  border-color: var(--color-royal-blue);
+}
+.buttonSave:hover {
+  color: var(--color-neutral-darkest);
+  background-color: var(--color-royal-blue-lighter);
+}
+
+.buttonDisabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.buttonSave.buttonDisabled:hover {
+  background-color: var(--color-royal-blue);
+  border-color: var(--color-royal-blue);
+  color: var(--color-white);
+}
+.buttonCancel {
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  background-color: var(--opacity-neutral-darkest-5);
+  color: var(--color-neutral-darkest);
+}
+.buttonCancel:hover {
+  background-color: var(--color-royal-blue);
+  border-color: var(--color-royal-blue);
+  color: var(--color-white);
+}
+
+.error {
+  color: #e53935;
+  font-size: 12px;
+  margin-top: 4px;
+}
+@media screen and (min-width: 320px) {
+  .form {
+    flex-direction: column;
+    padding-bottom: 36px;
+  }
+  .columRight {
+    width: 100%;
+    max-width: none;
+    margin-top: 0;
+  }
+  .columLeft {
+    max-width: none;
+  }
+  .formTextarea {
+    font-size: 14px;
+  }
+  .formTextarea::placeholder {
+    font-size: 14px;
+  }
+  .formLabel {
+    font-size: 14px;
+  }
+  .formInput {
+    font-size: 14px;
+  }
+  .formInput::placeholder {
+    font-size: 14px;
+  }
+  .formButton {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+@media screen and (min-width: 375px) {
+  .form {
+    padding-bottom: 64px;
+  }
+  .formTextarea {
+    font-size: 16px;
+  }
+  .formTextarea::placeholder {
+    font-size: 16px;
+  }
+  .formLabel {
+    font-size: 16px;
+  }
+  .formInput {
+    font-size: 16px;
+  }
+  .formInput::placeholder {
+    font-size: 16px;
+  }
+  .formButton {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+}
+@media screen and (min-width: 1440px) {
+  .form {
+    justify-content: space-between;
+    flex-direction: row;
+    padding-bottom: 72px;
+  }
+  .columLeft {
+    max-width: 865px;
+  }
+  .columRight {
+    width: 100%;
+    max-width: 423px;
+    margin-top: 60px;
+  }
+  .formTextarea {
+    font-size: 18px;
+  }
+  .formTextarea::placeholder {
+    font-size: 18px;
+  }
+  .formLabel {
+    font-size: 18px;
+  }
+  .formInput {
+    font-size: 18px;
+  }
+  .formInput::placeholder {
+    font-size: 18px;
+  }
+  .formButton {
+    font-size: 18px;
+    padding: 10.5px 12px;
+  }
+}

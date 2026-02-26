@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
-import { logout } from '@/lib/api/clientApi';
+import { logout } from '@/lib/api/auth';
 import css from './AuthNavigation.module.css';
 import Image from 'next/image';
 
@@ -33,7 +33,10 @@ export default function AuthNavigation() {
                 <Image
                   src={user.avatarUrl}
                   alt="Avatar"
+                  width={32}
+                  height={32}
                   className={css.avatarImg}
+                  unoptimized
                 />
               ) : (
                 (user.name || 'U').charAt(0).toUpperCase()

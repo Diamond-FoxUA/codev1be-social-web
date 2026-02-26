@@ -5,13 +5,11 @@ import type {
   StoriesResponse,
   PaginationParams,
   GetStoriesParams,
-  PopularStoriesResponse
+  PopularStoriesResponse,
 } from '@/types/story';
 
 export const storiesApi = {
-  getAllStories: async (
-    params?: GetStoriesParams,
-  ): Promise<StoriesResponse> => {
+  fetchStories: async (params?: GetStoriesParams): Promise<StoriesResponse> => {
     const { data } = await clientApi.get<StoriesResponse>('/stories', {
       params,
     });
@@ -19,7 +17,8 @@ export const storiesApi = {
   },
 
   getPopularStories: async (): Promise<PopularStoriesResponse> => {
-    const { data } = await clientApi.get<PopularStoriesResponse>('/stories/popular');
+    const { data } =
+      await clientApi.get<PopularStoriesResponse>('/stories/popular');
     return data;
   },
 

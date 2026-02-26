@@ -1,13 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const clientApi = axios.create({
-
-  baseURL: "/api",
-
-  headers: {
-    "Content-Type": "application/json",
-  },
-
+  baseURL: '/api',
   withCredentials: true,
-
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });

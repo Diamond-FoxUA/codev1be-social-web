@@ -55,3 +55,10 @@ export interface UpdateStoryParams {
   category?: string;
   img?: string;
 }
+
+export interface CreateStoryData {
+  title: string;
+  description: string;
+  category: string;
+  img?: File | null;
+}
