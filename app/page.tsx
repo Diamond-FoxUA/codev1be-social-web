@@ -27,13 +27,6 @@ export default function Home() {
       <OurTravellers />
       <Join />
       
-      <button
-        onClick={() => setIsConfirmOpen(true)}
-        className="px-4 py-2 bg-blue-600 text-white rounded"
-      >
-        Відкрити ConfirmModal
-      </button>
-      
       {isConfirmOpen && (
         <ConfirmModal
           title="Ви точно хочете вийти?"
