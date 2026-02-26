@@ -39,6 +39,8 @@
   font-size: 18px;
   line-height: 1.5;
   color: var(--color-scheme-1-background);
+
+  transition: color 300ms ease-in-out;
 }
 
 .header a:hover {
@@ -72,6 +74,8 @@
 .navigation li a {
   color: var(--color-white);
   font-size: 1rem;
+
+  transition: color 300ms ease-in-out;
 }
 
 .navigation li a:hover {

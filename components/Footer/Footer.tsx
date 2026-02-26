@@ -36,6 +36,7 @@ const navBase = [
 const navProfile = { href: '/profile', label: 'Профіль' };
 
 export default function Footer() {
+  const year = new Date().getFullYear();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
@@ -90,7 +91,7 @@ export default function Footer() {
 
         <hr className={css.divider} />
 
-        <p className={css.copy}>© 2025 Подорожники. Усі права захищені.</p>
+        <p className={css.copy}>© {year} Подорожники. Усі права захищені.</p>
       </div>
     </footer>
   );

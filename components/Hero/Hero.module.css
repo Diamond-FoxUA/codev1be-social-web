@@ -55,8 +55,8 @@
   max-width: 335px;
   width: 100%;
   transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+    background-color 300ms ease-in-out,
+    color 300ms ease-in-out;
 }
 
 .ctaButton:hover,
