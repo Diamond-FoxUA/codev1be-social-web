@@ -5,6 +5,8 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import QueryProvider from './providers/QueryProvider';
+import ToastProvider from '@/components/ToastProvider/ToastProvider';
+import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
 
 const nunito = Nunito_Sans({
   variable: '--font-nunito-sans',
@@ -85,10 +87,12 @@ export default function RootLayout({
       <body className={`${nunito.variable} ${inter.variable}`}>
         <QueryProvider>
           <Header />
-
           <main>{children}</main>
-
           <Footer />
+
+          <ToastProvider />
+          <AuthNavModal />
+          <div id="modal-root"></div>
         </QueryProvider>
       </body>
     </html>
