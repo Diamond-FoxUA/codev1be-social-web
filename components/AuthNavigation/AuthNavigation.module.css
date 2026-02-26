@@ -16,18 +16,34 @@
   font-size: 18px;
   background-color: var(--opacity-white-10);
   height: 35px;
+  border: 1px solid var(--opacity-transparent);
   border-radius: 8px;
   padding: 4px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
-  transition: opacity 0.3s ease;
+  transition:
+    background-color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
 }
 
-/* .loginLink:hover {
-  opacity: 0.8;
-} */
+.loginLink:hover,
+.loginLink:focus {
+  color: var(--color-scheme-1-text);
+  background-color: var(--color-royal-blue-lighter);
+}
+
+.loginLink:active {
+  background-color: var(--color-royal-blue-light);
+}
+
+.loginLinkLight {
+  color: var(--color-neutral-darkest);
+  background-color: var(--opacity-neutral-darkest-5);
+  border-color: var(--color-scheme-2-border);
+}
 
 .authButtons .registerBtn {
   background-color: var(--color-white);
@@ -35,6 +51,7 @@
   font-weight: 500;
   font-size: 18px;
   padding: 4px 10px;
+  border: 1px solid var(--color-white);
   border-radius: 8px;
   max-width: 113px;
   height: 35px;
@@ -44,13 +61,44 @@
   justify-content: center;
   flex-direction: row;
   transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+    background-color 0.3s ease-in-out,
+    border-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
 }
 
-/* .registerBtn:hover {
-  background-color: #f0f0f0;
-} */
+.authButtons .registerBtn:hover,
+.registerBtn:focus {
+  color: var(--color-white);
+  background-color: var(--color-neutral);
+}
+
+.authButtons .registerBtn:active {
+  background-color: var(--color-neutral-dark);
+}
+
+.authButtons .registerBtnLight,
+.loginLinkLight:hover,
+.loginLinkLight:focus {
+  background-color: var(--color-royal-blue);
+  border-color: var(--color-royal-blue);
+  color: var(--color-white);
+}
+
+.loginLinkLight:active {
+  background-color: var(--color-royal-blue-darker);
+  border-color: var(--opacity-transparent);
+}
+
+.authButtons .registerBtnLight:hover,
+.authButtons .registerBtnLight:focus {
+  background-color: var(--color-royal-blue-lighter);
+  border-color: var(--color-royal-blue);
+  color: var(--color-scheme-2-text);
+}
+
+.authButtons .registerBtnLight:active {
+  background-color: var(--color-royal-blue-light);
+}
 
 /* Стилі для залогіненого юзера */
 .userContainer {
