@@ -89,7 +89,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
-          
+
           <ToastProvider />
           <AuthNavModal />
           <div id="modal-root"></div>
