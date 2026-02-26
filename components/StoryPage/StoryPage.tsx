@@ -4,11 +4,11 @@ import css from './StoryPage.module.css';
 import Image from 'next/image';
 import { Story } from '@/types/story';
 
-type Props = {
+type StoryPageProps = {
   story: Story;
 };
 
-const StoryPage = ({ story }: Props) => {
+const StoryPage = ({ story }: StoryPageProps) => {
   return (
     <div className={css.wrapper}>
       <article className={css.article}>

@@ -16,7 +16,7 @@ export default async function Page({ params }: Props) {
   return (
     <div>
       <StoryPage story={story} />
-      <StoryDetails />
+      <StoryDetails storyId={story._id} />
     </div>
   );
 }
