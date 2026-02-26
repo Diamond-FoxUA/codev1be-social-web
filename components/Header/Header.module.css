@@ -11,25 +11,6 @@
   align-items: center;
 }
 
-/* .homeHeader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: transparent;
-  color: var(--color-white);
-} */
-
-/* .homeHeader {
-  position: relative;
-  z-index: 10;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52)),
-    url('/img/hero-bg.jpg');
-  background-size: cover;
-  background-position: center top;
-  color: var(--color-white);
-} */
-
 .homeHeader {
   position: relative;
   z-index: 10;
@@ -64,27 +45,6 @@
   color: #ddd;
 }
 
-.logoLink {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 156px;
-  height: 40px;
-}
-
-.logoWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 3px;
-}
-
-.logoIcon {
-  display: block;
-}
-
 .menuBtn {
   border: 1px solid var(--opacity-transparent);
   border-radius: 8px;
@@ -98,15 +58,6 @@
   justify-content: center;
   flex-direction: row;
   gap: 12px;
-}
-
-.logoText {
-  font-family: var(--second-family);
-  font-weight: 400;
-  font-size: 17px;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--color-white);
 }
 
 .navigation {

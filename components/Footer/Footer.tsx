@@ -3,6 +3,7 @@ import css from './Footer.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { nextServer } from '@/lib/api/api';
+import Logo from '@/components/Logo/Logo';
 
 const SPRITE = '/svg/icons.svg';
 
@@ -38,9 +39,9 @@ export default function Footer() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchUser = async() => {
+    const fetchUser = async () => {
       try {
-        const res = await nextServer.get('/api/users/me'); 
+        const res = await nextServer.get('/api/users/me');
         setIsLoggedIn(res.status === 200);
       } catch {
         setIsLoggedIn(false);
@@ -49,19 +50,14 @@ export default function Footer() {
 
     fetchUser();
   }, []);
-  
+
   const nav = isLoggedIn ? [...navBase, navProfile] : navBase;
 
   return (
     <footer className={css.footer}>
       <div className="container">
         <div className={css.topRow}>
-          <Link href="/" className={css.logo}>
-            <svg className={css.logoIcon} aria-hidden="true">
-              <use href={`/svg/logo.svg`} />
-            </svg>
-            <span>Подорожники</span>
-          </Link>
+          <Logo className={css.logo} />
 
           <ul className={css.socials}>
             {socials.map(({ id, href, label }) => (

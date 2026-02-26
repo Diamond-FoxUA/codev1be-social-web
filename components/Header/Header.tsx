@@ -4,9 +4,9 @@ import Link from 'next/link';
 import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
 import css from './Header.module.css';
 import { usePathname } from 'next/navigation';
-import Image from 'next/image';
 import React, { useState } from 'react';
 import MobileMenu from '../MobileMenu/MobileMenu';
+import Logo from '@/components/Logo/Logo';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,19 +19,7 @@ function Header() {
     <>
       <header className={headerClasses}>
         <div className={`container ${css.headerContainer}`}>
-          <Link href="/" className={css.logoLink} aria-label="Home">
-            <div className={css.logoWrapper}>
-              <Image
-                src="/svg/logo.svg"
-                alt="Лого 'Подорожники'"
-                width={23}
-                height={23}
-                priority
-                className={css.logoIcon}
-              />
-              <span className={css.logoText}>Подорожники</span>
-            </div>
-          </Link>
+          <Logo />
           <nav aria-label="Main Navigation" className={css.desktopNav}>
             <ul className={css.navigation}>
               <li className={css.navigationItem}>
