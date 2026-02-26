@@ -34,6 +34,8 @@ export default function AuthNavigation() {
                   src={user.avatarUrl}
                   alt="Avatar"
                   className={css.avatarImg}
+                  // width={23} Image with src "https://randomuser.me/api/portraits/women/44.jpg" is missing required "width" property.
+                  // height={23}
                 />
               ) : (
                 (user.name || 'U').charAt(0).toUpperCase()

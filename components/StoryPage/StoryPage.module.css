@@ -59,7 +59,6 @@
   border-radius: 6px;
   padding: 4px 10px;
   width: 76px;
-  /* height: 26px; */
 }
 
 .image {
@@ -127,6 +126,11 @@
     padding: 48px 64px;
     width: 1440px;
     background-color: var(--foreground);
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
   }
 
   .article,

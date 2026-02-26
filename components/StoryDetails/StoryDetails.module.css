@@ -37,9 +37,7 @@
   color: var(--color-white);
 }
 
-/* ====================
-   Кнопка "Зберегти"
-==================== */
+/*  Кнопка "Зберегти" */
 .buttonSaveContainer:hover,
 .buttonSaveContainer:focus {
   background-color: var(--color-royal-blue-lighter);

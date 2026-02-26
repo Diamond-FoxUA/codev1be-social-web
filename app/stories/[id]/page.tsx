@@ -1,8 +1,8 @@
 // app/stories/[id]/page.tsx
 import React from 'react';
 import StoryPage from '@/components/StoryPage/StoryPage';
-import StoryDetails from '@/components/StoryDetails/StoryDetails';
 import { getSingleStory } from '@/lib/api/story';
+import css from '../../../components/StoryPage/StoryPage.module.css';
 
 type Props = {
   params: { id: string };
@@ -14,9 +14,8 @@ export default async function Page({ params }: Props) {
   console.log(story);
 
   return (
-    <div>
+    <div className={css.wrapper}>
       <StoryPage story={story} />
-      <StoryDetails storyId={story._id} />
     </div>
   );
 }

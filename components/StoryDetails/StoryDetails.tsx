@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import css from './StoryDetails.module.css';
@@ -15,13 +16,6 @@ const StoryDetails = ({ storyId }: StoryDetailsProps) => {
   const [error, setError] = useState<string | null>(null);
 
   const handleSave = async () => {
-    const token = localStorage.getItem('accessToken');
-
-    if (!token) {
-      setError('Будь ласка, увійдіть в систему');
-      return;
-    }
-
     setIsLoading(true);
     setError(null);
 
@@ -30,24 +24,21 @@ const StoryDetails = ({ storyId }: StoryDetailsProps) => {
         `${BASE_URL}/api/stories/${storyId}/save`,
         {},
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           withCredentials: true,
         },
       );
 
       setSaved(true);
-    } catch (err: any) {
-      console.error('Save error details:', err.response?.data || err.message);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        const status = err.response?.status;
+        const message = err.response?.data?.message;
 
-      const status = err.response?.status;
-      if (status === 401) {
-        setError('Ваша сесія закінчилася. Перезайдіть в акаунт.');
-      } else if (status === 404) {
-        setError('Помилка адреси (404). Перевірте консоль.');
-      } else {
-        setError(err.response?.data?.message || 'Не вдалося зберегти історію');
+        if (status === 401) {
+          setError('Ваша сесія закінчилася або ви не авторизовані.');
+        } else {
+          setError(message || 'Помилка збереження');
+        }
       }
     } finally {
       setIsLoading(false);
@@ -64,9 +55,9 @@ const StoryDetails = ({ storyId }: StoryDetailsProps) => {
       <button
         onClick={handleSave}
         disabled={isLoading || saved}
-        className={css.buttonSaveContainer}
+        className={`${css.buttonSaveContainer} ${saved ? css.buttonSaved : ''}`}
       >
-        {isLoading ? 'Збереження...' : saved ? 'Збережено' : 'Зберегти'}
+        {isLoading ? 'Збереження...' : saved ? '✓ Збережено' : 'Зберегти'}
       </button>
 
       {error && (
