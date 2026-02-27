@@ -25,56 +25,44 @@ const inter = Inter({
   display: 'swap',
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL!;
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
+  metadataBase: new URL(baseUrl!),
 
   title: {
     default: 'Подорожники',
     template: '%s | Подорожники',
   },
-
   description:
     'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
   keywords: ['travel', 'stories', 'social network', 'nextjs'],
 
   openGraph: {
     title: 'Подорожники',
-
     description:
       'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
     url: '/',
-
     siteName: 'Подорожники',
-
     locale: 'uk_UA',
-
     type: 'website',
-
     images: [
       {
-        url: '/preview.png',
+        url: `${baseUrl}/preview.png`,
         width: 1200,
         height: 630,
-        alt: 'Podorozhnyky preview',
+        alt: 'Podorozhnyky preview image',
       },
     ],
   },
 
   twitter: {
     card: 'summary_large_image',
-
     title: 'Подорожники',
-
     description:
       'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
     images: ['/preview.png'],
   },
-
   icons: {
     icon: '/favicon.ico',
   },
@@ -82,9 +70,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   let user: User | null = null;
 
   try {
