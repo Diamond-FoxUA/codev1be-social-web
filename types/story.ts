@@ -17,8 +17,7 @@ export interface Story {
   category: Category;
   ownerId: Owner;
   favoriteCount: number;
-  createdAt: string;
-  updatedAt: string;
+  date: string;
 }
 
 export interface StoriesResponse {

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
-import { logout } from '@/lib/api/auth';
+import { logout } from '@/lib/api/clientApi'; 
 import css from './MobileMenu.module.css';
 import Image from 'next/image';
 import Logo from '@/components/Logo/Logo';

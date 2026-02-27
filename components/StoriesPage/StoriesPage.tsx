@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import TravellersStories from '@/components/TravellersStories/TravellersStories';
-import { nextServer as api } from '@/lib/api/api';
+import nextServer from '@/lib/api/api';
 import styles from './StoriesPage.module.css';
 
 type StoryCategory = string | { _id: string; name?: string };
@@ -115,7 +115,7 @@ export default function StoriesPage() {
     useInfiniteQuery<ApiResponse>({
       queryKey: ['stories', selectedCategory, pageSize],
       queryFn: async ({ pageParam = 1 }) => {
-        const response = await api.get('/api/stories', {
+        const response = await nextServer.get('/stories', {
           params: {
             page: pageParam,
             perPage: pageSize,
@@ -136,11 +136,11 @@ export default function StoriesPage() {
     queryKey: ['users'],
     queryFn: async () => {
       const pages = await Promise.all([
-        api.get('/api/users', { params: { page: 1, perPage: 9 } }),
-        api.get('/api/users', { params: { page: 2, perPage: 9 } }),
-        api.get('/api/users', { params: { page: 3, perPage: 9 } }),
-        api.get('/api/users', { params: { page: 4, perPage: 9 } }),
-        api.get('/api/users', { params: { page: 5, perPage: 9 } }),
+        nextServer.get('/users', { params: { page: 1, perPage: 9 } }),
+        nextServer.get('/users', { params: { page: 2, perPage: 9 } }),
+        nextServer.get('/users', { params: { page: 3, perPage: 9 } }),
+        nextServer.get('/users', { params: { page: 4, perPage: 9 } }),
+        nextServer.get('/users', { params: { page: 5, perPage: 9 } }),
       ]);
 
       const allUsers = pages.flatMap(
