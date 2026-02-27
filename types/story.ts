@@ -13,5 +13,11 @@ export interface CreateStoryData {
   title: string;
   description: string;
   category: string;
-  img?: File | null;
+  img?: File | string | null;
+}
+export interface UpdateStoryData {
+  title: string;
+  description: string;
+  category: string;
+  img?: File | string | null;
 }
