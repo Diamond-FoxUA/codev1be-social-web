@@ -72,6 +72,21 @@ const CATEGORY_MAP: Record<string, string> = {
 };
 
 export default function StoriesPage() {
+  const [favoriteStories, setFavoriteStories] = useState<string[]>([]);
+  const [loadingStoryId, setLoadingStoryId] = useState<string | null>(null);
+
+  const handleBookmarkClick = (storyId: string) => {
+    setLoadingStoryId(storyId);
+
+    setFavoriteStories(prev =>
+      prev.includes(storyId)
+        ? prev.filter(id => id !== storyId)
+        : [...prev, storyId]
+    );
+
+    setLoadingStoryId(null);
+  };
+  
   const getBaseDisplayCount = () => {
     if (typeof window === 'undefined') return 9;
     return window.matchMedia('(min-width: 768px) and (max-width: 1439px)')
@@ -254,6 +269,9 @@ export default function StoriesPage() {
               stories={displayedStories}
               usersMap={usersMap}
               categoryMap={CATEGORY_MAP}
+              favoriteStories={favoriteStories}
+              loadingStoryId={loadingStoryId}
+              onBookmarkClick={handleBookmarkClick}
             />
 
             {hasMoreStories && (
