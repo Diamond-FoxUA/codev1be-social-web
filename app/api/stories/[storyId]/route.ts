@@ -1,22 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import serverApi from '@/app/api/api';
 
-type Context = {
-  params: {
-    storyId: string;
-  };
-};
+export async function GET(
+  req: NextRequest,
+  context: { params: Promise<{ storyId: string }> },
+) {
+  const { storyId } = await context.params;
 
-export async function GET(req: NextRequest, { params }: Context) {
-  const res = await serverApi.get(`/stories/${params.storyId}`);
+  const res = await serverApi.get(`/stories/${storyId}`);
 
   return NextResponse.json(res.data);
 }
 
-export async function PATCH(req: NextRequest, { params }: Context) {
+export async function PATCH(
+  req: NextRequest,
+  context: { params: Promise<{ storyId: string }> },
+) {
+  const { storyId } = await context.params;
+
   const formData = await req.formData();
 
-  const res = await serverApi.patch(`/stories/${params.storyId}`, formData, {
+  const res = await serverApi.patch(`/stories/${storyId}`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
