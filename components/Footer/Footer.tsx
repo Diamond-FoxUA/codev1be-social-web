@@ -2,7 +2,7 @@
 import css from './Footer.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { nextServer } from '@/lib/api/api';
+import nextServer from '@/lib/api/api';
 import Logo from '@/components/Logo/Logo';
 
 const SPRITE = '/svg/icons.svg';
@@ -42,7 +42,7 @@ export default function Footer() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await nextServer.get('/api/users/me');
+        const res = await nextServer.get('/users/me');
         setIsLoggedIn(res.status === 200);
       } catch {
         setIsLoggedIn(false);

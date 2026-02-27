@@ -2,6 +2,15 @@ import type { Metadata } from 'next';
 import { Nunito_Sans, Inter } from 'next/font/google';
 import './globals.css';
 
+import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
+import QueryProvider from './providers/QueryProvider';
+import ToastProvider from '@/components/ToastProvider/ToastProvider';
+import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
+
+import { getMeServer } from '@/lib/api/serverApi'; 
+import { User } from '@/types/user';
+
 const nunito = Nunito_Sans({
   variable: '--font-nunito-sans',
   weight: ['400', '500', '600', '700'],
@@ -20,16 +29,23 @@ const baseUrl = process.env.NEXT_PUBLIC_APP_URL;
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl!),
-  title: 'Подорожники',
+
+  title: {
+    default: 'Подорожники',
+    template: '%s | Подорожники',
+  },
   description:
     'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-  keywords: ['nextjs', 'react', 'social network', 'travel stories'],
+  keywords: ['travel', 'stories', 'social network', 'nextjs'],
+
   openGraph: {
     title: 'Подорожники',
     description:
       'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
+    url: '/',
     siteName: 'Подорожники',
-    url: baseUrl,
+    locale: 'uk_UA',
+    type: 'website',
     images: [
       {
         url: `${baseUrl}/preview.png`,
@@ -38,34 +54,50 @@ export const metadata: Metadata = {
         alt: 'Podorozhnyky preview image',
       },
     ],
-    locale: 'uk_UA',
-    type: 'website',
   },
+
   twitter: {
     card: 'summary_large_image',
     title: 'Подорожники',
-    description: 'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-    images: [`${baseUrl}/preview.png`],
-  }
+    description:
+      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
+    images: ['/preview.png'],
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
-import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer';
-import QueryProvider from './providers/QueryProvider';
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let user: User | null = null;
+
+  try {
+    user = await getMeServer();
+  } catch {
+    user = null;
+  }
+
   return (
     <html lang="uk">
-      <body className={`${nunito.variable} ${inter.variable}`}>
+      <body
+        className={`
+     ${nunito.variable}
+     ${inter.variable}
+    `}
+      >
         <QueryProvider>
           <Header />
+          {/* <Header user={user} /> */}
           <main>{children}</main>
+           {/* <Footer user={user} /> */}
           <Footer />
-          <div id="modal-root"></div>
+          <ToastProvider />
+          <AuthNavModal />
+          <div id="modal-root" />
         </QueryProvider>
       </body>
     </html>
