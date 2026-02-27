@@ -27,12 +27,18 @@ interface TravellersStoriesProps {
   stories: Story[];
   usersMap: Record<string, User>;
   categoryMap: Record<string, string>;
+  favoriteStories: string[];
+  loadingStoryId: string | null;
+  onBookmarkClick: (storyId: string) => void;
 }
 
 export default function TravellersStories({
   stories,
   usersMap,
   categoryMap,
+  favoriteStories,
+  loadingStoryId,
+  onBookmarkClick,
 }: TravellersStoriesProps) {
   return (
     <div className={styles.grid}>
@@ -43,6 +49,9 @@ export default function TravellersStories({
           user={story.ownerUser || usersMap[story.ownerId]}
           categoryName={categoryMap[story.category] || 'Категорія'}
           priority={index === 0}
+          isFavorite={favoriteStories.includes(story._id)}
+          isLoading={loadingStoryId === story._id}
+          onBookmarkClick={onBookmarkClick}
         />
       ))}
     </div>

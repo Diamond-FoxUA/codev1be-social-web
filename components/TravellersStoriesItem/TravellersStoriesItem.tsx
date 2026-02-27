@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import LinkButton from '@/components/LinkButton/LinkButton';
 import styles from './TravellersStoriesItem.module.css';
 
 interface Story {
@@ -27,6 +28,9 @@ interface TravellersStoriesItemProps {
   user?: User;
   categoryName: string;
   priority?: boolean;
+  isFavorite: boolean;
+  isLoading: boolean;
+  onBookmarkClick: (storyId: string) => void;
 }
 
 export default function TravellersStoriesItem({
@@ -34,6 +38,9 @@ export default function TravellersStoriesItem({
   user,
   categoryName,
   priority = false,
+  isFavorite,
+  isLoading,
+  onBookmarkClick,
 }: TravellersStoriesItemProps) {
   const articleText = story.article || story.description || '';
   const formattedDate = new Date(story.date).toLocaleDateString('uk-UA', {
@@ -113,22 +120,34 @@ export default function TravellersStoriesItem({
         </div>
 
         <div className={styles.actions}>
-          <button type="button" className={styles.readBtn}>
-            Переглянути статтю
-          </button>
-          <button type="button" className={styles.bookmarkBtn}>
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12.0001 18.1677L7.23159 20.2077C6.66392 20.4524 6.12517 20.4065 5.61534 20.07C5.1055 19.7335 4.85059 19.2573 4.85059 18.6415V4.42898C4.85059 3.96731 5.0195 3.56706 5.35734 3.22823C5.695 2.88923 6.09384 2.71973 6.55384 2.71973H17.4463C17.908 2.71973 18.3083 2.88923 18.6471 3.22823C18.9861 3.56706 19.1556 3.96731 19.1556 4.42898V18.6415C19.1556 19.2573 18.8997 19.7335 18.3878 20.07C17.876 20.4065 17.3363 20.4524 16.7686 20.2077L12.0001 18.1677ZM12.0001 16.3455L17.4463 18.6415V4.42898H6.55384V18.6415L12.0001 16.3455ZM12.0001 4.42898H6.55384H17.4463H12.0001Z"
-                fill="black"
-              />
-            </svg>
+          <LinkButton
+            href={`/stories/${story._id}`}
+            text="Переглянути статтю"
+            className={styles.readBtn}
+          />
+          
+          <button
+            type="button"
+            className={`${styles.bookmarkBtn} ${isFavorite ? styles.active : ''}`}
+            onClick={() => onBookmarkClick(story._id)}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className={styles.spinner} />
+            ) : (
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill={isFavorite ? 'currentColor' : 'none'}
+              >
+                <path
+                  d="M12 18L7 20V4H17V20L12 18Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              </svg>
+            )}
           </button>
         </div>
       </div>
