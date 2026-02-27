@@ -3,7 +3,7 @@
 import css from './AddStoryForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createStory } from '@/lib/api/auth';
+import { createStory } from '@/lib/api/clientApi'; 
 import StoryFormImage from '../StoryFormImage/StoryFormImage';
 import FormSelect from '../FormSelect/FormSelect';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
