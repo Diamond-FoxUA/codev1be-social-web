@@ -41,7 +41,7 @@ const AddStoryForm = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createStory,
-    onSuccess: (data: any) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['stories'] });
       router.push(`/stories/${data._id}`);
     },
@@ -54,7 +54,7 @@ const AddStoryForm = () => {
     <div className={css.formWrapper}>
       <Formik
         initialValues={{
-          img: null,
+          img: undefined,
           title: '',
           category: '',
           description: '',
