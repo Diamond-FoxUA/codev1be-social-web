@@ -54,9 +54,9 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         <div className={css.footer}>
           {isAuthenticated ? (
             <div className={css.loggedInContent}>
-              <button className={css.blueButton} onClick={onClose}>
+              <Link href="/stories/create" className={css.blueButton}>
                 Опублікувати історію
-              </button>
+              </Link>
               <div className={css.userRow}>
                 <div className={css.avatar}>
                   {user?.avatarUrl ? (
