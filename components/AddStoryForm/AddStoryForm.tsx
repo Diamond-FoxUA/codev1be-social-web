@@ -3,7 +3,7 @@
 import css from './AddStoryForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createStory } from '@/lib/api/clientApi';
+import { createStory } from '@/lib/api/clientApi'; 
 import StoryFormImage from '../StoryFormImage/StoryFormImage';
 import FormSelect from '../FormSelect/FormSelect';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -41,7 +41,7 @@ const AddStoryForm = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: createStory,
-    onSuccess: (data: any) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['stories'] });
       router.push(`/stories/${data._id}`);
     },
@@ -54,7 +54,7 @@ const AddStoryForm = () => {
     <div className={css.formWrapper}>
       <Formik
         initialValues={{
-          img: null,
+          img: undefined,
           title: '',
           category: '',
           description: '',

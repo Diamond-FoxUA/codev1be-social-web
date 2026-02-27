@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
+
 import css from './AuthNavigation.module.css';
 import Image from 'next/image';
 
 export default function AuthNavigation() {
   const router = useRouter();
+
   const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
 
   const handleLogout = async () => {
@@ -18,7 +20,10 @@ export default function AuthNavigation() {
       console.error('Logout failed:', error);
     } finally {
       clearIsAuthenticated();
+
       router.push('/');
+
+      router.refresh();
     }
   };
 
@@ -28,6 +33,7 @@ export default function AuthNavigation() {
         <div className={css.userContainer}>
           <Link href="/profile" className={css.profileLink}>
             <span className={css.userName}>{user.name || user.email}</span>
+
             <div className={css.avatarCircle}>
               {user.avatarUrl ? (
                 <Image
@@ -43,6 +49,7 @@ export default function AuthNavigation() {
               )}
             </div>
           </Link>
+
           <button onClick={handleLogout} className={css.logoutButton}>
             Вихід
           </button>
@@ -52,6 +59,7 @@ export default function AuthNavigation() {
           <Link href="/login" prefetch={false} className={css.loginLink}>
             Вхід
           </Link>
+
           <Link href="/register" prefetch={false} className={css.registerBtn}>
             Реєстрація
           </Link>
