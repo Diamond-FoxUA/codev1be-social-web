@@ -3,17 +3,26 @@
 import Logo from '@/components/Logo/Logo';
 import NavLinks from '@/components/NavLinks/NavLinks';
 import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
+import PublishButton from '@/components/PublishButton/PublishButton';
 import css from './Header.module.css';
 import { usePathname } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MobileMenu from '../MobileMenu/MobileMenu';
 import { useAuthStore } from '@/lib/store/authStore';
+import { login } from '@/lib/api/clientApi';
 
 function Header() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, setUser } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const isHomePage = pathname === '/';
+
+  //TEST
+  // useEffect(() => {
+  //   login({ email: 'test@test.com', password: '12345678' })
+  //     .then((user) => setUser(user))
+  //     .catch(console.error);
+  // }, []);
 
   const headerClasses = `${css.header} ${isHomePage ? css.homeHeader : css.pageHeader}`;
 
@@ -33,6 +42,7 @@ function Header() {
           </nav>
 
           <div className={css.mobileActions}>
+            {isAuthenticated && <PublishButton isDark={isHomePage} />}
             <button
               className={css.menuBtn}
               onClick={() => setIsMenuOpen(!isMenuOpen)}

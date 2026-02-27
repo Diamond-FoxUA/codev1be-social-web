@@ -101,32 +101,46 @@
   background-color: var(--color-royal-blue-light);
 }
 
+.logoutButton {
+  background: none;
+  border: none;
+  border-left: 1px solid var(--opacity-white-20);
+  height: 29px;
+  padding: 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+}
+
+.logoutButton:hover {
+  opacity: 0.7;
+}
+
 /* Стилі для залогіненого юзера */
 .userContainer {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 16px;
 }
 
 .profileLink {
   display: flex;
   align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: white;
+  gap: 8px;
+  color: currentColor;
 }
 
 .avatarCircle {
-  width: 35px;
-  height: 35px;
-  background-color: #4f46e5;
+  width: 32px;
+  height: 32px;
+  background-color: transparent;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
   overflow: hidden;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  border: none;
 }
 
 .avatarImg {
@@ -135,17 +149,25 @@
   object-fit: cover;
 }
 
-.logoutButton {
-  background: none;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: var(--color-white);
-  padding: 6px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s;
+.userName {
+  font-size: 16px;
+  font-weight: 400;
+  color: currentColor;
+  margin-right: 8px;
 }
 
-.logoutButton:hover {
-  background: rgba(255, 255, 255, 0.1);
+.userBlockDark {
+  display: flex;
+  align-items: center;
+  color: var(--color-white);
+}
+
+.userBlockLight {
+  display: flex;
+  align-items: center;
+  color: var(--color-neutral-darkest);
+}
+
+.userBlockLight .logoutButton {
+  border-left-color: var(--opacity-neutral-darkest-15);
 }

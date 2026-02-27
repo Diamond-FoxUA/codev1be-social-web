@@ -53,6 +53,12 @@
   justify-content: center;
 }
 
+.mobileActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 @media (min-width: 1440px) {
   .desktopNav {
     display: flex;
@@ -60,6 +66,10 @@
 
   .navLink {
     padding: 16px 0;
+  }
+
+  .navLinkLight {
+    font-size: 18px;
   }
 
   .menuBtn {
