@@ -1,15 +1,16 @@
-.overlay {
+.menu {
   position: fixed;
   inset: 0;
-  background-color: white;
+  background-color: var(--color-white);
   z-index: 1000;
-  padding: 16px 20px;
 }
 
-.menuContainer {
+.menu :global(.container) {
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
 
 .header {
@@ -18,36 +19,6 @@
   align-items: center;
   margin-bottom: 32px;
   transition: all 300ms ease-in-out;
-}
-
-.logoLink {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 156px;
-  height: 40px;
-}
-
-.logoWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row;
-  gap: 3px;
-}
-
-.logoIcon {
-  display: block;
-}
-
-.logoText {
-  font-family: var(--second-family);
-  font-weight: 400;
-  font-size: 17px;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--color-scheme-1-text);
 }
 
 .closeBtn {
@@ -170,13 +141,13 @@
   margin-top: 20px;
 }
 
-.avatar {
+/* .avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: #e5e7eb;
   overflow: hidden;
-}
+} */
 
 .avatarPlaceholder {
   width: 100%;
@@ -186,10 +157,10 @@
   background-size: 60%;
 }
 
-.userName {
+/* .userName {
   font-weight: 500;
   color: #374151;
-}
+} */
 
 .logoutIconBtn {
   background: none;

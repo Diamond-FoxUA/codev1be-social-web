@@ -17,7 +17,11 @@
   background-color: var(--opacity-white-10);
   height: 35px;
   border-radius: 8px;
-  padding: 4px 12px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
   transition: opacity 0.3s ease;
 }
 
@@ -25,18 +29,23 @@
   opacity: 0.8;
 } */
 
-/* Біла кнопка реєстрації як на макеті */
 .authButtons .registerBtn {
   background-color: var(--color-white);
   color: var(--color-neutral-darkest);
   font-weight: 500;
   font-size: 18px;
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 8px;
   max-width: 113px;
   height: 35px;
-  transition: color 0.3s ease;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* .registerBtn:hover {

@@ -2,6 +2,8 @@
   background: var(--opacity-neutral-darkest-10);
   position: relative;
   overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .skeleton::after {

@@ -17,7 +17,7 @@ export default function Skeleton({
       style={{
         width,
         height,
-        borderRadius: circle ? '50%' : '6px',
+        borderRadius: circle ? '50%' : '16px',
       }}
     />
   );

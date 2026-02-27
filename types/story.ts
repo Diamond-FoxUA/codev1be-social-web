@@ -8,3 +8,10 @@ export interface Story {
   date: string;
   favoriteCount: number;
 }
+
+export interface CreateStoryData {
+  title: string;
+  description: string;
+  category: string;
+  img?: File | null;
+}

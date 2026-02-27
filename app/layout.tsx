@@ -5,6 +5,8 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import QueryProvider from './providers/QueryProvider';
+import ToastProvider from '@/components/ToastProvider/ToastProvider';
+import AuthNavModal from '@/components/AuthNavModal/AuthNavModal';
 
 const nunito = Nunito_Sans({
   variable: '--font-nunito-sans',
@@ -29,26 +31,17 @@ export const metadata: Metadata = {
     default: 'Подорожники',
     template: '%s | Подорожники',
   },
-
   description:
-    'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
+    'Подорожники — платформа для публікації історій, подорожей та досвіду.',
   keywords: ['travel', 'stories', 'social network', 'nextjs'],
-
   openGraph: {
     title: 'Подорожники',
-
     description:
-      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
-    url: '/',
-
+      'Подорожники — платформа для публікації історій, подорожей та досвіду.',
+    url: baseUrl,
     siteName: 'Подорожники',
-
     locale: 'uk_UA',
-
     type: 'website',
-
     images: [
       {
         url: '/preview.png',
@@ -58,20 +51,18 @@ export const metadata: Metadata = {
       },
     ],
   },
-
   twitter: {
     card: 'summary_large_image',
-
     title: 'Подорожники',
-
     description:
-      'Платформа для мандрівників: переглядай історії інших та діліться своїми пригодами.',
-
+      'Подорожники — платформа для публікації історій, подорожей та досвіду.',
     images: ['/preview.png'],
   },
-
   icons: {
-    icon: '/favicon.ico',
+    icon: [{ url: '/favicon.ico' }],
+  },
+  alternates: {
+    canonical: '/',
   },
 };
 
@@ -84,13 +75,13 @@ export default function RootLayout({
     <html lang="uk">
       <body className={`${nunito.variable} ${inter.variable}`}>
         <QueryProvider>
-
           <Header />
-
           <main>{children}</main>
-
           <Footer />
 
+          <ToastProvider />
+          <AuthNavModal />
+          <div id="modal-root"></div>
         </QueryProvider>
       </body>
     </html>

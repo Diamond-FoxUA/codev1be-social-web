@@ -23,24 +23,6 @@
   margin-bottom: 40px;
 }
 
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  text-decoration: none;
-  color: #1a1a2e;
-  font-size: 17px;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  line-height: 1;
-}
-
-.logoIcon {
-  width: 23px;
-  height: 23px;
-  flex-shrink: 0;
-}
-
 .socials {
   display: flex;
   align-items: center;
