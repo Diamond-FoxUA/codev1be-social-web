@@ -1,20 +1,24 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import serverApi from '@/app/api/api';
 
-type Context = {
-  params: {
-    storyId: string;
-  };
-};
+export async function POST(
+  req: NextRequest,
+  context: { params: Promise<{ storyId: string }> },
+) {
+  const { storyId } = await context.params;
 
-export async function POST(req: Request, { params }: Context) {
-  const res = await serverApi.post(`/stories/${params.storyId}/save`);
+  const res = await serverApi.post(`/stories/${storyId}/save`);
 
   return NextResponse.json(res.data);
 }
 
-export async function DELETE(req: Request, { params }: Context) {
-  await serverApi.delete(`/stories/${params.storyId}/save`);
+export async function DELETE(
+  req: NextRequest,
+  context: { params: Promise<{ storyId: string }> },
+) {
+  const { storyId } = await context.params;
+
+  await serverApi.delete(`/stories/${storyId}/save`);
 
   return new NextResponse(null, { status: 204 });
 }
