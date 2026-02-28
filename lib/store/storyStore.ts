@@ -11,7 +11,7 @@ interface StoryStore {
 
 const initialDraft:  CreateStoryData = {
   title: '',
-  description: '',
+  article: '',
   category: '',
 }
 
