@@ -22,6 +22,7 @@ function Icon({ id }: IconProps) {
 }
 
 function Footer() {
+  const year = new Date().getFullYear();
   const { isAuthenticated } = useAuthStore();
 
   return (
