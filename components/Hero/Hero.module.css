@@ -1,37 +1,32 @@
 .heroSection {
+  margin-top: -72px;
+  padding: 196px 0px 331px;
+  z-index: 1;
   position: relative;
+
+  background-image:
+    linear-gradient(
+      var(--opacity-neutral-darkest-50),
+      var(--opacity-neutral-darkest-50)
+    ),
+    image-set(
+      url('/img/sections/hero/hero-bg-mob.webp') 1x,
+      url('/img/sections/hero/hero-bg-mob@2x.webp') 2x
+    );
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 812px;
   width: 100%;
   display: flex;
   align-items: center;
-  overflow: hidden;
-}
-
-.bgWrapper {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-}
-
-.bgImage {
-  object-fit: cover;
-  max-height: 812px;
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.52));
 }
 
 .heroContent {
-  color: white;
-  max-width: 740px;
-  padding: 196px 0 331px;
+  color: var(--color-white);
 }
 
 .title {
-  font-size: 32px;
-  font-weight: 700;
   line-height: 1.1;
   margin-bottom: 24px;
 }
@@ -39,12 +34,12 @@
 .description {
   font-size: 16px;
   margin-bottom: 32px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-white);
 }
 
 .ctaButton {
   background-color: var(--color-royal-blue);
-  color: white;
+  color: var(--color-white);
   font-weight: 500;
   padding: 16px 32px;
   border: 1px solid var(--color-royal-blue);
@@ -76,12 +71,25 @@
 }
 
 @media (min-width: 768px) {
+  .heroSection {
+    background-image:
+      linear-gradient(
+        var(--opacity-neutral-darkest-50),
+        var(--opacity-neutral-darkest-50)
+      ),
+      image-set(
+        url('/img/sections/hero/hero-bg-tab.webp') 1x,
+        url('/img/sections/hero/hero-bg-tab@2x.webp') 2x
+      );
+    padding: 224px 0px 117px;
+    min-height: 634px;
+  }
+
   .heroContent {
-    max-width: 700px;
+    color: var(--color-white);
   }
 
   .title {
-    font-size: 48px;
     max-width: 600px;
   }
 
@@ -91,12 +99,26 @@
 }
 
 @media (min-width: 1440px) {
-  .heroContent {
-    max-width: 600px;
+  .heroSection {
+    background-image:
+      linear-gradient(
+        var(--opacity-neutral-darkest-50),
+        var(--opacity-neutral-darkest-50)
+      ),
+      image-set(
+        url('/img/sections/hero/hero-bg-desktop.webp') 1x,
+        url('/img/sections/hero/hero-bg-desktop@2x.webp') 2x
+      );
+    padding: 244px 0px 347px;
+    min-height: 900px;
   }
 
-  .title {
-    font-size: 56px;
+  .heroContent {
+    max-width: 750px;
+  }
+
+  .description {
+    font-size: 20px;
   }
 
   .ctaButton {

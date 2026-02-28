@@ -1,0 +1,133 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  padding: 20px;
+  padding-top: 64px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  background: white;
+  border-radius: 12px;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 22px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.title {
+  font-family: var(--second-family);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--color-scheme-1-text);
+
+  margin-bottom: 16px;
+}
+
+.text {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.loginBtn,
+.registerBtn {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--color-royal-blue);
+  border-radius: 8px;
+  text-align: center;
+
+  padding: 12px 0;
+  transition: 
+    color 300ms ease-in-out,
+    background-color 300ms ease-in-out;
+}
+
+.loginBtn {
+  color: var(--color-neutral-darkest);
+  background-color: var(--opacity-neutral-darkest-5);
+  border-color: var(--color-scheme-2-border);
+}
+
+.registerBtn {
+  color: var(--color-white);
+  background-color: var(--color-royal-blue);
+}
+
+.registerBtn:hover,
+.registerBtn:focus {
+  color: var(--color-scheme-2-text);
+  background-color: var(--color-royal-blue-lighter);
+}
+
+.loginBtn:hover,
+.loginBtn:focus {
+  color: var(--color-white);
+  background-color: var(--color-royal-blue);
+}
+
+.loginBtn:active {
+  background-color: var(--color-royal-blue-darker);
+}
+.registerBtn:active {
+  background-color: var(--color-royal-blue-light);
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    padding: 64px 32px;
+    margin-left: 32px;
+    margin-right: 32px;
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 120%;
+    letter-spacing: -0.01em;
+  }
+
+  .buttons {
+    justify-content: center;
+    flex-direction: row;
+  }
+  .loginBtn,
+  .registerBtn {
+    max-width: 203px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .modal {
+    max-width: 768px;
+    padding: 64px;
+  }
+}
