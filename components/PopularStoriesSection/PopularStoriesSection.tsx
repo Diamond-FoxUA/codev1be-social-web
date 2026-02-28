@@ -130,7 +130,7 @@ export default function PopularStoriesSection() {
 
                       <h3 className={css.articleTitle}>{story.title}</h3>
 
-                      <p className={css.articleTxt}>{story.description}</p>
+                      <p className={css.articleTxt}>{story.article}</p>
 
                       <div className={css.articleMeta}>
                         <Image
@@ -151,7 +151,7 @@ export default function PopularStoriesSection() {
 
                             {story.favoriteCount}
 
-                            <Icon id="savesmall" className={css.icon} />÷
+                            <Icon id="savesmall" className={css.icon} />
                           </p>
                         </div>
                       </div>

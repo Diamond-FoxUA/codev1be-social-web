@@ -95,6 +95,7 @@ export default async function RootLayout({
           <main>{children}</main>
            {/* <Footer user={user} /> */}
           <Footer />
+          
           <ToastProvider />
           <AuthNavModal />
           <div id="modal-root" />
