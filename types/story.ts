@@ -44,7 +44,8 @@ export interface GetStoriesParams extends PaginationParams {
 
 export interface CreateStoryParams {
   title: string;
-  description: string;
+  article?: string;
+  description?: string;
   category: string;
   img?: string;
 }
