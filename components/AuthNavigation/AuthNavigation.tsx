@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
+
 import css from './AuthNavigation.module.css';
 import Image from 'next/image';
 
@@ -13,6 +14,7 @@ interface AuthNavigationProps {
 
 function AuthNavigation({ isDark }: AuthNavigationProps) {
   const router = useRouter();
+
   const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
 
   const handleLogout = async () => {
@@ -22,7 +24,10 @@ function AuthNavigation({ isDark }: AuthNavigationProps) {
       console.error('Logout failed:', error);
     } finally {
       clearIsAuthenticated();
+
       router.push('/');
+
+      router.refresh();
     }
   };
 
@@ -32,6 +37,7 @@ function AuthNavigation({ isDark }: AuthNavigationProps) {
         <div className={css.userContainer}>
           <Link href="/profile" className={css.profileLink}>
             <span className={css.userName}>{user.name || user.email}</span>
+
             <div className={css.avatarCircle}>
               {user.avatarUrl ? (
                 <Image
@@ -47,6 +53,7 @@ function AuthNavigation({ isDark }: AuthNavigationProps) {
               )}
             </div>
           </Link>
+
           <button onClick={handleLogout} className={css.logoutButton}>
             Вихід
           </button>
