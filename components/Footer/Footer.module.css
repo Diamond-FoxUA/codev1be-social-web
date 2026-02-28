@@ -156,9 +156,6 @@
     .topRow > nav {
     flex: 1;        
     width: auto;
-    margin-left: 0;  
-    display: flex;
-    justify-content: flex-end;
   }
 
 
