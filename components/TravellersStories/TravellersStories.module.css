@@ -1,0 +1,20 @@
+.grid {
+  display: grid; /* Батьківський контейнер для гріда */
+  grid-template-columns: 1fr; /* За замовчуванням 1 колонка */
+  gap: 24px; /* Відстань між картками */
+  width: 100%; /* Займає всю ширину контейнера */
+}
+
+/* Tablet (768px-1439px) - 8 cards, 2 колонки x 4 рядки */
+@media (min-width: 768px) and (max-width: 1439px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 колонки */
+  }
+}
+
+/* Desktop (1440px+) - 9 cards, 3 колонки x 3 рядки */
+@media (min-width: 1440px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+  }
+}

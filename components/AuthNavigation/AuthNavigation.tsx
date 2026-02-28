@@ -5,6 +5,7 @@ import PublishButton from '@/components/PublishButton/PublishButton';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
+
 import css from './AuthNavigation.module.css';
 import Image from 'next/image';
 
@@ -14,6 +15,7 @@ interface AuthNavigationProps {
 
 function AuthNavigation({ isDark }: AuthNavigationProps) {
   const router = useRouter();
+
   const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
 
   const handleLogout = async () => {
@@ -23,7 +25,10 @@ function AuthNavigation({ isDark }: AuthNavigationProps) {
       console.error('Logout failed:', error);
     } finally {
       clearIsAuthenticated();
+
       router.push('/');
+
+      router.refresh();
     }
   };
 

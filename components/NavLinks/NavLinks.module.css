@@ -20,3 +20,8 @@
 .navLink:active {
   background: var(--color-neutral-lighter);
 }
+
+.navLinkLight:hover,
+.navLinkLight:focus-visible {
+  border-color: var(--color-white);
+}

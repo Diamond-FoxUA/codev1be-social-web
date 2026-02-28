@@ -1,8 +1,10 @@
-import { nextServer } from './api';
-import type { Story } from '@/types/story';
-import type { User } from '@/types/user';
+import nextServer from '@/lib/api/api';
 
-// --- Типи для запитів ---
+import { User } from '@/types/user';
+import { Story } from '@/types/story';
+
+/* ---------------- AUTH ---------------- */
+
 export type RegisterRequest = {
   name: string;
   email: string;
@@ -14,88 +16,164 @@ export type LoginRequest = {
   password: string;
 };
 
-// --- AUTH API ---
-export const register = async (userData: RegisterRequest): Promise<User> => {
-  const { data } = await nextServer.post('api/auth/register', userData);
-  return data;
-};
+export async function register(data: RegisterRequest): Promise<User> {
+  const response = await nextServer.post('/auth/register', data);
 
-export const login = async (credentials: LoginRequest): Promise<User> => {
-  const { data } = await nextServer.post('api/auth/login', credentials);
-  return data;
-};
+  return response.data;
+}
 
-export const logout = async (): Promise<void> => {
-  await nextServer.post('api/auth/logout');
-};
+export async function login(data: LoginRequest): Promise<User> {
+  const response = await nextServer.post('/auth/login', data);
 
-export const getMe = async (): Promise<User> => {
-  const { data } = await nextServer.get('api/users/me');
-  return data;
-};
+  return response.data;
+}
 
-// --- USERS ---
-export const updateUser = async (userData: Partial<User>): Promise<User> => {
-  const { data } = await nextServer.patch('/api/users/me', userData);
-  return data;
-};
+export async function logout(): Promise<void> {
+  await nextServer.post('/auth/logout');
+}
 
-export const updateUserAvatar = async (formData: FormData): Promise<User> => {
-  const { data } = await nextServer.patch('/api/users/avatar', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
+export async function getMe(): Promise<User> {
+  const response = await nextServer.get('/users/me');
+  return response.data;
+}
+
+/* ---------------- USERS ---------------- */
+
+export interface FetchUsersProps {
+  page: number;
+  perPage: number;
+}
+
+export interface UsersHttpResponse {
+  page: number;
+  perPage: number;
+  totalAuthors: number;
+  totalPages: number;
+  users: User[];
+}
+
+export async function fetchUsers(
+  params: FetchUsersProps,
+): Promise<UsersHttpResponse> {
+  const response = await nextServer.get('/users', {
+    params,
   });
-  return data;
-};
+  return response.data;
+}
 
-// --- STORIES ---
-export const fetchStories = async () => {
-  const { data } = await nextServer.get('/api/stories');
-  return data;
-};
+interface UpdateMeProps {
+  name: string;
+  description: string;
+}
 
-export const fetchPopularStories = async () => {
-  const { data } = await nextServer.get('/api/stories/popular');
-  return data;
-};
+export async function updateMe(data: UpdateMeProps): Promise<User> {
+  const response = await nextServer.patch('/users/me', data);
+  return response.data;
+}
 
-export const fetchMyStories = async () => {
-  const { data } = await nextServer.get('/api/stories/me');
-  return data;
-};
+export async function updateAvatar(file: File): Promise<string> {
+  const formData = new FormData();
 
-export const fetchStoryById = async (storyId: string): Promise<Story> => {
-  const { data } = await nextServer.get(`/api/stories/${storyId}`);
-  return data;
-};
+  formData.append('avatar', file);
 
-export const createStory = async (formData: FormData): Promise<Story> => {
-  const { data } = await nextServer.post('/api/stories', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
+  const response = await nextServer.patch('/users/avatar', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
-  return data;
-};
 
-export const updateStory = async (
-  storyId: string,
-  formData: FormData,
-): Promise<Story> => {
-  const { data } = await nextServer.patch(`/api/stories/${storyId}`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
+  return response.data.url;
+}
+
+/* ---------------- STORIES ---------------- */
+
+export interface StoriesHttpResponse {
+  stories: Story[];
+  totalStories: number;
+  page: number;
+  perPage: number;
+  totalPages: number;
+}
+
+export interface FetchStoriesProps {
+  page: number;
+  perPage: number;
+  category?: string;
+}
+
+export async function fetchStories(
+  params: FetchStoriesProps,
+): Promise<StoriesHttpResponse> {
+  const response = await nextServer.get('/stories', {
+    params,
   });
-  return data;
-};
 
-export const addToFavorites = async (storyId: string) => {
-  const { data } = await nextServer.post(`/api/stories/${storyId}/save`);
-  return data;
-};
+  return response.data;
+}
 
-export const removeFromFavorites = async (storyId: string) => {
-  const { data } = await nextServer.delete(`/api/stories/${storyId}/save`);
-  return data;
-};
+export async function fetchPopularStories(): Promise<{
+  stories: Story[];
 
-export const fetchFavoriteStories = async () => {
-  const { data } = await nextServer.get('/api/stories/saved');
-  return data;
-};
+  totalStories: number;
+}> {
+  const response = await nextServer.get('/stories/popular');
+  return response.data;
+}
+
+export async function fetchStoryById(id: string): Promise<Story> {
+  const response = await nextServer.get(`/stories/${id}`);
+  return response.data;
+}
+
+export interface NewStory {
+  title: string;
+  description: string;
+  category: string;
+  img?: string;
+}
+
+export async function createStory(story: NewStory): Promise<Story> {
+  const response = await nextServer.post('/stories', story);
+
+  return response.data;
+}
+
+export async function updateStory(id: string, story: NewStory): Promise<Story> {
+  const response = await nextServer.patch(`/stories/${id}`, story);
+
+  return response.data;
+}
+
+/* ---------------- FAVORITES ---------------- */
+
+export async function addToFavouriteStory(id: string): Promise<string[]> {
+  const response = await nextServer.post<string[]>(`/stories/${id}/save`);
+
+  return response.data;
+}
+
+export async function removeFavouriteStory(id: string): Promise<void> {
+  const response = await nextServer.delete(`/stories/${id}/save`);
+
+  return response.data;
+}
+
+export async function fetchMyStories(
+  params: FetchUsersProps,
+): Promise<StoriesHttpResponse> {
+  const response = await nextServer.get('/stories/me', {
+    params,
+  });
+
+  return response.data;
+}
+
+export async function fetchFavouriteStories(
+  params: FetchUsersProps,
+): Promise<StoriesHttpResponse> {
+  const response = await nextServer.get('/stories/saved', {
+    params,
+  });
+
+  return response.data;
+}

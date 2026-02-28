@@ -46,6 +46,12 @@
   width: 24px;
   height: 24px;
   display: block;
+  transition: transform 300ms ease-in-out;
+}
+
+.socialIcon:hover,
+.socialIcon:focus {
+  transform: scale(1.1);
 }
 
 .nav {
@@ -82,6 +88,7 @@
   border: none;
   border-top: 1px solid rgba(26, 26, 46, 0.15);
   margin: 24px 0 32px;
+  
 }
 
 /* ── Copyright ── */
@@ -90,7 +97,7 @@
   font-size: 12px;
   line-height: 150%;
   text-align: center;
-  margin: 0;
+  margin: 0 ;
 }
 
 /* ===== Tablet — from 768px ===== */
@@ -133,7 +140,7 @@
 }
 
 /* ===== Desktop — від 1440px ===== */
-@media (min-width: 1440px) {
+ @media (min-width: 1440px) {
   .footer {
     padding-top: 80px;
     padding-bottom: 80px;
@@ -145,14 +152,18 @@
     justify-content: space-between;
     margin-bottom: 0;
   }
-
-  .topRow > nav {
+  
+    .topRow > nav {
+    flex: 1;        
     width: auto;
   }
 
+
   .socials {
-    margin: 0 auto;
+    flex: 1;
+    justify-content: center;
     gap: 12px;
+    margin: 0 0 19px 0;
   }
 
   .navList {
@@ -167,4 +178,6 @@
   .copy {
     font-size: 16px;
   }
-}
+} 
+
+

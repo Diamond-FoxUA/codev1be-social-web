@@ -5,30 +5,34 @@ import NavLinks from '@/components/NavLinks/NavLinks';
 import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
 import PublishButton from '@/components/PublishButton/PublishButton';
 import css from './Header.module.css';
+
 import { usePathname } from 'next/navigation';
+
 import React, { useState } from 'react';
+
 import MobileMenu from '../MobileMenu/MobileMenu';
 import { useAuthStore } from '@/lib/store/authStore';
 
 function Header() {
   const { isAuthenticated } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const pathname = usePathname();
+
   const isHomePage = pathname === '/';
 
-  const headerClasses = `${css.header} ${isHomePage ? css.homeHeader : css.pageHeader}`;
+  const headerClasses = `${css.header}
+     ${isHomePage ? css.homeHeader : css.pageHeader}`;
 
   return (
     <>
       <header className={headerClasses}>
         <div className={`container ${css.headerContainer}`}>
           <Logo />
+
           <nav aria-label="Main Navigation" className={css.desktopNav}>
             <ul className={css.navList}>
-              <NavLinks
-                linkClassName={isHomePage ? css.navLinkLight : ''}
-                showProfile={isAuthenticated}
-              />
+              <NavLinks isDark={isHomePage} showProfile={isAuthenticated} />
               <AuthNavigation isDark={isHomePage} />
             </ul>
           </nav>
