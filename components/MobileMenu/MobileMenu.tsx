@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useAuthStore } from '@/lib/store/authStore';
 import { logout } from '@/lib/api/clientApi';
+import Logo from '@/components/Logo/Logo';
+import NavLinks from '@/components/NavLinks/NavLinks';
 import css from './MobileMenu.module.css';
 import Image from 'next/image';
 
@@ -28,65 +30,44 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   };
 
   return (
-    <div className={css.overlay}>
-      <div className={css.menuContainer}>
-        {/* ВЕРХНЯ ЧАСТИНА: Лого та Закрити */}
+    <div className={css.menu}>
+      <div className="container">
         <div className={css.header}>
-          <Link href="/" className={css.logoLink} aria-label="Home">
-            <div className={css.logoWrapper}>
-              <Image
-                src="/svg/logo.svg"
-                alt="Лого 'Подорожники'"
-                width={23}
-                height={23}
-                priority
-                className={css.logoIcon}
-              />
-              <span className={css.logoText}>Подорожники</span>
-            </div>
-          </Link>
+          <Logo />
           <button
             className={css.closeBtn}
             onClick={onClose}
             aria-label="Закрити меню"
           >
             <svg width="24" height="24" className={css.iconClose}>
-              <use href="/svg/icons.svg#icon-close" />
+              <use href="/svg/icons.svg#close" />
             </svg>
           </button>
         </div>
 
-        {/* ЦЕНТРАЛЬНА ЧАСТИНА: Навігація */}
         <nav className={css.nav}>
-          <Link href="/" onClick={onClose} className={css.navLink}>
-            Головна
-          </Link>
-          <Link href="/stories" onClick={onClose} className={css.navLink}>
-            Історії
-          </Link>
-          <Link href="/travelers" onClick={onClose} className={css.navLink}>
-            Мандрівники
-          </Link>
-
-          {isAuthenticated && (
-            <Link href="/profile" onClick={onClose} className={css.navLink}>
-              Мій Профіль
-            </Link>
-          )}
+          <ul className={css.navList}>
+            <NavLinks onClick={onClose} showProfile={isAuthenticated} />
+          </ul>
         </nav>
 
-        {/* НИЖНЯ ЧАСТИНА: Кнопки дії */}
         <div className={css.footer}>
           {isAuthenticated ? (
-            /* ДЛЯ ЗАЛОГІНЕНОГО (МАКЕТ 2) */
             <div className={css.loggedInContent}>
-              <button className={css.blueButton} onClick={onClose}>
+              <Link href="/stories/create" className={css.blueButton}>
                 Опублікувати історію
-              </button>
+              </Link>
               <div className={css.userRow}>
                 <div className={css.avatar}>
                   {user?.avatarUrl ? (
-                    <img src={user.avatarUrl} alt="Avatar" />
+                    <Image
+                      src={user.avatarUrl}
+                      alt="Avatar"
+                      width={32}
+                      height={32}
+                      className={css.avatarImage}
+                      unoptimized
+                    />
                   ) : (
                     <div className={css.avatarPlaceholder} />
                   )}
@@ -104,7 +85,6 @@ function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               </div>
             </div>
           ) : (
-            /* ДЛЯ ГОСТЯ (МАКЕТ 1) */
             <div className={css.guestContent}>
               <Link href="/login" className={css.grayButton} onClick={onClose}>
                 Вхід

@@ -29,6 +29,11 @@
     margin-bottom: 48px;
 }
 
+.pageTitle {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
 /* ====================
    Grid для карток
 ==================== */
@@ -131,10 +136,10 @@
 }
 
 /* ====================
-   Кнопка "Переглянути всіх"
+   Кнопка "Переглянути всіх - Показати ще"
 ==================== */
 .viewAllBtn {
-    display: none;
+    display: block;
     width: fit-content;
     margin: 48px auto 0;
     padding: 6px 12px;
@@ -180,11 +185,7 @@
         --columns: 2;
         --card-width: 340px;
         --gap: 24px;
-    }
-    .viewAllBtn {
-        display: block;
-    }
-    
+    }    
 }
 
 /* Desktop */
