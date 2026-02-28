@@ -1,42 +1,41 @@
 'use client';
-
 import Logo from '@/components/Logo/Logo';
 import NavLinks from '@/components/NavLinks/NavLinks';
 import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
 import PublishButton from '@/components/PublishButton/PublishButton';
 import css from './Header.module.css';
-
 import { usePathname } from 'next/navigation';
-
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
 import MobileMenu from '../MobileMenu/MobileMenu';
 import { useAuthStore } from '@/lib/store/authStore';
+import { login } from '@/lib/api/clientApi';
 
 function Header() {
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, setUser } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const pathname = usePathname();
-
   const isHomePage = pathname === '/';
 
-  const headerClasses = `${css.header}
-     ${isHomePage ? css.homeHeader : css.pageHeader}`;
+  // TEST
+  useEffect(() => {
+    login({ email: 'test@test.com', password: '12345678' })
+      .then((user) => setUser(user))
+      .catch(console.error);
+  }, []);
+
+  const headerClasses = `${css.header} ${isHomePage ? css.homeHeader : css.pageHeader}`;
 
   return (
     <>
       <header className={headerClasses}>
         <div className={`container ${css.headerContainer}`}>
           <Logo />
-
           <nav aria-label="Main Navigation" className={css.desktopNav}>
             <ul className={css.navList}>
               <NavLinks isDark={isHomePage} showProfile={isAuthenticated} />
               <AuthNavigation isDark={isHomePage} />
             </ul>
           </nav>
-
           <div className={css.mobileActions}>
             {isAuthenticated && <PublishButton isDark={isHomePage} />}
             <button
@@ -51,7 +50,6 @@ function Header() {
           </div>
         </div>
       </header>
-
       <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </>
   );
