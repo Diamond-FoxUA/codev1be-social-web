@@ -12,7 +12,7 @@ export interface Owner {
 export interface Story {
   _id: string;
   title: string;
-  description: string;
+  article: string;
   img: string;
   category: Category;
   ownerId: Owner;
@@ -60,14 +60,14 @@ export interface CreateStoryParams {
 }
 export interface UpdateStoryParams {
   title?: string;
-  description?: string;
+  article?: string;
   category?: string;
   img?: string;
 }
 
 export interface CreateStoryData {
   title: string;
-  description: string;
+  article: string;
   category: string;
   img?: File | null;
 }

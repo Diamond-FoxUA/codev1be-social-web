@@ -15,7 +15,6 @@ interface Story {
   img: string;
   title: string;
   article?: string;
-  description?: string;
   category: StoryCategory;
   ownerId: StoryOwner;
   favoriteCount: number;
