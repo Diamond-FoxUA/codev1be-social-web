@@ -2,11 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useRef } from "react";
+
+import { fetchUsers } from "@/lib/api/clientApi"; 
+
+import type { User } from "@/types/user";
+
+import css from "@/components/OurTravellers/OurTravellers.module.css";
 import TravellersList from "@/components/OurTravellers/TravellersList";
 import Skeleton from "@/components/Skeleton/Skeleton";
-import { getTravellers } from "@/lib/api/travellers-api";
-import { User } from "@/types/user";
-import css from "@/components/OurTravellers/OurTravellers.module.css";
 
 export default function TravellersPageClient() {
   const [travellers, setTravellers] = useState<User[]>([]);
@@ -38,7 +41,7 @@ export default function TravellersPageClient() {
       try {
         const pagesToLoad = Math.ceil(initialCards / 4); // 4 картки на сторінку
         const promises = Array.from({ length: pagesToLoad }, (_, i) =>
-          getTravellers({ page: i + 1, perPage: 4 })
+          fetchUsers({ page: i + 1, perPage: 4 })
         );
         const results = await Promise.all(promises);
         const allUsers = results.flatMap(r => r.users);
@@ -81,7 +84,7 @@ export default function TravellersPageClient() {
     setLoading(true);
     try {
       const nextPage = page + 1;
-      const data = await getTravellers({ page: nextPage, perPage: 4 });
+      const data = await fetchUsers({ page: nextPage, perPage: 4 });
       setTravellers(prev => [...prev, ...data.users]);
       setPage(nextPage);
     } catch (err) {
