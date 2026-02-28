@@ -7,6 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { api } from '@/lib/api/auth';
 
 const LoginSchema = Yup.object({
@@ -72,7 +73,7 @@ export default function LoginPage() {
                     msg = err.message;
                   }
 
-                  helpers.setStatus(msg);
+                  toast.error(msg);
                 } finally {
                   helpers.setSubmitting(false);
                 }
@@ -86,7 +87,6 @@ export default function LoginPage() {
                 handleBlur,
                 handleSubmit,
                 isSubmitting,
-                status,
               }) => (
                 <form className={styles.form} onSubmit={handleSubmit}>
                   <label className={styles.field}>
@@ -102,7 +102,7 @@ export default function LoginPage() {
                       disabled={isSubmitting}
                     />
                     {touched.email && errors.email && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>{errors.email}</span>
+                      <span className={styles.error}>{errors.email}</span>
                     )}
                   </label>
 
@@ -119,11 +119,9 @@ export default function LoginPage() {
                       disabled={isSubmitting}
                     />
                     {touched.password && errors.password && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>{errors.password}</span>
+                      <span className={styles.error}>{errors.password}</span>
                     )}
                   </label>
-
-                  {status && <div style={{ color: 'crimson', fontSize: 12 }}>{status}</div>}
 
                   <button className={styles.button} type="submit" disabled={isSubmitting}>
                     {isSubmitting ? '...' : 'Увійти'}

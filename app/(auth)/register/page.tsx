@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import styles from './register.module.css';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import { api } from '@/lib/api/auth';
 
 const RegisterSchema = Yup.object({
@@ -32,6 +34,7 @@ type ApiErrorData = {
 
 export default function RegisterPage() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   return (
     <div className={styles.authWrapper}>
@@ -62,8 +65,9 @@ export default function RegisterPage() {
                 helpers.setStatus(null);
 
                 try {
-                  // ✅ напрямую на backend
-                  await api.post('/api/auth/register', values);
+                  await api.post('/auth/register', values);
+
+                  await queryClient.invalidateQueries({ queryKey: ['currentUser'] });
 
                   router.push('/');
                   router.refresh();
@@ -75,7 +79,7 @@ export default function RegisterPage() {
                     msg = data?.message ?? err.message ?? msg;
                   }
 
-                  helpers.setStatus(msg);
+                  toast.error(msg);
                 } finally {
                   helpers.setSubmitting(false);
                 }
@@ -89,7 +93,6 @@ export default function RegisterPage() {
                 handleBlur,
                 handleSubmit,
                 isSubmitting,
-                status,
               }) => (
                 <form className={styles.form} onSubmit={handleSubmit}>
                   <label className={styles.field}>
@@ -105,9 +108,7 @@ export default function RegisterPage() {
                       disabled={isSubmitting}
                     />
                     {touched.name && errors.name && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>
-                        {errors.name}
-                      </span>
+                      <span className={styles.error}>{errors.name}</span>
                     )}
                   </label>
 
@@ -124,9 +125,7 @@ export default function RegisterPage() {
                       disabled={isSubmitting}
                     />
                     {touched.email && errors.email && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>
-                        {errors.email}
-                      </span>
+                      <span className={styles.error}>{errors.email}</span>
                     )}
                   </label>
 
@@ -143,17 +142,9 @@ export default function RegisterPage() {
                       disabled={isSubmitting}
                     />
                     {touched.password && errors.password && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>
-                        {errors.password}
-                      </span>
+                      <span className={styles.error}>{errors.password}</span>
                     )}
                   </label>
-
-                  {status && (
-                    <div style={{ color: 'crimson', fontSize: 12 }}>
-                      {status}
-                    </div>
-                  )}
 
                   <button
                     className={styles.button}
