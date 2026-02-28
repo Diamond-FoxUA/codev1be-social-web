@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-
+import Logo from '@/components/Logo/Logo';
+import NavLinks from '@/components/NavLinks/NavLinks';
 import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
 
 import css from './Header.module.css';
@@ -11,10 +11,10 @@ import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
 
 import MobileMenu from '../MobileMenu/MobileMenu';
-
-import Logo from '@/components/Logo/Logo';
+import { useAuthStore } from '@/lib/store/authStore';
 
 function Header() {
+  const { isAuthenticated } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const pathname = usePathname();
@@ -31,20 +31,9 @@ function Header() {
           <Logo />
 
           <nav aria-label="Main Navigation" className={css.desktopNav}>
-            <ul className={css.navigation}>
-              <li className={css.navigationItem}>
-                <Link href="/">Головна</Link>
-              </li>
-
-              <li className={css.navigationItem}>
-                <Link href="/stories">Історії</Link>
-              </li>
-
-              <li>
-                <Link href="/travelers">Мандрівники</Link>
-              </li>
-
-              <AuthNavigation />
+            <ul className={css.navList}>
+              <NavLinks isDark={isHomePage} showProfile={isAuthenticated} />
+              <AuthNavigation isDark={isHomePage} />
             </ul>
           </nav>
 
@@ -52,6 +41,7 @@ function Header() {
             <button
               className={css.menuBtn}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Відкрити меню"
             >
               <svg className={css.menuIcon} width="24" height="24">
                 <use href="/svg/icons.svg#menu"></use>

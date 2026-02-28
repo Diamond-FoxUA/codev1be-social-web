@@ -8,7 +8,11 @@ import { logout } from '@/lib/api/clientApi';
 import css from './AuthNavigation.module.css';
 import Image from 'next/image';
 
-export default function AuthNavigation() {
+interface AuthNavigationProps {
+  isDark?: boolean;
+}
+
+function AuthNavigation({ isDark }: AuthNavigationProps) {
   const router = useRouter();
 
   const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
@@ -56,11 +60,24 @@ export default function AuthNavigation() {
         </div>
       ) : (
         <div className={css.authButtons}>
-          <Link href="/login" prefetch={false} className={css.loginLink}>
+          <Link
+            href="/login"
+            prefetch={false}
+            className={
+              isDark ? css.loginLink : `${css.loginLink} ${css.loginLinkLight}`
+            }
+          >
             Вхід
           </Link>
-
-          <Link href="/register" prefetch={false} className={css.registerBtn}>
+          <Link
+            href="/register"
+            prefetch={false}
+            className={
+              isDark
+                ? css.registerBtn
+                : `${css.registerBtn} ${css.registerBtnLight}`
+            }
+          >
             Реєстрація
           </Link>
         </div>
@@ -68,3 +85,5 @@ export default function AuthNavigation() {
     </div>
   );
 }
+
+export default AuthNavigation;
