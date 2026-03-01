@@ -37,23 +37,19 @@ export default function OurTravellers() {
 
   return (
     <div className="container">
-      <section className={`section ${css.section}`}>
+      <section className={`section ${css.section} ${css.sectionPadding}`}>
         <div className={css.inner}>
           <h2 className={css.title}>Наші Мандрівники</h2>
 
-          {loading ? (
-            <div className={css.grid}>
-              {Array.from({
-                length: 4,
-              }).map((_, index) => (
-                <Skeleton key={index} height={397} />
-              ))}
-            </div>
-          ) : (
-            <TravellersList travellers={travellers} />
-          )}
+          <div className={css.grid}>
+            {loading ? (
+              Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} height={397} />)
+            ) : (
+              <TravellersList travellers={travellers} />
+            )}
+          </div>
 
-          <Link href="/travellers" className={`${css.buttonBase} ${css.viewAllBtn}`}>
+          <Link href="/travellers" className={`${css.buttonBase} ${css.viewAllBtnMainPage}`}>
             Переглянути всіх
           </Link>
         </div>
@@ -61,3 +57,4 @@ export default function OurTravellers() {
     </div>
   );
 }
+

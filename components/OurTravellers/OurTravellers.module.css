@@ -168,6 +168,21 @@
     transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
 }
 
+.viewAllBtnMainPage {
+    width: 100%;
+    margin-top: 24px;
+    padding: 6px 12px;
+    background-color: var(--color-royal-blue);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--color-white);
+    border: 1px solid var(--color-royal-blue);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+}
+
 .viewAllBtn:hover,
 .viewAllBtn:focus {
     background-color: var(--color-royal-blue-lighter);
@@ -194,12 +209,21 @@
     .inner {
         --columns: 2;
         --card-width: 340px;
+        --gap: 24px;
+    }
+
+    .viewAllBtnMainPage {
+        width: 156px;
+        margin-right: auto;
+        margin-left: auto;
+        white-space: nowrap;
     }
     
     .viewAllBtn {
         max-width: 123px;
-        margin-left: auto;
         margin-right: auto;
+        margin-left: auto;
+        white-space: nowrap;
     }
 }
 
@@ -212,5 +236,10 @@
     .inner {
         --columns: 4;
         --card-width: 310px;
+        --gap: 24px;
+    }
+     
+    .viewAllBtnMainPage {
+        width: 173px;
     }
 }

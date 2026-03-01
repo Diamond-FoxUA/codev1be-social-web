@@ -1,7 +1,6 @@
 "use client";
 
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
+import toast from 'react-hot-toast';
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { fetchUsers } from "@/lib/api/clientApi"; 
@@ -77,13 +76,7 @@ export default function TravellersPageClient() {
   }, [travellers]);
 
   const handleLoadMore = async () => {
-    if (page >= totalPages) {
-      iziToast.info({
-        message: "Це остання сторінка",
-        position: "topRight",
-      });
-      return;
-    }
+    if (page >= totalPages) return;
 
     prevLengthRef.current = travellers.length;
 
@@ -101,6 +94,12 @@ export default function TravellersPageClient() {
   };
 
   const hasMore = page < totalPages;
+
+  useEffect(() => {
+    if (!loading && page >= totalPages && travellers.length > 0) {
+      toast("Це остання сторінка");
+    }
+  }, [page, totalPages, loading, travellers.length]);
 
   return (
     <div className={css.inner}>
