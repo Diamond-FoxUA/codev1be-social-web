@@ -53,7 +53,7 @@ export default function OurTravellers() {
             <TravellersList travellers={travellers} />
           )}
 
-          <Link href="/travellers" className={css.viewAllBtn}>
+          <Link href="/travellers" className={`${css.buttonBase} ${css.viewAllBtn}`}>
             Переглянути всіх
           </Link>
         </div>
