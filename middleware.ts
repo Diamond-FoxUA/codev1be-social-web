@@ -35,7 +35,7 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     '/profile',
-    '/stories/create',
+    // '/stories/create',
     '/stories/:storyId/edit',
     '/edit',
     '/login',

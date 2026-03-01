@@ -72,3 +72,27 @@ export interface UpdateStoryData {
   category?: string; // ObjectId string
   img?: File | string | null;
 }
+
+export interface StoryCardUser {
+  _id: string;
+  name: string;
+  avatarUrl?: string;
+  totalFavorites?: number;
+}
+
+export interface StoryCardBase {
+  _id: string;
+  img: string;
+  title: string;
+  article?: string;
+  description?: string;
+  category: string;
+  ownerId: string;
+  favoriteCount: number;
+  favouriteCount?: number;
+  date: string;
+}
+
+export interface StoryCard extends StoryCardBase {
+  ownerUser?: StoryCardUser;
+}

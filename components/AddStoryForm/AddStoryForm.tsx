@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 
-import css from './AddStoryForm.module.css';
+import css from '@/components/AddStoryForm/AddStoryForm.module.css';
 import StoryFormImage from '../StoryFormImage/StoryFormImage';
 import FormSelect from '../FormSelect/FormSelect';
 
@@ -233,6 +233,7 @@ export default function AddStoryForm({ initialValues }: AddStoryFormProps) {
                   as="textarea"
                   name="article"
                   className={`${css.formTextarea} ${
+                    submitCount > 0 && errors.article ? css.inputError : ''
                     submitCount > 0 && errors.article ? css.inputError : ''
                   }`}
                   placeholder="Ваша історія тут"
