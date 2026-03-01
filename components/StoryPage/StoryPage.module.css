@@ -4,17 +4,12 @@
   width: 375px;
   color: var(--background);
   background: var(--color-scheme-2-background);
-
   margin: 0 auto;
 }
 
 .article,
 .header {
   width: 335px;
-}
-
-.header {
-  padding-top: 32px;
 }
 
 .title {
@@ -40,7 +35,7 @@
   font-weight: 700;
   font-size: 16px;
   color: var(--color-scheme-2-text);
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
 }
 
 .accent {
@@ -67,7 +62,7 @@
   height: 223px;
   margin: 16px 0 32px;
   display: block;
-  background-color: var(--color-neutral-light); /**/
+  background-color: var(--color-neutral-light);
 }
 
 .textArticle {
@@ -93,6 +88,7 @@
   .headerGroup {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 48px;
   }
 
@@ -138,9 +134,7 @@
   .title {
     width: 1312px;
   }
-  .header {
-    padding-top: 48px;
-  }
+
   .headerGroup {
     margin-top: 32px;
   }
@@ -167,6 +161,7 @@
   .textArticleGroup {
     display: flex;
     gap: 24px;
+    padding-top: 48px;
   }
   .textArticle {
     font-size: 18px;
@@ -177,6 +172,7 @@
   .saveContainer {
     display: inline-block;
     width: 418px;
+    /* padding-top: 48px; */
   }
   .titleSaveContainer {
     font-size: 26px;
