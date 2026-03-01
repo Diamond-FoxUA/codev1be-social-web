@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import css from './AddStoryForm.module.css';
+import css from '@/components/AddStoryForm/AddStoryForm.module.css';
 import StoryFormImage from '../StoryFormImage/StoryFormImage';
 import FormSelect from '../FormSelect/FormSelect';
 import { createStory, updateStory } from '@/lib/api/clientApi';
