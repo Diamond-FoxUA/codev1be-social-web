@@ -10,8 +10,14 @@ import { api } from '@/lib/api/auth';
 
 const RegisterSchema = Yup.object({
   name: Yup.string().trim().max(32, 'Max 32').required("Обов'язково"),
-  email: Yup.string().email('Невірний email').max(64, 'Max 64').required("Обов'язково"),
-  password: Yup.string().min(8, 'Min 8').max(138, 'Max 138').required("Обов'язково"),
+  email: Yup.string()
+    .email('Невірний email')
+    .max(64, 'Max 64')
+    .required("Обов'язково"),
+  password: Yup.string()
+    .min(8, 'Min 8')
+    .max(138, 'Max 138')
+    .required("Обов'язково"),
 });
 
 type RegisterValues = {
@@ -33,7 +39,10 @@ export default function RegisterPage() {
         <div className={styles.inner}>
           <div className={styles.content}>
             <div className={styles.tabs}>
-              <Link href="/register" className={`${styles.tab} ${styles.tabActive}`}>
+              <Link
+                href="/register"
+                className={`${styles.tab} ${styles.tabActive}`}
+              >
                 Реєстрація
               </Link>
               <Link href="/login" className={styles.tab}>
@@ -42,7 +51,9 @@ export default function RegisterPage() {
             </div>
 
             <h1 className={styles.title}>Реєстрація</h1>
-            <p className={styles.subtitle}>Раді вас бачити у спільноті мандрівників!</p>
+            <p className={styles.subtitle}>
+              Раді вас бачити у спільноті мандрівників!
+            </p>
 
             <Formik<RegisterValues>
               initialValues={{ name: '', email: '', password: '' }}
@@ -52,7 +63,7 @@ export default function RegisterPage() {
 
                 try {
                   // ✅ напрямую на backend
-                  await api.post('/auth/register', values);
+                  await api.post('/api/auth/register', values);
 
                   router.push('/');
                   router.refresh();
@@ -94,7 +105,9 @@ export default function RegisterPage() {
                       disabled={isSubmitting}
                     />
                     {touched.name && errors.name && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>{errors.name}</span>
+                      <span style={{ color: 'crimson', fontSize: 12 }}>
+                        {errors.name}
+                      </span>
                     )}
                   </label>
 
@@ -111,7 +124,9 @@ export default function RegisterPage() {
                       disabled={isSubmitting}
                     />
                     {touched.email && errors.email && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>{errors.email}</span>
+                      <span style={{ color: 'crimson', fontSize: 12 }}>
+                        {errors.email}
+                      </span>
                     )}
                   </label>
 
@@ -128,13 +143,23 @@ export default function RegisterPage() {
                       disabled={isSubmitting}
                     />
                     {touched.password && errors.password && (
-                      <span style={{ color: 'crimson', fontSize: 12 }}>{errors.password}</span>
+                      <span style={{ color: 'crimson', fontSize: 12 }}>
+                        {errors.password}
+                      </span>
                     )}
                   </label>
 
-                  {status && <div style={{ color: 'crimson', fontSize: 12 }}>{status}</div>}
+                  {status && (
+                    <div style={{ color: 'crimson', fontSize: 12 }}>
+                      {status}
+                    </div>
+                  )}
 
-                  <button className={styles.button} type="submit" disabled={isSubmitting}>
+                  <button
+                    className={styles.button}
+                    type="submit"
+                    disabled={isSubmitting}
+                  >
                     {isSubmitting ? '...' : 'Зареєструватись'}
                   </button>
                 </form>
