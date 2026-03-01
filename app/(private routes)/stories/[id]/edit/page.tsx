@@ -15,9 +15,11 @@ const EditStoryPage = async ({ params }: Props) => {
     _id: story._id,
     img: story.img || null,
     title: story.title || '',
-    category: story.category || '',
+    category: story.category._id || '',
     article: story.article || '',
   };
+
+  
 
   return (
     <section>

@@ -146,10 +146,15 @@ const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
                 <label className={css.formLabel}>Категорія</label>
                 <FormSelect
                   options={[
-                    { value: 'Європа', label: 'Європа' },
-                    { value: 'Азія', label: 'Азія' },
-                    { value: 'Пустелі', label: 'Пустелі' },
-                    { value: 'Африка', label: 'Африка' },
+                    { value: '68fb50c80ae91338641121f2', label: 'Європа' },
+                    { value: '68fb50c80ae91338641121f0', label: 'Азія' },
+                    { value: '68fb50c80ae91338641121f6', label: 'Пустелі' },
+                    { value: '68fb50c80ae91338641121f4', label: 'Африка' },
+                    { value: '68fb50c80ae91338641121f1', label: 'Гори' },
+                    { value: '68fb50c80ae91338641121f3', label: 'Америка' },
+                    { value: '68fb50c80ae91338641121f7', label: 'Балкани' },
+                    { value: '68fb50c80ae91338641121f8', label: 'Кавказ' },
+                    { value: '68fb50c80ae91338641121f9', label: 'Океанія' },
                   ]}
                   value={values.category}
                   onChange={(val) => {

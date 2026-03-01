@@ -25,7 +25,7 @@ const CreateStoryPage = () => {
     img: null,
     title: '',
     category: '',
-    description: '',
+    article: '',
   };
 
   return (
