@@ -10,11 +10,11 @@ export function middleware(req: NextRequest) {
   const isAuthenticated = Boolean(accessToken || refreshToken);
 
   // PRIVATE ROUTES
-  const isPrivateRoute =
-    pathname.startsWith('/profile') ||
-    pathname === '/stories/create' ||
-    pathname === '/edit' ||
-    (pathname.startsWith('/stories/') && pathname.endsWith('/edit'));
+  const isPrivateRoute = pathname.startsWith('/profile');
+  //  ||
+  // pathname === '/stories/create' ||
+  // pathname === '/edit' ||
+  // (pathname.startsWith('/stories/') && pathname.endsWith('/edit'));
 
   // GUEST ONLY ROUTES
   const isGuestRoute = pathname === '/login' || pathname === '/register';
@@ -35,7 +35,7 @@ export function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     '/profile',
-    // '/stories/create',
+    '/stories/create',
     '/stories/:storyId/edit',
     '/edit',
     '/login',
