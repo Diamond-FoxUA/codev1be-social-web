@@ -1,13 +1,16 @@
-"use client";
+'use client';
 
-import toast from 'react-hot-toast';
-import { useState, useEffect } from "react";
-import { useRef } from "react";
-import { fetchUsers } from "@/lib/api/clientApi"; 
-import type { User } from "@/types/user";
-import TravellersList from "@/components/OurTravellers/TravellersList";
-import Skeleton from "@/components/Skeleton/Skeleton";
-import css from "@/components/OurTravellers/OurTravellers.module.css";
+import { useState, useEffect } from 'react';
+import { useRef } from 'react';
+
+import { fetchUsers } from '@/lib/api/clientApi';
+import type { User } from '@/types/user';
+
+import TravellersList from '@/components/OurTravellers/TravellersList';
+import Skeleton from '@/components/Skeleton/Skeleton';
+import css from '@/components/OurTravellers/OurTravellers.module.css';
+
+let iziToast: typeof import("izitoast").default | null = null;
 
 export default function TravellersPageClient() {
   const [travellers, setTravellers] = useState<User[]>([]);
@@ -15,9 +18,16 @@ export default function TravellersPageClient() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [initialCards, setInitialCards] = useState<number>(12);
-    
+
   const gridRef = useRef<HTMLDivElement | null>(null);
   const prevLengthRef = useRef(0);
+
+  useEffect(() => {
+    import("izitoast").then((mod) => {
+      iziToast = mod.default;
+    });
+  }, []);
+
 
   // Визначення початкової кількості карток по ширині вікна
   useEffect(() => {
@@ -28,26 +38,26 @@ export default function TravellersPageClient() {
     }
 
     determineInitialCards();
-    window.addEventListener("resize", determineInitialCards);
-    return () => window.removeEventListener("resize", determineInitialCards);
+    window.addEventListener('resize', determineInitialCards);
+    return () => window.removeEventListener('resize', determineInitialCards);
   }, []);
-    
+
   // початкове завантаження з Promise.all
   useEffect(() => {
     async function loadInitial() {
       setLoading(true);
       try {
-        const pagesToLoad = Math.ceil(initialCards / 4); // 4 картки на сторінку
+        const pagesToLoad = Math.ceil(initialCards / 4);
         const promises = Array.from({ length: pagesToLoad }, (_, i) =>
-          fetchUsers({ page: i + 1, perPage: 4 })
+          fetchUsers({ page: i + 1, perPage: 4 }),
         );
         const results = await Promise.all(promises);
-        const allUsers = results.flatMap(r => r.users);
+        const allUsers = results.flatMap((r) => r.users);
         setTravellers(allUsers.slice(0, initialCards));
         setPage(pagesToLoad);
         setTotalPages(results[0].totalPages);
       } catch (err) {
-        console.error("Failed to load travellers", err);
+        console.error('Failed to load travellers', err);
       } finally {
         setLoading(false);
       }
@@ -55,7 +65,7 @@ export default function TravellersPageClient() {
 
     loadInitial();
   }, [initialCards]);
-    
+
   useEffect(() => {
     const grid = gridRef.current;
     if (!grid) return;
@@ -69,13 +79,14 @@ export default function TravellersPageClient() {
 
     if (newCard instanceof HTMLElement) {
       newCard.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
+        behavior: 'smooth',
+        block: 'start',
       });
     }
   }, [travellers]);
 
   const handleLoadMore = async () => {
+
     if (page >= totalPages) return;
 
     prevLengthRef.current = travellers.length;
@@ -84,10 +95,10 @@ export default function TravellersPageClient() {
     try {
       const nextPage = page + 1;
       const data = await fetchUsers({ page: nextPage, perPage: 4 });
-      setTravellers(prev => [...prev, ...data.users]);
+      setTravellers((prev) => [...prev, ...data.users]);
       setPage(nextPage);
     } catch (err) {
-      console.error("Failed to load more travellers", err);
+      console.error('Failed to load more travellers', err);
     } finally {
       setLoading(false);
     }
@@ -95,22 +106,24 @@ export default function TravellersPageClient() {
 
   const hasMore = page < totalPages;
 
-  useEffect(() => {
-    if (!loading && page >= totalPages && travellers.length > 0) {
-      toast("Це остання сторінка");
+useEffect(() => {
+    if (!loading && page >= totalPages && travellers.length > 0 && iziToast) {
+      iziToast.show({
+        message: 'Це остання сторінка',
+      });
     }
   }, [page, totalPages, loading, travellers.length]);
 
   return (
     <div className={css.inner}>
-
       <div className={css.grid} ref={gridRef}>
-        {loading && travellers.length === 0
-          ? Array.from({ length: initialCards }).map((_, index) => (
-              <Skeleton key={index} />
-            ))
-          : <TravellersList travellers={travellers} />
-        }
+        {loading && travellers.length === 0 ? (
+          Array.from({ length: initialCards }).map((_, index) => (
+            <Skeleton key={index} />
+          ))
+        ) : (
+          <TravellersList travellers={travellers} />
+        )}
       </div>
 
       {hasMore && (
@@ -120,10 +133,9 @@ export default function TravellersPageClient() {
           onClick={handleLoadMore}
           disabled={loading}
         >
-          {loading ? "Завантаження..." : "Показати ще"}
+          {loading ? 'Завантаження...' : 'Показати ще'}
         </button>
       )}
-                  
     </div>
   );
 }
