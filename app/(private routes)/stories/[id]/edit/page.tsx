@@ -9,7 +9,6 @@ interface Props {
 const EditStoryPage = async ({ params }: Props) => {
   const { id } = params;
 
-  // Просто получаем данные. Если упадет — сработает глобальный error.js
   const story = await getStoryById(id);
 
   const initialValues = {
