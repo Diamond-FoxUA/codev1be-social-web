@@ -29,7 +29,6 @@ const FormSelect: React.FC<SelectProps> = ({ options, value, onChange }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const toggleOpen = () => setIsOpen(!isOpen);
-  // close on click out of component
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
@@ -47,6 +46,7 @@ const FormSelect: React.FC<SelectProps> = ({ options, value, onChange }) => {
     onChange(val);
     setIsOpen(false);
   };
+  const selectedLabel = options.find((o) => o.value === value)?.label ?? '';
 
   return (
     <div
@@ -54,8 +54,8 @@ const FormSelect: React.FC<SelectProps> = ({ options, value, onChange }) => {
       className={`${css.simpleSelect} ${isOpen ? css.active : ''}`}
     >
       <div className={css.header} onClick={toggleOpen}>
-        <span className={!value ? css.placeholder : ''}>
-          {value || 'Категорія'}
+        <span className={!selectedLabel ? css.placeholder : ''}>
+          {selectedLabel || 'Категорія'}
         </span>
         <span className={css.arrow}>
           <Icon id="down" />

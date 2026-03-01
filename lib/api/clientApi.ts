@@ -1,7 +1,13 @@
+// --- Типи для запитів ---
 import nextServer from '@/lib/api/api';
 
-import type { User } from '@/types/user';
-import type { Story, CreateStoryData, UpdateStoryData } from '@/types/story';
+import { User } from '@/types/user';
+import {
+  Story,
+  CreateStoryData,
+  UpdateStoryData,
+  Category,
+} from '@/types/story';
 
 /* ---------------- AUTH ---------------- */
 
@@ -32,10 +38,10 @@ export async function logout(): Promise<void> {
   await nextServer.post('/auth/logout');
 }
 
-export async function getMe(): Promise<User> {
-  const response = await nextServer.get('/users/me');
-  return response.data;
-}
+export const getMe = async (): Promise<User> => {
+  const { data } = await nextServer.get('/users/me'); // Або /auth/me залежно від бекенду
+  return data;
+};
 
 /* ---------------- USERS ---------------- */
 
@@ -63,7 +69,7 @@ export async function fetchUsers(
 
 interface UpdateMeProps {
   name: string;
-  description: string;
+  article: string;
 }
 
 export async function updateMe(data: UpdateMeProps): Promise<User> {
@@ -119,48 +125,45 @@ export async function fetchPopularStories(): Promise<{
   const response = await nextServer.get('/stories/popular');
   return response.data;
 }
-
+export async function fetchCategories(): Promise<Category[]> {
+  const { data } = await nextServer.get('/categories');
+  return data;
+}
 export async function fetchStoryById(id: string): Promise<Story> {
   const response = await nextServer.get(`/stories/${id}`);
   return response.data;
 }
 
-export interface NewStory {
-  title: string;
-  description: string;
-  category: string;
-  img?: string;
-}
-
-export async function createStory(payload: CreateStoryData) {
+export async function createStory(payload: CreateStoryData): Promise<Story> {
   const formData = new FormData();
-  Object.entries(payload).forEach(([key, value]) => {
-    if (key === 'img' && value instanceof File) {
-      formData.append('storyImage', value); // Мапим img -> storyImage для бeка
-    } else if (value !== null && value !== undefined) {
-      formData.append(key, value as string);
-    }
-  });
-  
-  const response = await nextServer.post<Story>('/stories', formData);
-  return response.data;
-}
 
-export async function updateStory(payload: UpdateStoryData, storyId: string) {
-  const formData = new FormData();
-  
+  if (payload.img instanceof File) formData.append('storyImage', payload.img);
   formData.append('title', payload.title);
-  formData.append('description', payload.article);
+  formData.append('article', payload.article);
   formData.append('category', payload.category);
-  
-  if (payload.img instanceof File) {
-    formData.append('storyImage', payload.img);
-  } else if (typeof payload.img === 'string') {
-    formData.append('img', payload.img);
-  }
-  
-  const response = await nextServer.patch<Story>(`/stories/${storyId}`, formData);
-  return response.data;
+
+  const { data } = await nextServer.post<Story>('/stories', formData);
+  return data;
+}
+
+export async function updateStory(
+  payload: UpdateStoryData,
+  id: string,
+): Promise<Story> {
+  const formData = new FormData();
+
+  if (payload.title !== undefined) formData.append('title', payload.title);
+  if (payload.article !== undefined)
+    formData.append('article', payload.article);
+  if (payload.category !== undefined)
+    formData.append('category', payload.category);
+  if (payload.img instanceof File) formData.append('storyImage', payload.img);
+
+  const { data } = await nextServer.patch<Story>(
+    `/stories/${id}/edit`,
+    formData,
+  );
+  return data;
 }
 
 /* ---------------- FAVORITES ---------------- */
