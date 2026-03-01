@@ -33,7 +33,7 @@ const validationSchema = Yup.object({
     .required('Заголовок обовʼязковий')
     .max(MAX_TITLE, `Максимум ${MAX_TITLE} символів`),
   category: Yup.string().required('Оберіть категорію'),
-  description: Yup.string()
+  article: Yup.string()
     .required('Текст історії обовʼязковий')
     .max(MAX_TEXT, `Максимум ${MAX_TEXT} символів`),
 });
@@ -74,7 +74,7 @@ const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
         img: initialValues?.img || null,
         title: initialValues?.title || '',
         category: initialValues?.category || '',
-        description: initialValues?.description || '',
+        article: initialValues?.article || '',
       }
     : draft;
 
@@ -111,7 +111,7 @@ const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
             (isEditing ? dirty : true) &&
             !!values.img &&
             !!values.title &&
-            !!values.description &&
+            !!values.article &&
             !!values.category;
 
           return (
@@ -163,7 +163,7 @@ const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
                   as="textarea"
                   name="description"
                   className={`${css.formTextarea} ${
-                    submitCount > 0 && errors.description ? css.inputError : ''
+                    submitCount > 0 && errors.article ? css.inputError : ''
                   }`}
                   placeholder="Ваша історія тут"
                 />

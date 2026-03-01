@@ -73,7 +73,7 @@ export interface CreateStoryData {
 }
 export interface UpdateStoryData {
   title: string;
-  description: string;
+  article: string;
   category: string;
   img?: File | string | null;
 }

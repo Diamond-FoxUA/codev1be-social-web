@@ -133,7 +133,6 @@ export interface NewStory {
 }
 
 export async function createStory(payload: CreateStoryData) {
-  const response = await nextServer.post('/stories', story);
   const formData = new FormData();
   Object.entries(payload).forEach(([key, value]) => {
     if (key === 'img' && value instanceof File) {
@@ -143,7 +142,7 @@ export async function createStory(payload: CreateStoryData) {
     }
   });
   
-  const response = await nextServer.poat<Story>('/stories', formData);
+  const response = await nextServer.post<Story>('/stories', formData);
   return response.data;
 }
 
@@ -151,7 +150,7 @@ export async function updateStory(payload: UpdateStoryData, storyId: string) {
   const formData = new FormData();
   
   formData.append('title', payload.title);
-  formData.append('description', payload.description);
+  formData.append('description', payload.article);
   formData.append('category', payload.category);
   
   if (payload.img instanceof File) {

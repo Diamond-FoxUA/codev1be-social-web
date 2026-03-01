@@ -1,4 +1,4 @@
-import { getStoryById } from '@/lib/api/clientApi';
+import { fetchStoryById } from '@/lib/api/clientApi';
 import AddStoryForm from '@/components/AddStoryForm/AddStoryForm';
 import css from './CreateStory.module.css';
 
@@ -9,14 +9,14 @@ interface Props {
 const EditStoryPage = async ({ params }: Props) => {
   const { id } = params;
 
-  const story = await getStoryById(id);
+  const story = await fetchStoryById(id);
 
   const initialValues = {
     _id: story._id,
     img: story.img || null,
     title: story.title || '',
     category: story.category || '',
-    description: story.description || '',
+    article: story.article || '',
   };
 
   return (

@@ -1,21 +1,17 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+import type { CreateStoryData } from '@/types/story';
+
 const initialDraft: CreateStoryData = {
   title: '',
-  description: '',
+  article: '',
   category: '',
 };
 interface StoryStore {
   draft: CreateStoryData;
   setDraft: (story: Partial<CreateStoryData>) => void;
   clearDraft: () => void;
-}
-
-const initialDraft:  CreateStoryData = {
-  title: '',
-  article: '',
-  category: '',
 }
 
 export const useStoryStore = create<StoryStore>()(
