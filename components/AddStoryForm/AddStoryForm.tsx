@@ -1,121 +1,197 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Formik, Form, Field, ErrorMessage, useFormikContext } from 'formik';
 import * as Yup from 'yup';
 
 import css from './AddStoryForm.module.css';
 import StoryFormImage from '../StoryFormImage/StoryFormImage';
 import FormSelect from '../FormSelect/FormSelect';
-import { createStory, updateStory } from '@/lib/api/clientApi';
-import { UpdateStoryData } from '@/types/story';
+
+import { createStory, updateStory, fetchCategories } from '@/lib/api/clientApi';
+import type { UpdateStoryData, Story } from '@/types/story';
 import { useStoryStore } from '@/lib/store/storyStore';
+import AuthNavModal from '../AuthNavModal/AuthNavModal';
 
 const MAX_TITLE = 80;
 const MAX_TEXT = 2500;
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
-const validationSchema = Yup.object({
-  img: Yup.mixed()
-    .notRequired()
-    .test('img-validation', 'Validation Error', function (value) {
-      if (!value) {
-        return this.createError({ message: 'Обкладинка статті обовʼязкова' });
-      }
-      if (value instanceof File && value.size > MAX_FILE_SIZE) {
-        return this.createError({ message: 'Максимальний розмір фото 2MB' });
-      }
-      return true;
-    }),
+const baseSchema = {
   title: Yup.string()
-    .required('Заголовок обовʼязковий')
-    .max(MAX_TITLE, `Максимум ${MAX_TITLE} символів`),
-  category: Yup.string().required('Оберіть категорію'),
-  description: Yup.string()
-    .required('Текст історії обовʼязковий')
-    .max(MAX_TEXT, `Максимум ${MAX_TEXT} символів`),
+    .required('Title is required')
+    .min(5, 'Minimum 5 characters')
+    .max(MAX_TITLE, `Maximum ${MAX_TITLE} characters`),
+
+  category: Yup.string().required('Please select a category'),
+
+  article: Yup.string()
+    .required('Story text is required')
+    .min(5, 'Minimum 5 characters')
+    .max(MAX_TEXT, `Maximum ${MAX_TEXT} characters`),
+};
+
+const createValidationSchema = Yup.object({
+  img: Yup.mixed<File>()
+    .nullable()
+    .required('Cover image is required')
+    .test('fileSize', 'Max image size is 2MB', (value) => {
+      if (!(value instanceof File)) return false; // ✅ create: строго File
+      return value.size <= MAX_FILE_SIZE;
+    }),
+  ...baseSchema,
 });
 
+const editValidationSchema = Yup.object({
+  img: Yup.mixed<File | string>()
+    .required('Cover image is required')
+    .test('fileSize', 'Max image size is 2MB', (value) => {
+      if (!value) return false;
+      if (value instanceof File) return value.size <= MAX_FILE_SIZE;
+      return typeof value === 'string' && value.length > 0; // ✅ edit: URL ок
+    }),
+  ...baseSchema,
+});
+
+type StoryFormValues = {
+  img: File | string | null;
+  title: string;
+  category: string;
+  article: string;
+};
+
+type AddStoryFormInitialValues = StoryFormValues & { _id?: string };
+
 interface AddStoryFormProps {
-  initialValues?: UpdateStoryData & { _id?: string };
+  initialValues?: AddStoryFormInitialValues | null;
 }
 
-const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
+function normalizeCategory(cat: unknown): string {
+  if (!cat) return '';
+  if (typeof cat === 'string') return cat;
+
+  if (typeof cat === 'object' && cat !== null && '_id' in cat) {
+    const id = (cat as { _id: unknown })._id;
+    return typeof id === 'string' ? id : '';
+  }
+
+  return '';
+}
+
+function DraftSync({ enabled }: { enabled: boolean }) {
+  const { values } = useFormikContext<StoryFormValues>();
+  const { setDraft } = useStoryStore();
+
+  useEffect(() => {
+    if (enabled) setDraft(values);
+  }, [enabled, values, setDraft]);
+
+  return null;
+}
+
+export default function AddStoryForm({ initialValues }: AddStoryFormProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { draft, clearDraft } = useStoryStore();
+
   const [errorModal, setErrorModal] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-  const { draft, setDraft, clearDraft } = useStoryStore();
 
   const isEditing = !!initialValues?._id;
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+
+  const { data: categories = [], isLoading: catLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
+
+  const options = useMemo(
+    () => categories.map((c) => ({ value: c._id, label: c.name })),
+    [categories],
+  );
+
+  const defaultValues: StoryFormValues = useMemo(() => {
+    if (isEditing) {
+      return {
+        img: initialValues?.img ?? null,
+        title: initialValues?.title ?? '',
+        category: normalizeCategory(initialValues?.category),
+        article: initialValues?.article ?? '',
+      };
+    }
+
+    return {
+      img: draft.img ?? null,
+      title: draft.title ?? '',
+      category: draft.category ?? '',
+      article: draft.article ?? '',
+    };
+  }, [isEditing, initialValues, draft]);
+
   const { mutate, isPending } = useMutation({
-    mutationFn: (values: UpdateStoryData) => {
+    mutationFn: async (values: StoryFormValues) => {
       if (isEditing && initialValues?._id) {
-        return updateStory(values, initialValues._id);
+        const payload: UpdateStoryData = {
+          title: values.title,
+          article: values.article,
+          category: values.category,
+          img: values.img,
+        };
+        return updateStory(payload, initialValues._id);
       }
-      return createStory(values);
+
+      const payload = {
+        title: values.title,
+        article: values.article,
+        category: values.category,
+        img: values.img,
+      };
+      return createStory(payload);
     },
-    onSuccess: (data: any) => {
+    onSuccess: (story: Story) => {
       queryClient.invalidateQueries({ queryKey: ['stories'] });
       if (!isEditing) clearDraft();
-      const finalId = data._id || initialValues?._id;
-      router.push(`/stories/${finalId}`);
+      router.push(`/stories/${story._id}`);
     },
     onError: () => setErrorModal(true),
   });
 
-  const defaultValues: UpdateStoryData = isEditing
-    ? {
-        img: initialValues?.img || null,
-        title: initialValues?.title || '',
-        category: initialValues?.category || '',
-        description: initialValues?.description || '',
-      }
-    : draft;
-
-  if (!isMounted) {
+  if (catLoading) {
     return <div className={css.formWrapper}>Loading...</div>;
   }
+
   return (
     <div className={css.formWrapper}>
-      <Formik
+      <Formik<StoryFormValues>
         initialValues={defaultValues}
-        validationSchema={validationSchema}
+        validationSchema={
+          isEditing ? editValidationSchema : createValidationSchema
+        }
         enableReinitialize
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={(values) => mutate(values)}
+        onSubmit={(values: StoryFormValues) => mutate(values)}
       >
         {({
           values,
           setFieldValue,
           setFieldTouched,
-          isValid,
-          dirty,
           errors,
           submitCount,
+          dirty,
         }) => {
-          useEffect(() => {
-            if (!isEditing) {
-              setDraft(values);
-            }
-          }, [values, isEditing, setDraft]);
+          const titleOk = (values.title ?? '').trim().length >= 5;
+          const articleOk = (values.article ?? '').trim().length >= 5;
 
-          const canSubmit =
-            isValid &&
-            (isEditing ? dirty : true) &&
-            !!values.img &&
-            !!values.title &&
-            !!values.description &&
-            !!values.category;
+          const isFilled =
+            !!values.img && titleOk && articleOk && !!values.category;
+
+          const canSubmit = isFilled && (isEditing ? dirty : true);
 
           return (
             <Form className={css.form}>
+              <DraftSync enabled={!isEditing} />
+
               <div className={css.columLeft}>
                 <p className={css.formLabel}>Обкладинка статті</p>
 
@@ -123,16 +199,17 @@ const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
                   initialFile={values.img}
                   onFileSelect={async (file) => {
                     await setFieldValue('img', file);
+
                     if (file && file.size > MAX_FILE_SIZE) {
                       setFieldTouched('img', true, true);
                     } else {
-                      setFieldTouched('img', false);
+                      setFieldTouched('img', true, false);
                     }
                   }}
                 />
                 <ErrorMessage name="img" component="p" className="error" />
 
-                <label className={css.formLabel}>Заголовок</label>
+                <label className={css.formLabel}>Загаловок</label>
                 <Field
                   name="title"
                   type="text"
@@ -145,33 +222,22 @@ const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
 
                 <label className={css.formLabel}>Категорія</label>
                 <FormSelect
-                  options={[
-                    { value: 'Європа', label: 'Європа' },
-                    { value: 'Азія', label: 'Азія' },
-                    { value: 'Пустелі', label: 'Пустелі' },
-                    { value: 'Африка', label: 'Африка' },
-                  ]}
-                  value={values.category}
-                  onChange={(val) => {
-                    setFieldValue('category', val);
-                  }}
+                  options={options}
+                  value={values.category || ''}
+                  onChange={(val) => setFieldValue('category', val)}
                 />
                 <ErrorMessage name="category" component="p" className="error" />
 
                 <label className={css.formLabel}>Текст історії</label>
                 <Field
                   as="textarea"
-                  name="description"
+                  name="article"
                   className={`${css.formTextarea} ${
-                    submitCount > 0 && errors.description ? css.inputError : ''
+                    submitCount > 0 && errors.article ? css.inputError : ''
                   }`}
                   placeholder="Ваша історія тут"
                 />
-                <ErrorMessage
-                  name="description"
-                  component="p"
-                  className="error"
-                />
+                <ErrorMessage name="article" component="p" className="error" />
               </div>
 
               <div className={css.columRight}>
@@ -185,8 +251,8 @@ const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
                   {isPending
                     ? 'Збереження...'
                     : isEditing
-                      ? 'Редагувати'
-                      : 'Створити'}
+                      ? 'Оновити'
+                      : 'Зберегти'}
                 </button>
 
                 <button
@@ -207,11 +273,9 @@ const AddStoryForm = ({ initialValues }: AddStoryFormProps) => {
           className={css.modalPlaceholder}
           onClick={() => setErrorModal(false)}
         >
-          <p>Помилка при збереженні. Спробуйте ще раз.</p>
+          <AuthNavModal />
         </div>
       )}
     </div>
   );
-};
-
-export default AddStoryForm;
+}

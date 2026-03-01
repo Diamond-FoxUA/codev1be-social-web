@@ -1,6 +1,6 @@
-import { getStoryById } from '@/lib/api/clientApi';
+import { fetchStoryById } from '@/lib/api/clientApi';
 import AddStoryForm from '@/components/AddStoryForm/AddStoryForm';
-import css from './CreateStory.module.css';
+import css from './EditStoryPage.module.css';
 
 interface Props {
   params: { id: string };
@@ -9,20 +9,20 @@ interface Props {
 const EditStoryPage = async ({ params }: Props) => {
   const { id } = params;
 
-  const story = await getStoryById(id);
+  const story = await fetchStoryById(id);
 
   const initialValues = {
     _id: story._id,
     img: story.img || null,
     title: story.title || '',
-    category: story.category || '',
-    description: story.description || '',
+    category: story.category?._id || '',
+    article: story.article || '',
   };
 
   return (
     <section>
       <div className="container">
-        <h1 className={css.createStoryTitle}>Редагувати історію</h1>
+        <h1 className="createStoryTitle">Редагувати історію</h1>
         <AddStoryForm initialValues={initialValues} />
       </div>
     </section>

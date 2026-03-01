@@ -1,8 +1,16 @@
-import { nextServer } from './api'; // Шлях до вашого axios екземпляра
-import type { Story, CreateStoryData, UpdateStoryData } from '@/types/story'; // Тип, який ми створювали раніше
-import type { User } from '@/types/user';
-
 // --- Типи для запитів ---
+import nextServer from '@/lib/api/api';
+
+import { User } from '@/types/user';
+import {
+  Story,
+  CreateStoryData,
+  UpdateStoryData,
+  Category,
+} from '@/types/story';
+
+/* ---------------- AUTH ---------------- */
+
 export type RegisterRequest = {
   name: string;
   email: string;
@@ -14,81 +22,180 @@ export type LoginRequest = {
   password: string;
 };
 
-// --- AUTH API ---
-export const register = async (userData: RegisterRequest): Promise<User> => {
-  const { data } = await nextServer.post('/auth/register', userData);
-  return data;
-};
+export async function register(data: RegisterRequest): Promise<User> {
+  const response = await nextServer.post('/auth/register', data);
 
-export const login = async (credentials: LoginRequest): Promise<User> => {
-  const { data } = await nextServer.post('/auth/login', credentials);
-  return data;
-};
+  return response.data;
+}
 
-export const logout = async (): Promise<void> => {
+export async function login(data: LoginRequest): Promise<User> {
+  const response = await nextServer.post('/auth/login', data);
+
+  return response.data;
+}
+
+export async function logout(): Promise<void> {
   await nextServer.post('/auth/logout');
-};
+}
 
 export const getMe = async (): Promise<User> => {
   const { data } = await nextServer.get('/users/me'); // Або /auth/me залежно від бекенду
   return data;
 };
 
-// --- STORIES API (на майбутнє для Історій) ---
-export const fetchStories = async () => {
-  const { data } = await nextServer.get('/stories');
-  return data;
-};
+/* ---------------- USERS ---------------- */
 
-export const getStoryById = async (storyId: string): Promise<Story> => {
-  const { data } = await nextServer.get(`/api/stories/${storyId}`);
-  return data;
-};
+export interface FetchUsersProps {
+  page: number;
+  perPage: number;
+}
 
-export async function createStory(payload: CreateStoryData) {
-  //  multer => FormData
+export interface UsersHttpResponse {
+  page: number;
+  perPage: number;
+  totalAuthors: number;
+  totalPages: number;
+  users: User[];
+}
+
+export async function fetchUsers(
+  params: FetchUsersProps,
+): Promise<UsersHttpResponse> {
+  const response = await nextServer.get('/users', {
+    params,
+  });
+  return response.data;
+}
+
+interface UpdateMeProps {
+  name: string;
+  article: string;
+}
+
+export async function updateMe(data: UpdateMeProps): Promise<User> {
+  const response = await nextServer.patch('/users/me', data);
+  return response.data;
+}
+
+export async function updateAvatar(file: File): Promise<string> {
   const formData = new FormData();
-  Object.entries(payload).forEach(([key, value]) => {
-    if (key === 'img' && value instanceof File) {
-      formData.append('storyImage', value); // Мапим img -> storyImage для бeка
-    } else if (value !== null && value !== undefined) {
-      formData.append(key, value as string);
-    }
+
+  formData.append('avatar', file);
+
+  const response = await nextServer.patch('/users/avatar', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 
-  const { data } = await nextServer.post<Story>('api/stories', formData);
+  return response.data.url;
+}
+
+/* ---------------- STORIES ---------------- */
+
+export interface StoriesHttpResponse {
+  stories: Story[];
+  totalStories: number;
+  page: number;
+  perPage: number;
+  totalPages: number;
+}
+
+export interface FetchStoriesProps {
+  page: number;
+  perPage: number;
+  category?: string;
+}
+
+export async function fetchStories(
+  params: FetchStoriesProps,
+): Promise<StoriesHttpResponse> {
+  const response = await nextServer.get('/stories', {
+    params,
+  });
+
+  return response.data;
+}
+
+export async function fetchPopularStories(): Promise<{
+  stories: Story[];
+
+  totalStories: number;
+}> {
+  const response = await nextServer.get('/stories/popular');
+  return response.data;
+}
+export async function fetchCategories(): Promise<Category[]> {
+  const { data } = await nextServer.get('/categories');
+  return data;
+}
+export async function fetchStoryById(id: string): Promise<Story> {
+  const response = await nextServer.get(`/stories/${id}`);
+  return response.data;
+}
+
+export async function createStory(payload: CreateStoryData): Promise<Story> {
+  const formData = new FormData();
+
+  if (payload.img instanceof File) formData.append('storyImage', payload.img);
+  formData.append('title', payload.title);
+  formData.append('article', payload.article);
+  formData.append('category', payload.category);
+
+  const { data } = await nextServer.post<Story>('/stories', formData);
   return data;
 }
 
-export async function updateStory(payload: UpdateStoryData, storyId: string) {
+export async function updateStory(
+  payload: UpdateStoryData,
+  id: string,
+): Promise<Story> {
   const formData = new FormData();
 
-  formData.append('title', payload.title);
-  formData.append('description', payload.description);
-  formData.append('category', payload.category);
-
-  if (payload.img instanceof File) {
-    formData.append('storyImage', payload.img);
-  } else if (typeof payload.img === 'string') {
-    formData.append('img', payload.img);
-  }
+  if (payload.title !== undefined) formData.append('title', payload.title);
+  if (payload.article !== undefined)
+    formData.append('article', payload.article);
+  if (payload.category !== undefined)
+    formData.append('category', payload.category);
+  if (payload.img instanceof File) formData.append('storyImage', payload.img);
 
   const { data } = await nextServer.patch<Story>(
-    `/api/stories/${storyId}`,
+    `/stories/${id}/edit`,
     formData,
   );
   return data;
 }
 
-export const saveStory = async (storyId: string) => {
-  return nextServer.post(`/api/stories/${storyId}/save`);
-};
+/* ---------------- FAVORITES ---------------- */
 
-// Ендпоінт для "Збереженого" (те, що ми писали на бекенді)
-export const toggleFavorite = async (
-  storyId: string,
-  method: 'post' | 'delete',
-) => {
-  const { data } = await nextServer[method](`/stories/saved/${storyId}`);
-  return data;
-};
+export async function addToFavouriteStory(id: string): Promise<string[]> {
+  const response = await nextServer.post<string[]>(`/stories/${id}/save`);
+
+  return response.data;
+}
+
+export async function removeFavouriteStory(id: string): Promise<void> {
+  const response = await nextServer.delete(`/stories/${id}/save`);
+
+  return response.data;
+}
+
+export async function fetchMyStories(
+  params: FetchUsersProps,
+): Promise<StoriesHttpResponse> {
+  const response = await nextServer.get('/stories/me', {
+    params,
+  });
+
+  return response.data;
+}
+
+export async function fetchFavouriteStories(
+  params: FetchUsersProps,
+): Promise<StoriesHttpResponse> {
+  const response = await nextServer.get('/stories/saved', {
+    params,
+  });
+
+  return response.data;
+}

@@ -4,10 +4,10 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Create a new story',
-  description: 'Create a new story',
+  article: 'Create a new story',
   openGraph: {
     title: 'Create a new story',
-    description: 'Create a new story.',
+    article: 'Create a new story.',
     url: 'https://codev1be-social-api.onrender.com/stories/action/create',
     images: [
       {
@@ -25,13 +25,13 @@ const CreateStoryPage = () => {
     img: null,
     title: '',
     category: '',
-    description: '',
+    article: '',
   };
 
   return (
     <section className={css.createStorySection}>
       <div className="container">
-        <h1 className={css.createStoryTitle}>Створити нову історію</h1>
+        <h1 className="createStoryTitle">Створити нову історію</h1>
         <AddStoryForm initialValues={initialValues} />
       </div>
     </section>
