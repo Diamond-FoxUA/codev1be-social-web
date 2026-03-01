@@ -234,7 +234,6 @@ export default function AddStoryForm({ initialValues }: AddStoryFormProps) {
                   name="article"
                   className={`${css.formTextarea} ${
                     submitCount > 0 && errors.article ? css.inputError : ''
-                    submitCount > 0 && errors.article ? css.inputError : ''
                   }`}
                   placeholder="Ваша історія тут"
                 />
