@@ -69,7 +69,13 @@ export interface CreateStoryData {
   title: string;
   article: string;
   category: string;
-  img?: File | null;
+  img?: File | string | null;
+}
+export interface UpdateStoryData {
+  title: string;
+  article: string;
+  category: string;
+  img?: File | string | null;
 }
 
 export interface StoryCardUser {

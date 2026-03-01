@@ -3,24 +3,23 @@ import { persist } from 'zustand/middleware';
 
 import type { CreateStoryData } from '@/types/story';
 
-interface StoryStore {
-  draft: CreateStoryData;
-  setDraft: (data: Partial<CreateStoryData>) => void;
-  clearDraft: () => void;
-}
-
-const initialDraft:  CreateStoryData = {
+const initialDraft: CreateStoryData = {
   title: '',
   article: '',
   category: '',
+};
+interface StoryStore {
+  draft: CreateStoryData;
+  setDraft: (story: Partial<CreateStoryData>) => void;
+  clearDraft: () => void;
 }
 
 export const useStoryStore = create<StoryStore>()(
   persist(
     (set) => ({
       draft: initialDraft,
-      setDraft: (data) =>
-        set((prev) => ({ draft: { ...prev.draft, ...data } })),
+      setDraft: (story) =>
+        set((prev) => ({ draft: { ...prev.draft, ...story } })),
       clearDraft: () => set({ draft: initialDraft }),
     }),
     { name: 'story-draft' },
