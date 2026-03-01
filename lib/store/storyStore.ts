@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { CreateStoryData } from '@/types/story';
 
 const initialDraft: CreateStoryData = {
   title: '',
@@ -11,6 +10,12 @@ interface StoryStore {
   draft: CreateStoryData;
   setDraft: (story: Partial<CreateStoryData>) => void;
   clearDraft: () => void;
+}
+
+const initialDraft:  CreateStoryData = {
+  title: '',
+  article: '',
+  category: '',
 }
 
 export const useStoryStore = create<StoryStore>()(
