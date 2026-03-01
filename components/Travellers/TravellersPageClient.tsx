@@ -1,15 +1,14 @@
 "use client";
 
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
-
 import { fetchUsers } from "@/lib/api/clientApi"; 
-
 import type { User } from "@/types/user";
-
-import css from "@/components/OurTravellers/OurTravellers.module.css";
 import TravellersList from "@/components/OurTravellers/TravellersList";
 import Skeleton from "@/components/Skeleton/Skeleton";
+import css from "@/components/OurTravellers/OurTravellers.module.css";
 
 export default function TravellersPageClient() {
   const [travellers, setTravellers] = useState<User[]>([]);
@@ -78,7 +77,14 @@ export default function TravellersPageClient() {
   }, [travellers]);
 
   const handleLoadMore = async () => {
-    if (page >= totalPages) return;
+    if (page >= totalPages) {
+      iziToast.info({
+        message: "Це остання сторінка",
+        position: "topRight",
+      });
+      return;
+    }
+
     prevLengthRef.current = travellers.length;
 
     setLoading(true);
@@ -111,7 +117,7 @@ export default function TravellersPageClient() {
       {hasMore && (
         <button
           type="button"
-          className={css.viewAllBtn}
+          className={`${css.buttonBase} ${css.viewAllBtn}`}
           onClick={handleLoadMore}
           disabled={loading}
         >
