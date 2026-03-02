@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import TravellersStories from "../TravellersStories/TravellersStories";
-import { getTravellersStories } from "@/lib/api/travellers-api";
+import { getTravellerStories } from '@/lib/api/travellers-next';
 import { User } from "@/types/user";
 import { Story, StoryCard, StoryCardUser } from "@/types/story";
 import css from "./TravellerPageClient.module.css";
@@ -36,34 +36,32 @@ export default function TravellerPageClient({ traveller }: Props) {
 
   // Фетч історій
   const fetchStories = useCallback(
-    async (nextPage = 1) => {
-      setLoading(true);
-      try {
-        const data = await getTravellersStories({
-          travellerId: traveller._id,
-          page: nextPage,
-          perPage,
-        });
+  async (nextPage = 1) => {
+    setLoading(true);
+    try {
+      const data = await getTravellerStories({
+        ownerId: traveller._id,
+        page: nextPage,
+        perPage,
+      });
 
-        setStories(prev =>
-          nextPage === 1 ? data.stories : [...prev, ...data.stories]
-        );
-
-        setPage(nextPage);
-        setTotalPages(data.totalPages);
-      } catch (err) {
-        console.error("Failed to load traveller stories", err);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [traveller._id, perPage]
-  );
+      setStories(prev =>
+        nextPage === 1 ? data.stories : [...prev, ...data.stories]
+      );
+      setPage(nextPage);
+      setTotalPages(data.totalPages);
+    } finally {
+      setLoading(false);
+    }
+  },
+  [traveller._id, perPage]
+);
 
   // Початкове завантаження
   useEffect(() => {
+    if (!traveller._id) return;
     fetchStories(1);
-  }, [fetchStories]);
+  }, [fetchStories, traveller._id]);
 
   // Скрол до нових карток
   useEffect(() => {
@@ -82,7 +80,7 @@ export default function TravellerPageClient({ traveller }: Props) {
   }, [stories]);
 
   // Обробка кнопки "Переглянути всі"
-  const handleLoadMore = () => {
+  const handleLoadMore = (): void => {
     if (page < totalPages && !loading) {
       prevLengthRef.current = stories.length;
       fetchStories(page + 1);

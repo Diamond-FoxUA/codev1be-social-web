@@ -1,5 +1,5 @@
 import TravellerPageClient from "@/components/TravellerPage/TravellerPageClient";
-import { getTravellerById } from "@/lib/api/travellers-api";
+import { getTravellerById } from "@/lib/api/travellers-next";
 import css from "@/components/TravellerPage/TravellerPageClient.module.css"
 
 type PageProps = {
