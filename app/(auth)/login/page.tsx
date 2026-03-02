@@ -8,7 +8,6 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import nextServer from '@/lib/api/api';
-import { login } from '@/lib/api/clientApi';
 
 const LoginSchema = Yup.object({
   email: Yup.string().email('Невірний email').required("Обов'язково"),
