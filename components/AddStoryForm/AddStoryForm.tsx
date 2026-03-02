@@ -9,15 +9,33 @@ import * as Yup from 'yup';
 import css from '@/components/AddStoryForm/AddStoryForm.module.css';
 import StoryFormImage from '../StoryFormImage/StoryFormImage';
 import FormSelect from '../FormSelect/FormSelect';
+import AuthNavModal from '../AuthNavModal/AuthNavModal';
 
 import { createStory, updateStory, fetchCategories } from '@/lib/api/clientApi';
-import type { UpdateStoryData, Story } from '@/types/story';
+import type {
+  UpdateStoryData,
+  CreateStoryData,
+  Story,
+  Category,
+} from '@/types/story';
 import { useStoryStore } from '@/lib/store/storyStore';
-import AuthNavModal from '../AuthNavModal/AuthNavModal';
 
 const MAX_TITLE = 80;
 const MAX_TEXT = 2500;
-const MAX_FILE_SIZE = 2 * 1024 * 1024;
+const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+
+export type StoryFormValues = {
+  img: File | string | null;
+  title: string;
+  category: string; // categoryId
+  article: string;
+};
+
+type AddStoryFormInitialValues = StoryFormValues & { _id?: string };
+
+interface AddStoryFormProps {
+  initialValues?: AddStoryFormInitialValues | null;
+}
 
 const baseSchema = {
   title: Yup.string()
@@ -38,8 +56,7 @@ const createValidationSchema = Yup.object({
     .nullable()
     .required('Обкладинка є обовʼязковою')
     .test('fileSize', 'Максимальний розмір зображення — 2MB', (value) => {
-      if (!(value instanceof File)) return false;
-      return value.size <= MAX_FILE_SIZE;
+      return value instanceof File && value.size <= MAX_FILE_SIZE;
     }),
   ...baseSchema,
 });
@@ -54,18 +71,6 @@ const editValidationSchema = Yup.object({
     }),
   ...baseSchema,
 });
-type StoryFormValues = {
-  img: File | string | null;
-  title: string;
-  category: string;
-  article: string;
-};
-
-type AddStoryFormInitialValues = StoryFormValues & { _id?: string };
-
-interface AddStoryFormProps {
-  initialValues?: AddStoryFormInitialValues | null;
-}
 
 function normalizeCategory(cat: unknown): string {
   if (!cat) return '';
@@ -83,9 +88,33 @@ function DraftSync({ enabled }: { enabled: boolean }) {
   const { values } = useFormikContext<StoryFormValues>();
   const { setDraft } = useStoryStore();
 
+  const serializableDraft = useMemo(
+    () => ({
+      title: values.title ?? '',
+      category: values.category ?? '',
+      article: values.article ?? '',
+      img: typeof values.img === 'string' ? values.img : null,
+    }),
+    [values.title, values.category, values.article, values.img],
+  );
+
+  const prevJsonRef = useMemo(() => ({ current: '' as string }), []);
+  // (useMemo to create stable ref-like object without importing useRef)
+
   useEffect(() => {
-    if (enabled) setDraft(values);
-  }, [enabled, values, setDraft]);
+    if (!enabled) return;
+
+    const nextJson = JSON.stringify(serializableDraft);
+    if (prevJsonRef.current === nextJson) return;
+
+    // Debounce writes to zustand/localStorage
+    const t = window.setTimeout(() => {
+      prevJsonRef.current = nextJson;
+      setDraft(serializableDraft);
+    }, 250);
+
+    return () => window.clearTimeout(t);
+  }, [enabled, serializableDraft, setDraft, prevJsonRef]);
 
   return null;
 }
@@ -93,22 +122,32 @@ function DraftSync({ enabled }: { enabled: boolean }) {
 export default function AddStoryForm({ initialValues }: AddStoryFormProps) {
   const router = useRouter();
   const queryClient = useQueryClient();
+
   const { draft, clearDraft } = useStoryStore();
 
   const [errorModal, setErrorModal] = useState(false);
 
-  const isEditing = !!initialValues?._id;
+  const isEditing = Boolean(initialValues?._id);
 
-  const { data: categories = [], isLoading: catLoading } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
-  });
-
-  const options = useMemo(
-    () => categories.map((c) => ({ value: c._id, label: c.name })),
-    [categories],
+  const validationSchema = useMemo(
+    () => (isEditing ? editValidationSchema : createValidationSchema),
+    [isEditing],
   );
 
+  const {
+    data: categories,
+    isLoading: isCategoriesLoading,
+    isError: isCategoriesError,
+  } = useQuery<Category[]>({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const categoryOptions = useMemo(
+    () => (categories ?? []).map((c) => ({ value: c._id, label: c.name })),
+    [categories],
+  );
   const defaultValues: StoryFormValues = useMemo(() => {
     if (isEditing) {
       return {
@@ -120,7 +159,7 @@ export default function AddStoryForm({ initialValues }: AddStoryFormProps) {
     }
 
     return {
-      img: draft.img ?? null,
+      img: (draft.img as StoryFormValues['img']) ?? null,
       title: draft.title ?? '',
       category: draft.category ?? '',
       article: draft.article ?? '',
@@ -128,68 +167,83 @@ export default function AddStoryForm({ initialValues }: AddStoryFormProps) {
   }, [isEditing, initialValues, draft]);
 
   const { mutate, isPending } = useMutation({
-    mutationFn: async (values: StoryFormValues) => {
+    mutationFn: (values: StoryFormValues) => {
       if (isEditing && initialValues?._id) {
-        const payload: UpdateStoryData = {
+        const updatePayload: UpdateStoryData = {
           title: values.title,
           article: values.article,
           category: values.category,
           img: values.img,
         };
-        return updateStory(payload, initialValues._id);
+
+        return updateStory(updatePayload, initialValues._id);
       }
 
-      const payload = {
+      const createPayload: CreateStoryData = {
         title: values.title,
         article: values.article,
         category: values.category,
-        img: values.img,
+        img: values.img ?? undefined,
       };
-      return createStory(payload);
+
+      return createStory(createPayload);
     },
+
     onSuccess: (story: Story) => {
       queryClient.invalidateQueries({ queryKey: ['stories'] });
       if (!isEditing) clearDraft();
       router.push(`/stories/${story._id}`);
     },
+
     onError: () => setErrorModal(true),
   });
 
-  if (catLoading) {
-    return <div className={css.formWrapper}>Loading...</div>;
+  // if (!isMounted) {
+  //   return <div className={css.formWrapper}>Loading...</div>;
+  // }
+
+  if (isCategoriesLoading) {
+    return <div className={css.formWrapper}>Loading categories...</div>;
+  }
+
+  if (isCategoriesError) {
+    return (
+      <div className={css.formWrapper}>
+        <p>Не вдалося завантажити категорії. Спробуйте оновити сторінку.</p>
+      </div>
+    );
   }
 
   return (
     <div className={css.formWrapper}>
       <Formik<StoryFormValues>
         initialValues={defaultValues}
-        validationSchema={
-          isEditing ? editValidationSchema : createValidationSchema
-        }
-        enableReinitialize
+        validationSchema={validationSchema}
+        enableReinitialize={isEditing}
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={(values: StoryFormValues) => mutate(values)}
+        onSubmit={(values) => mutate(values)}
       >
         {({
           values,
           setFieldValue,
           setFieldTouched,
+          isValid,
+          dirty,
           errors,
           submitCount,
-          dirty,
         }) => {
-          const titleOk = (values.title ?? '').trim().length >= 5;
-          const articleOk = (values.article ?? '').trim().length >= 5;
-
-          const isFilled =
-            !!values.img && titleOk && articleOk && !!values.category;
-
-          const canSubmit = isFilled && (isEditing ? dirty : true);
+          const canSubmit =
+            isValid &&
+            (isEditing ? dirty : true) &&
+            Boolean(values.img) &&
+            Boolean(values.title) &&
+            Boolean(values.article) &&
+            Boolean(values.category);
 
           return (
             <Form className={css.form}>
-              <DraftSync enabled={!isEditing} />
+              {!isEditing && <DraftSync enabled />}
 
               <div className={css.columLeft}>
                 <p className={css.formLabel}>Обкладинка статті</p>
@@ -202,7 +256,7 @@ export default function AddStoryForm({ initialValues }: AddStoryFormProps) {
                     if (file && file.size > MAX_FILE_SIZE) {
                       setFieldTouched('img', true, true);
                     } else {
-                      setFieldTouched('img', true, false);
+                      setFieldTouched('img', false, false);
                     }
                   }}
                 />
@@ -221,7 +275,7 @@ export default function AddStoryForm({ initialValues }: AddStoryFormProps) {
 
                 <label className={css.formLabel}>Категорія</label>
                 <FormSelect
-                  options={options}
+                  options={categoryOptions}
                   value={values.category || ''}
                   onChange={(val) => setFieldValue('category', val)}
                 />
