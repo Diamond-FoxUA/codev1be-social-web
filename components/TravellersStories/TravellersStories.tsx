@@ -2,30 +2,11 @@
 
 import styles from './TravellersStories.module.css';
 import TravellersStoriesItem from '../TravellersStoriesItem/TravellersStoriesItem';
-
-interface Story {
-  _id: string;
-  img: string;
-  title: string;
-  article?: string;
-  description?: string;
-  category: string;
-  ownerId: string;
-  ownerUser?: User;
-  favoriteCount: number;
-  date: string;
-}
-
-interface User {
-  _id: string;
-  name: string;
-  avatarUrl: string;
-  totalFavorites: number;
-}
+import type { StoryCard, StoryCardUser } from '@/types/story';
 
 interface TravellersStoriesProps {
-  stories: Story[];
-  usersMap: Record<string, User>;
+  stories: StoryCard[];
+  usersMap: Record<string, StoryCardUser>;
   categoryMap: Record<string, string>;
 }
 

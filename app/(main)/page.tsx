@@ -1,12 +1,12 @@
 'use client';
-import './globals.css';
-import { useState } from "react";
+
+import { useState } from 'react';
 import Hero from '@/components/Hero/Hero';
 import About from '@/components/About/About';
 import PopularStoriesSection from '@/components/PopularStoriesSection/PopularStoriesSection';
-import OurTravellers from "@/components/OurTravellers/OurTravellers";
+import OurTravellers from '@/components/OurTravellers/OurTravellers';
 import Join from '@/components/Join/Join';
-import { ConfirmModal } from "@/components/ConfirmModal/ConfirmModal";
+import { ConfirmModal } from '@/components/ConfirmModal/ConfirmModal';
 
 export default function Home() {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -26,7 +26,7 @@ export default function Home() {
       <PopularStoriesSection />
       <OurTravellers />
       <Join />
-      
+
       {isConfirmOpen && (
         <ConfirmModal
           title="Ви точно хочете вийти?"

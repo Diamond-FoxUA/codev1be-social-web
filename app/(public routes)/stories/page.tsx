@@ -1,5 +1,5 @@
-import StoriesPageView from '@/components/StoriesPage/StoriesPage';
+import StoriesPage from '@/components/StoriesPage/StoriesPage';
 
-export default function StoriesPage() {
-  return <StoriesPageView />;
+export default function StoriesPageRoute() {
+  return <StoriesPage />;
 }
