@@ -1,48 +1,31 @@
 'use client';
 
 import React, { useState } from 'react';
-import axios from 'axios';
 import css from './StoryDetails.module.css';
+import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
+import { useRouter } from 'next/navigation';
+import { addToFavouriteStory } from '@/lib/api/clientApi';
 
 type StoryDetailsProps = {
   storyId: string;
 };
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
 const StoryDetails = ({ storyId }: StoryDetailsProps) => {
+  const router = useRouter();
   const [saved, setSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleSave = async () => {
     setIsLoading(true);
     setError(null);
 
-    try {
-      await axios.post(
-        `${BASE_URL}/api/stories/${storyId}/save`,
-        {},
-        {
-          withCredentials: true,
-        },
-      );
-
+    const result = await addToFavouriteStory(storyId);
+    if (result) {
       setSaved(true);
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        const status = err.response?.status;
-        const message = err.response?.data?.message;
-
-        if (status === 401) {
-          setError('Ваша сесія закінчилася або ви не авторизовані.');
-        } else {
-          setError(message || 'Помилка збереження');
-        }
-      }
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -60,13 +43,25 @@ const StoryDetails = ({ storyId }: StoryDetailsProps) => {
         {isLoading ? 'Збереження...' : saved ? '✓ Збережено' : 'Зберегти'}
       </button>
 
-      {error && (
+      {error && !isAuthModalOpen && (
         <p
           className={css.errorMessage}
           style={{ color: 'red', marginTop: '10px' }}
         >
           {error}
         </p>
+      )}
+
+      {/* Модальное окно ошибки авторизации */}
+      {isAuthModalOpen && (
+        <ConfirmModal
+          title="Потрібна авторизація"
+          text="Щоб зберегти цю історию, вам необхідно увійти у свій аккаунт."
+          confirmButtonText="Увійти"
+          cancelButtonText="Скасувати"
+          onConfirm={() => router.push('/login')}
+          onCancel={() => setIsAuthModalOpen(false)}
+        />
       )}
     </div>
   );
