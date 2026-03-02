@@ -12,7 +12,7 @@ export interface Owner {
 export interface Story {
   _id: string;
   title: string;
-  description: string;
+  article: string;
   img: string;
   category: Category;
   ownerId: Owner;
@@ -44,20 +44,60 @@ export interface GetStoriesParams extends PaginationParams {
 
 export interface CreateStoryParams {
   title: string;
-  description: string;
-  category: string;
+  article: string;
+  category: {
+    _id: string;
+    name: string;
+  };
+  ownerId: {
+    _id: string;
+    name: string;
+    avatarUrl?: string;
+  };
+  date: string;
+  favoriteCount: number;
   img?: string;
 }
 export interface UpdateStoryParams {
   title?: string;
-  description?: string;
+  article?: string;
   category?: string;
   img?: string;
 }
 
 export interface CreateStoryData {
   title: string;
-  description: string;
+  article: string;
   category: string;
-  img?: File | null;
+  img?: File | string | null;
+}
+export interface UpdateStoryData {
+  title: string;
+  article: string;
+  category: string;
+  img?: File | string | null;
+}
+
+export interface StoryCardUser {
+  _id: string;
+  name: string;
+  avatarUrl?: string;
+  totalFavorites?: number;
+}
+
+export interface StoryCardBase {
+  _id: string;
+  img: string;
+  title: string;
+  article?: string;
+  description?: string;
+  category: string;
+  ownerId: string;
+  favoriteCount: number;
+  favouriteCount?: number;
+  date: string;
+}
+
+export interface StoryCard extends StoryCardBase {
+  ownerUser?: StoryCardUser;
 }

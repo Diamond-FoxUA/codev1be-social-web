@@ -27,7 +27,7 @@
   padding: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 }
 
 .content {
@@ -49,13 +49,13 @@
 }
 
 .tab {
-  font-size: 12px;
+  font-size: 16px;
   text-decoration: none;
   color: rgba(17, 17, 17, 0.55);
   padding-bottom: 8px;
   border-bottom: 2px solid transparent;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 
 .tab:hover {
@@ -69,11 +69,12 @@
 
 /* Title */
 .title {
-  text-align: center;
-  font-size: 28px;
   font-weight: 700;
-  margin: 0 0 12px;
-  color: #111;
+  font-size: 28px;
+  line-height: 120%;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #000;
 }
 
 .subtitle {
@@ -110,7 +111,7 @@
   border: 1px solid #e6e6e6;
   font-size: 14px;
   outline: none;
-  transition: all 0.2s ease-in-out;
+  transition: all 300ms ease-in-out;
   font-family: inherit;
 }
 
@@ -133,11 +134,29 @@
   font-weight: 600;
   font-size: 14px;
   cursor: pointer;
-  transition: all 0.2s ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 
 .button:hover:not(:disabled) {
-  background: #3454b4;
+  background: #e8eeff;
+  border: 1px solid #4169e1;
+  color: #111;
+}
+
+.button:focus:not(:disabled) {
+  border: 1px solid #4169e1;
+  border-radius: 8px;
+  padding: 4px 10px;
+  width: 76px;
+  height: 35px;
+  background: #e8eeff;
+}
+
+.button:active:not(:disabled) {
+  border: 1px solid #4169e1;
+  border-radius: 8px;
+  padding: 6px 12px;
+  background: #7a96ea;
 }
 
 .button:disabled {
@@ -169,8 +188,8 @@
 
   .inner {
     width: 100%;
-    height: 100%;
     padding: 0;
+    align-items: start;
   }
 
   .content {
@@ -214,15 +233,13 @@
 
   .authCard {
     width: 100%;
-    height: 100vh;
     padding: 64px 64px;
   }
 
   .inner {
     width: 100%;
-    height: 100%;
     justify-content: center;
-    align-items: center;
+    align-items: start;
   }
 
   .content {
