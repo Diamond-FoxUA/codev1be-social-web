@@ -1,16 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import axios from 'axios';
 import css from './StoryDetails.module.css';
 import { ConfirmModal } from '../ConfirmModal/ConfirmModal';
 import { useRouter } from 'next/navigation';
+import { addToFavouriteStory } from '@/lib/api/clientApi';
 
 type StoryDetailsProps = {
   storyId: string;
 };
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const StoryDetails = ({ storyId }: StoryDetailsProps) => {
   const router = useRouter();
@@ -23,32 +21,11 @@ const StoryDetails = ({ storyId }: StoryDetailsProps) => {
     setIsLoading(true);
     setError(null);
 
-    try {
-      await axios.post(
-        `${BASE_URL}/api/stories/${storyId}/save`,
-        {},
-        {
-          withCredentials: true,
-        },
-      );
-
+    const result = await addToFavouriteStory(storyId);
+    if (result) {
       setSaved(true);
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        const status = err.response?.status;
-        const message = err.response?.data?.message;
-
-        if (status === 401) {
-          setIsAuthModalOpen(true);
-        } else if (message === '✓ Збережено' || status === 409) {
-          setSaved(true);
-        } else {
-          setError(message || 'Помилка збереження');
-        }
-      }
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   return (
