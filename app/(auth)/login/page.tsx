@@ -7,7 +7,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { api } from '@/lib/api/auth';
+import nextServer from '@/lib/api/api';
 
 const LoginSchema = Yup.object({
   email: Yup.string().email('Невірний email').required("Обов'язково"),
