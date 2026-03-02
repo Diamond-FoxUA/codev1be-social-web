@@ -17,9 +17,7 @@ export function middleware(req: NextRequest) {
     (pathname.startsWith('/stories/') && pathname.endsWith('/edit'));
 
   // GUEST ONLY ROUTES
-  const isGuestRoute =
-    pathname === '/login' ||
-    pathname === '/register';
+  const isGuestRoute = pathname === '/login' || pathname === '/register';
 
   // guest → private → login
   if (!isAuthenticated && isPrivateRoute) {
