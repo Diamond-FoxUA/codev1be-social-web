@@ -11,7 +11,7 @@ export function middleware(req: NextRequest) {
 
   // PRIVATE ROUTES
   const isPrivateRoute =
-    pathname.startsWith('/profile') ||
+    // pathname.startsWith('/profile') ||
     pathname === '/stories/create' ||
     pathname === '/edit' ||
     (pathname.startsWith('/stories/') && pathname.endsWith('/edit'));

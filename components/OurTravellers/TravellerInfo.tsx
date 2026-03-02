@@ -5,32 +5,46 @@ import css from "./OurTravellers.module.css";
 
 interface Props {
   traveller: User;
+  variant?: "card" | "profile";
 }
 
-export default function TravellerInfo({ traveller }: Props) {
+export default function TravellerInfo({ traveller, variant = "card" }: Props) {
+  const isProfile = variant === "profile";
+
+  const avatarSrc =
+    traveller.avatarUrl && traveller.avatarUrl.startsWith("http")
+      ? traveller.avatarUrl
+      : "/svg/avatar.svg";
+
   return (
-    <div className={css.card}>
-      <div className={css.avatar}>
+    <div className={isProfile ? css.profileLayout : css.card}>
+      <div className={isProfile ? css.profileAvatar : css.avatar}>
         <Image
-          src={traveller.avatarUrl ?? "/default-avatar.png"}
+          src={avatarSrc}
           alt={traveller.name}
-          width={112}
-          height={112}
+          width={isProfile ? 180 : 112}
+          height={isProfile ? 180 : 112}
         />
       </div>
 
-      <h3 className={css.name}>{traveller.name}</h3>
+      <div className={isProfile ? css.profileText : undefined}>
+        <h3 className={isProfile ? css.profileName : css.name}>
+          {traveller.name}
+        </h3>
 
-      <p className={css.description}>
-        {traveller.description ?? "Немає опису"}
-      </p>
+        <p className={isProfile ? css.profileDescription : css.description}>
+          {traveller.description ?? "Немає опису"}
+        </p>
 
-      <Link
-        href={`/travellers/${traveller._id}`}
-        className={css.profileButton}
-      >
-        Переглянути профіль
-      </Link>
+        {!isProfile && (
+          <Link
+            href={`/travellers/${traveller._id}`}
+            className={css.profileButton}
+          >
+            Переглянути профіль
+          </Link>
+        )}
+      </div>
     </div>
   );
 }
