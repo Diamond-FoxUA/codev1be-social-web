@@ -61,7 +61,7 @@ export const StoryItem = ({ story }: Props) => {
       return;
     }
 
-    setIsSaved(user.favoriteStories?.includes(story._id) ?? false);
+    setIsSaved(user.savedArticles?.includes(story._id) ?? false);
   }, [user, isAuthenticated, story._id]);
 
   const onToggleSave = async () => {
@@ -86,7 +86,6 @@ export const StoryItem = ({ story }: Props) => {
       }
 
       /**
-       * 🔥 найважливіше
        * оновлює user
        */
       await queryClient.invalidateQueries({

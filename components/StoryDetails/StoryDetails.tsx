@@ -16,16 +16,10 @@ const StoryDetails = ({ storyId }: StoryDetailsProps) => {
   const router = useRouter();
 
   const [saved, setSaved] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [isChecking, setIsChecking] = useState(true);
-
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
-  /**
-   * 🔥 перевіряємо saved статус при відкритті
-   */
   useEffect(() => {
     const checkSaved = async () => {
       try {
