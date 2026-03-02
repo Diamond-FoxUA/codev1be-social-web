@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 import TravellersStories from '@/components/TravellersStories/TravellersStories';
+import Skeleton from '@/components/Skeleton/Skeleton';
 import nextServer from '@/lib/api/api';
 import type {
   Category,
@@ -36,24 +37,16 @@ interface UsersResponse {
   totalPages: number;
 }
 
-const CATEGORIES = [
-  { id: 'all', name: 'Всі історії' },
-  { id: '68fb50c80ae91338641121f2', name: 'Європа' },
-  { id: '68fb50c80ae91338641121f0', name: 'Азія' },
-  { id: '68fb50c80ae91338641121f6', name: 'Пустелі' },
-  { id: '68fb50c80ae91338641121f4', name: 'Африка' },
-];
-
 const CATEGORY_MAP: Record<string, string> = {
   '68fb50c80ae91338641121f2': 'Європа',
   '68fb50c80ae91338641121f0': 'Азія',
   '68fb50c80ae91338641121f6': 'Пустелі',
   '68fb50c80ae91338641121f4': 'Африка',
   '68fb50c80ae91338641121f3': 'Америка',
-  '68fb50c80ae91338641121f1': 'Кавказ',
-  '68fb50c80ae91338641121f7': 'Кавказ',
-  '68fb50c80ae91338641121f8': 'Океанія',
-  '68fb50c80ae91338641121f9': 'Балкани',
+  '68fb50c80ae91338641121f1': 'Гори',
+  '68fb50c80ae91338641121f7': 'Балкани',
+  '68fb50c80ae91338641121f8': 'Кавказ',
+  '68fb50c80ae91338641121f9': 'Океанія',
 };
 
 export default function StoriesPage() {
@@ -163,6 +156,30 @@ export default function StoriesPage() {
     },
   });
 
+  // Запит для отримання статистики категорій - завантажуємо кілька сторінок
+  const { data: allStoriesStats } = useQuery({
+    queryKey: ['all-stories-stats'],
+    queryFn: async () => {
+      try {
+        // Завантажуємо перші 10 сторінок по 10 історій = 100 історій для статистики
+        const pageRequests = Array.from({ length: 10 }, (_, i) =>
+          nextServer.get('/stories', { params: { page: i + 1, perPage: 10 } }),
+        );
+
+        const pages = await Promise.all(pageRequests);
+        const allStories = pages.flatMap(
+          (response) => response.data.stories || [],
+        );
+
+        return { stories: allStories };
+      } catch (err) {
+        console.error('❌ Помилка завантаження статистики:', err);
+        return { stories: [] };
+      }
+    },
+    staleTime: 5 * 60 * 1000, // Кешуємо на 5 хвилин
+  });
+
   const usersMap = useMemo(() => {
     const map: Record<string, StoryCardUser> = {};
     usersData?.users?.forEach((user) => {
@@ -170,6 +187,36 @@ export default function StoriesPage() {
     });
     return map;
   }, [usersData?.users]);
+
+  // Динамічно генеруємо топ-5 категорій на основі кількості історій
+  const CATEGORIES = useMemo(() => {
+    const statsStories = allStoriesStats?.stories || [];
+
+    // Поки дані завантажуються - повертаємо null, щоб показути skeleton
+    if (statsStories.length === 0) {
+      return null;
+    }
+
+    // Підраховуємо кількість історій у кожній категорії
+    const categoryCount: Record<string, number> = {};
+    statsStories.forEach((story) => {
+      const categoryId = getCategoryId(story.category);
+      if (categoryId && CATEGORY_MAP[categoryId]) {
+        categoryCount[categoryId] = (categoryCount[categoryId] || 0) + 1;
+      }
+    });
+
+    // Сортуємо категорії за кількістю історій і беремо топ-4
+    const topCategories = Object.entries(categoryCount)
+      .sort(([, countA], [, countB]) => countB - countA)
+      .slice(0, 4)
+      .map(([categoryId]) => ({
+        id: categoryId,
+        name: CATEGORY_MAP[categoryId],
+      }));
+
+    return [{ id: 'all', name: 'Всі історії' }, ...topCategories];
+  }, [allStoriesStats]);
 
   const normalizedStories: NormalizedStory[] = useMemo(() => {
     const allStories = data?.pages.flatMap((page) => page.stories) || [];
@@ -205,9 +252,10 @@ export default function StoriesPage() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
-  const selectedCategoryName =
-    CATEGORIES.find((cat) => cat.id === selectedCategory)?.name ||
-    'Всі історії';
+  const selectedCategoryName = CATEGORIES
+    ? CATEGORIES.find((cat) => cat.id === selectedCategory)?.name ||
+      'Всі історії'
+    : 'Категорії';
 
   return (
     <section className={`section ${styles.section}`}>
@@ -231,6 +279,7 @@ export default function StoriesPage() {
               onClick={toggleDropdown}
               aria-expanded={isDropdownOpen}
               aria-haspopup="listbox"
+              disabled={!CATEGORIES}
             >
               <span className={styles.filterSelectText}>
                 {selectedCategoryName}
@@ -252,7 +301,7 @@ export default function StoriesPage() {
               </svg>
             </button>
 
-            {isDropdownOpen && (
+            {isDropdownOpen && CATEGORIES && (
               <ul className={styles.filterDropdownList}>
                 {CATEGORIES.map((category) => (
                   <li key={category.id} className={styles.filterDropdownItem}>
@@ -273,20 +322,32 @@ export default function StoriesPage() {
             )}
           </div>
 
-          <div className={styles.filterTabs}>
-            {CATEGORIES.map((category) => (
-              <button
-                key={category.id}
-                type="button"
-                className={`${styles.filterBtn} ${
-                  selectedCategory === category.id ? styles.filterBtnActive : ''
-                }`}
-                onClick={() => handleCategoryChange(category.id)}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
+          {!CATEGORIES ? (
+            // Skeleton loaders поки завантажуються категорії
+            <div className={styles.filterTabs}>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Skeleton key={i} width={100} height={40} />
+              ))}
+            </div>
+          ) : (
+            // Реальні кнопки категорій
+            <div className={styles.filterTabs}>
+              {CATEGORIES.map((category) => (
+                <button
+                  key={category.id}
+                  type="button"
+                  className={`${styles.filterBtn} ${
+                    selectedCategory === category.id
+                      ? styles.filterBtnActive
+                      : ''
+                  }`}
+                  onClick={() => handleCategoryChange(category.id)}
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         {isLoading && <p className={styles.loading}>Завантаження...</p>}
