@@ -40,8 +40,7 @@ export default function OurTravellers() {
       <section className={`section ${css.section}`}>
         <div className={css.inner}>
           <h2 className={css.title}>Наші Мандрівники</h2>
-<<<<<<< HEAD
-          
+         
           <div className={css.grid}>
             {loading
               ? Array.from({ length: 4 }).map((_, index) => (
@@ -50,20 +49,6 @@ export default function OurTravellers() {
               : <TravellersList travellers={travellers} />
             }
           </div>
-=======
-
-          {loading ? (
-            <div className={css.grid}>
-              {Array.from({
-                length: 4,
-              }).map((_, index) => (
-                <Skeleton key={index} height={397} />
-              ))}
-            </div>
-          ) : (
-            <TravellersList travellers={travellers} />
-          )}
->>>>>>> origin/main
 
           <Link href="/travellers" className={`${css.buttonBase} ${css.viewAllBtn}`}>
             Переглянути всіх
