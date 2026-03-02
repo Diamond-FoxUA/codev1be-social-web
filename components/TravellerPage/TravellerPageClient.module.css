@@ -183,6 +183,7 @@
     }
 
     .info {
+        flex: 0 0 auto;
         width: 367px;
     }
 

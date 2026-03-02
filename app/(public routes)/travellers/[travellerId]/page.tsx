@@ -2,10 +2,14 @@ import TravellerPageClient from "@/components/TravellerPage/TravellerPageClient"
 import { getTravellerById } from "@/lib/api/travellers-api";
 import css from "@/components/TravellerPage/TravellerPageClient.module.css"
 
-type Props = { params: { travellerId: string } };
+type PageProps = {
+  params: Promise<{ travellerId: string }>;
+};
 
-export default async function TravellerPage({ params }: Props) {
-  const traveller = await getTravellerById(params.travellerId);
+export default async function TravellerPage({ params }: PageProps) {
+  const { travellerId } = await params;
+
+  const traveller = await getTravellerById(travellerId);
 
   return (
     <main>
