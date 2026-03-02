@@ -7,8 +7,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 import css from '@/components/AddStoryForm/AddStoryForm.module.css';
+
 import StoryFormImage from '../StoryFormImage/StoryFormImage';
 import FormSelect from '../FormSelect/FormSelect';
+
 import { createStory, updateStory } from '@/lib/api/clientApi';
 import { UpdateStoryData } from '@/types/story';
 import { useStoryStore } from '@/lib/store/storyStore';
