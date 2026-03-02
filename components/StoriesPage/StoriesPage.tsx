@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
+
 import TravellersStories from '@/components/TravellersStories/TravellersStories';
 import Skeleton from '@/components/Skeleton/Skeleton';
 import nextServer from '@/lib/api/api';
+
 import type {
   Category,
   Owner,
@@ -13,9 +15,11 @@ import type {
   StoryCard,
   StoryCardUser,
 } from '@/types/story';
+
 import styles from './StoriesPage.module.css';
 
 type StoryCategory = string | Category;
+
 type StoryOwner = string | Owner | StoryCardUser;
 
 type ApiStory = Omit<StoryCard, 'category' | 'ownerId' | 'ownerUser'> & {
@@ -50,97 +54,80 @@ const CATEGORY_MAP: Record<string, string> = {
 };
 
 export default function StoriesPage() {
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
   const getBaseDisplayCount = () => {
     if (typeof window === 'undefined') return 9;
-    return window.matchMedia('(min-width: 768px) and (max-width: 1439px)')
-      .matches
+
+    return window.matchMedia('(min-width:768px) and (max-width:1439px)').matches
       ? 8
       : 9;
   };
 
   const [baseDisplayCount, setBaseDisplayCount] = useState(getBaseDisplayCount);
+
   const [displayCount, setDisplayCount] = useState(getBaseDisplayCount);
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const pageSize = baseDisplayCount;
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(
-      '(min-width: 768px) and (max-width: 1439px)',
+      '(min-width:768px) and (max-width:1439px)',
     );
 
     const handleChange = () => {
-      const nextBase = mediaQuery.matches ? 8 : 9;
-      setBaseDisplayCount(nextBase);
-      setDisplayCount(nextBase);
+      const next = mediaQuery.matches ? 8 : 9;
+
+      setBaseDisplayCount(next);
+      setDisplayCount(next);
     };
 
     handleChange();
+
     mediaQuery.addEventListener('change', handleChange);
+
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
-    };
-
-    if (isDropdownOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isDropdownOpen]);
-
-  const getCategoryId = (category: StoryCategory) =>
-    typeof category === 'string' ? category : category?._id || '';
-
-  const getOwnerId = (owner: StoryOwner) =>
-    typeof owner === 'string' ? owner : owner?._id || '';
-
-  const getOwnerUser = (owner: StoryOwner) =>
-    typeof owner === 'string' ? undefined : owner;
 
   const { data, isLoading, error, fetchNextPage, hasNextPage } =
     useInfiniteQuery<ApiResponse>({
       queryKey: ['stories', selectedCategory, pageSize],
+
       queryFn: async ({ pageParam = 1 }) => {
         const response = await nextServer.get('/stories', {
           params: {
             page: pageParam,
             perPage: pageSize,
+
             ...(selectedCategory !== 'all'
               ? { category: selectedCategory }
               : {}),
           },
         });
+
         return response.data;
       },
+
       initialPageParam: 1,
+
       getNextPageParam: (lastPage) =>
         lastPage.page < lastPage.totalPages ? lastPage.page + 1 : undefined,
-      staleTime: 0,
     });
 
   const { data: usersData } = useQuery<UsersResponse>({
     queryKey: ['users'],
+
     queryFn: async () => {
-      const pages = await Promise.all([
-        nextServer.get('/users', { params: { page: 1, perPage: 9 } }),
-        nextServer.get('/users', { params: { page: 2, perPage: 9 } }),
-        nextServer.get('/users', { params: { page: 3, perPage: 9 } }),
-        nextServer.get('/users', { params: { page: 4, perPage: 9 } }),
-        nextServer.get('/users', { params: { page: 5, perPage: 9 } }),
-      ]);
+      const pages = await Promise.all(
+        [1, 2, 3, 4, 5].map((page) =>
+          nextServer.get('/users', {
+            params: {
+              page,
+              perPage: 9,
+            },
+          }),
+        ),
+      );
 
       const allUsers = pages.flatMap(
         (response: AxiosResponse<UsersResponse>) => response.data.users || [],
@@ -182,9 +169,11 @@ export default function StoriesPage() {
 
   const usersMap = useMemo(() => {
     const map: Record<string, StoryCardUser> = {};
+
     usersData?.users?.forEach((user) => {
       map[user._id] = user;
     });
+
     return map;
   }, [usersData?.users]);
 
@@ -220,24 +209,36 @@ export default function StoriesPage() {
 
   const normalizedStories: NormalizedStory[] = useMemo(() => {
     const allStories = data?.pages.flatMap((page) => page.stories) || [];
+
     return allStories.map((story) => ({
       ...story,
-      category: getCategoryId(story.category),
-      ownerId: getOwnerId(story.ownerId),
-      ownerUser: getOwnerUser(story.ownerId),
+
+      category:
+        typeof story.category === 'string'
+          ? story.category
+          : story.category?._id || '',
+
+      ownerId:
+        typeof story.ownerId === 'string'
+          ? story.ownerId
+          : story.ownerId?._id || '',
+
+      ownerUser: typeof story.ownerId === 'string' ? undefined : story.ownerId,
     }));
   }, [data?.pages]);
 
   const displayedStories = normalizedStories.slice(0, displayCount);
+
   const totalStories = data?.pages[0]?.totalStories || 0;
+
   const hasMoreStories = displayCount < totalStories;
 
   const handleLoadMore = () => {
-    const nextDisplayCount = displayCount + 3;
-    setDisplayCount(nextDisplayCount);
+    const next = displayCount + 3;
 
-    // Підвантажити наступну сторінку, якщо завантажених історій не вистачає
-    if (nextDisplayCount > normalizedStories.length && hasNextPage) {
+    setDisplayCount(next);
+
+    if (next > normalizedStories.length && hasNextPage) {
       fetchNextPage();
     }
   };
@@ -373,8 +374,8 @@ export default function StoriesPage() {
           </>
         )}
 
-        {!isLoading && normalizedStories.length === 0 && (
-          <p className={styles.noResults}>Немає історій в цій категорії</p>
+        {hasMoreStories && (
+          <button onClick={handleLoadMore}>Показати ще</button>
         )}
       </div>
     </section>
