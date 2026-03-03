@@ -1,20 +1,20 @@
-import Image from "next/image";
-import Link from "next/link";
-import { User } from "@/types/user";
-import css from "./OurTravellers.module.css";
+import Image from 'next/image';
+import Link from 'next/link';
+import { User } from '@/types/user';
+import css from './OurTravellers.module.css';
 
 interface Props {
   traveller: User;
-  variant?: "card" | "profile";
+  variant?: 'card' | 'profile';
 }
 
-export default function TravellerInfo({ traveller, variant = "card" }: Props) {
-  const isProfile = variant === "profile";
+export default function TravellerInfo({ traveller, variant = 'card' }: Props) {
+  const isProfile = variant === 'profile';
 
   const avatarSrc =
-    traveller.avatarUrl && traveller.avatarUrl.startsWith("http")
+    traveller.avatarUrl && traveller.avatarUrl.startsWith('http')
       ? traveller.avatarUrl
-      : "/svg/avatar.svg";
+      : '/svg/avatar.svg';
 
   return (
     <div className={isProfile ? css.profileLayout : css.card}>
@@ -33,8 +33,9 @@ export default function TravellerInfo({ traveller, variant = "card" }: Props) {
         </h3>
 
         <p className={isProfile ? css.profileDescription : css.description}>
-          {traveller.description ?? "Немає опису"}
+          {traveller.description ?? 'Немає опису'}
         </p>
+      </div>
 
       <Link
         href={`/travellers/${traveller._id}`}
