@@ -110,7 +110,7 @@ export interface FetchStoriesProps {
   page?: number;
   perPage?: number;
   category?: string;
-  ownerId?: string
+  ownerId?: string;
 }
 
 export async function fetchStories(
