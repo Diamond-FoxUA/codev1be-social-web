@@ -1,6 +1,6 @@
 import { fetchStoryById } from '@/lib/api/clientApi';
 import AddStoryForm from '@/components/AddStoryForm/AddStoryForm';
-import css from '@/app/(private routes)/stories/create/CreateStory.module.css';
+import css from '@/app/(main)/(private routes)/stories/create/CreateStory.module.css';
 
 interface Props {
   params: { id: string };
@@ -18,8 +18,6 @@ const EditStoryPage = async ({ params }: Props) => {
     category: story.category._id || '',
     article: story.article || '',
   };
-
-  
 
   return (
     <section>
