@@ -20,12 +20,13 @@ export const metadata: Metadata = {
     ],
   },
 };
+
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const EditStoryPage = async ({ params }: Props) => {
-  const { id } = params;
+  const { id } = await params;
 
   const story = await fetchStoryById(id);
 
