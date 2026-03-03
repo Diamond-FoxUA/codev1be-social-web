@@ -8,6 +8,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import nextServer from '@/lib/api/api';
+import { useAuthStore } from '@/lib/store/authStore'; 
 
 const LoginSchema = Yup.object({
   email: Yup.string().email('Невірний email').required("Обов'язково"),
@@ -26,6 +27,7 @@ type ApiErrorData = {
 export default function LoginPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { setUser } = useAuthStore(); 
 
   return (
     <div className={styles.authWrapper}>
@@ -57,13 +59,13 @@ export default function LoginPage() {
                   const response = await nextServer.post('/auth/login', values);
 
                   if (response.status === 200 || response.status === 201) {
-                    // Очисти кеш пользователя
+                    setUser(response.data.user);
+
                     await queryClient.invalidateQueries({
                       queryKey: ['currentUser'],
                     });
 
                     router.push('/');
-                    router.refresh();
                   }
                 } catch (err: unknown) {
                   let msg = 'Invalid credentials';

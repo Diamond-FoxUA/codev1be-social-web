@@ -152,7 +152,7 @@ p {
 a {
   color: currentColor;
   text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
+  transition: all 0.3s ease-in-out;
 }
 
 button {
