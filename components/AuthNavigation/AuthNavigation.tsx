@@ -28,7 +28,7 @@ export default function AuthNavigation({ isDark }: AuthNavigationProps) {
     email: 'test@mail.com',
     avatarUrl: '',
     articlesAmount: 0,
-    favoriteStories: [],
+    savedArticles: [],
   };
 
   const showAuthUI = FORCE_AUTH_UI || (isAuthenticated && !!user);
