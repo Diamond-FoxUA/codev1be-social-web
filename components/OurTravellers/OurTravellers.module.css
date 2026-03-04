@@ -165,20 +165,41 @@
   border: 1px solid var(--color-royal-blue);
   border-radius: 8px;
   white-space: nowrap;
+/*  width: 100%;
+  margin-top: 24px;
+  display: block; */
+  display: none;
+}
+
+.viewAllBtnPage {
+  background-color: var(--color-royal-blue);
+  font-weight: 600;
+  line-height: 150%;
+  color: var(--color-white);
+  border: 1px solid var(--color-royal-blue);
+  border-radius: 8px;
+  white-space: nowrap;
+  display: block;
+  width: 100%;  
+  margin-top: 24px;
 }
 
 .viewAllBtn:hover,
-.viewAllBtn:focus {
+.viewAllBtnPage:hover,
+.viewAllBtn:focus,
+.viewAllBtnPage:focus {
   background-color: var(--color-royal-blue-lighter);
   color: var(--color-scheme-2-text);
 }
 
-.viewAllBtn:active {
+.viewAllBtn:active,
+.viewAllBtnPage:active {
   background-color: var(--color-royal-blue-light);
   color: var(--color-scheme-2-text);
 }
 
-.viewAllBtn:disabled {
+.viewAllBtn:disabled,
+.viewAllBtnPage:disabled {
   background-color: var(--color-royal-blue);
   color: var(--color-white);
   opacity: 0.3;
@@ -189,11 +210,7 @@
 ==================== */
 
 /* Tablet */
-@media (min-width: 320px) {
-  .viewAllBtn {
-    display: none;
-  }
-}
+
 @media (min-width: 768px) {
   .inner {
     --columns: 2;
@@ -203,6 +220,13 @@
   .viewAllBtn {
     width: 156px;
     display: block;
+    font-size: 16px;
+    margin: 48px auto 0;
+    padding: 12px;
+  }
+
+  .viewAllBtnPage {
+    width: 123px;
     font-size: 16px;
     margin: 48px auto 0;
     padding: 12px;
@@ -224,25 +248,26 @@
   padding: 0;
 }
 
-.profileAvatar { width: 200px; height: 200px; flex: 0 0 200px; }
+.profileAvatar { 
+  width: 200px; 
+  height: 200px; 
+  flex: 0 0 200px; 
+}
 
-/* ✅ 367px как в Figma */
 .profileText {
   width: 367px;
   flex: 0 0 367px;
 }
 
-/* ✅ Typography: Inter 700, lh 130%, ls -1% */
 .profileName {
   font-weight: 700;
-  font-size: 28px;        /* если у тебя по макету меньше/больше — поменяй */
+  font-size: 28px;
   line-height: 130%;
   letter-spacing: -0.01em;
   margin: 0 0 12px;
   color: var(--color-scheme-2-text);
 }
 
-/* описание без clamp */
 .profileDescription {
   font-size: 18px;
   line-height: 150%;
@@ -262,6 +287,12 @@
   .viewAllBtn {
     font-size: 18px;
     width: 173px;
+    padding: 10px 12px;
+  }
+
+  .viewAllBtnPage {
+    font-size: 18px;
+    width: 135px;
     padding: 10px 12px;
   }
 }

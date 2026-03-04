@@ -92,6 +92,8 @@
 .viewAllBtn {
     width: 100%;
     margin-top: 24px;
+    display: block;
+    white-space: nowrap;
     padding: 6px 12px;
     background-color: var(--color-royal-blue);
     font-weight: 600;
@@ -153,7 +155,7 @@
     }
 
     .viewAllBtn {
-        max-width: 125px;
+        max-width: 123px;
         margin-left: auto;
         margin-right: auto;
     }
@@ -193,5 +195,9 @@
 
     .title {
         font-size: 52px;
+    }
+
+    .viewAllBtn {
+        max-width: 135px;
     }
 }

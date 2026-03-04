@@ -144,7 +144,7 @@ export default function TravellerPageClient({ traveller }: Props) {
                 onClick={handleLoadMore}
                 disabled={loading}
               >
-                {loading ? 'Завантаження...' : 'Переглянути всі'}
+                {loading ? 'Завантаження...' : 'Показати ще'}
               </button>
             )}
           </>

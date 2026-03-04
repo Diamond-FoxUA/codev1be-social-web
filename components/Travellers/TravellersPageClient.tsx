@@ -126,7 +126,7 @@ export default function TravellersPageClient() {
       {hasMore && (
         <button
           type="button"
-          className={`${css.buttonBase} ${css.viewAllBtn}`}
+          className={`${css.buttonBase} ${css.viewAllBtnPage}`}
           onClick={handleLoadMore}
           disabled={loading}
         >
