@@ -1,18 +1,87 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
+import { parse } from "cookie";
+import { checkServerSession } from "./lib/serverApi";
 
-export function middleware(req: NextRequest) {
-  const accessToken = req.cookies.get('accessToken')?.value;
-  const refreshToken = req.cookies.get('refreshToken')?.value;
+const privateRoutes = [
+  "/profile",
+  "/stories/create",
+];
 
-  const { pathname } = req.nextUrl;
+const publicRoutes = [
+  "/login",
+  "/register",
+];
 
-  const isAuthenticated = Boolean(accessToken || refreshToken);
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
 
-  // GUEST ONLY ROUTES
-  const isGuestRoute = pathname === '/login' || pathname === '/register';
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken")?.value;
+  const refreshToken = cookieStore.get("refreshToken")?.value;
 
-  if (isAuthenticated && isGuestRoute) {
-    return NextResponse.redirect(new URL('/', req.url));
+  const isPublicRoute = publicRoutes.some((route) =>
+    pathname.startsWith(route)
+  );
+
+  const isPrivateRoute =
+    privateRoutes.some((route) => pathname.startsWith(route)) ||
+    /^\/stories\/[^/]+\/edit$/.test(pathname);
+
+  // ACCESS TOKEN Є
+  if (accessToken) {
+    if (isPublicRoute) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    return NextResponse.next();
+  }
+
+  // ACCESS TOKEN НЕМАЄ, АЛЕ Є REFRESH
+  if (!accessToken && refreshToken) {
+    const data = await checkServerSession();
+    const setCookie = data.headers["set-cookie"];
+
+    if (setCookie) {
+      const cookieArray = Array.isArray(setCookie)
+        ? setCookie
+        : [setCookie];
+
+      for (const cookieStr of cookieArray) {
+        const parsed = parse(cookieStr);
+
+        const options = {
+          expires: parsed.Expires
+            ? new Date(parsed.Expires)
+            : undefined,
+          path: parsed.Path,
+          maxAge: Number(parsed["Max-Age"]),
+        };
+
+        if (parsed.accessToken) {
+          cookieStore.set("accessToken", parsed.accessToken, options);
+        }
+
+        if (parsed.refreshToken) {
+          cookieStore.set("refreshToken", parsed.refreshToken, options);
+        }
+      }
+
+      if (isPublicRoute) {
+        return NextResponse.redirect(new URL("/", request.url), {
+          headers: { Cookie: cookieStore.toString() },
+        });
+      }
+
+      return NextResponse.next({
+        headers: { Cookie: cookieStore.toString() },
+      });
+    }
+  }
+
+  // НЕ АВТОРИЗОВАНИЙ
+  if (isPrivateRoute) {
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();
@@ -20,11 +89,10 @@ export function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    '/profile',
-    '/stories/create',
-    '/stories/:storyId/edit',
-    '/edit',
-    '/login',
-    '/register',
+    "/profile/:path*",
+    "/stories/create",
+    "/stories/:storyId/edit",
+    "/login",
+    "/register",
   ],
 };
