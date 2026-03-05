@@ -167,6 +167,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import TravellersStories from '../TravellersStories/TravellersStories';
 import type { User } from '@/types/user';
 import type { Story, StoryCard, StoryCardUser } from '@/types/story';
@@ -186,6 +187,7 @@ export default function TravellerPageClient({ traveller, allStories }: Props) {
   const prevLengthRef = useRef(0);
   const gridRef = useRef<HTMLDivElement>(null);
 
+  // Визначаємо перPage адаптивно і початкове завантаження
   useEffect(() => {
     const update = () => setPerPage(getPerPage());
     update();
@@ -241,6 +243,7 @@ export default function TravellerPageClient({ traveller, allStories }: Props) {
 
   return (
     <div className={css.inner}>
+      {/* Хедер */}
       <div className={css.header}>
         <div className={css.avatar}>
           <Image
