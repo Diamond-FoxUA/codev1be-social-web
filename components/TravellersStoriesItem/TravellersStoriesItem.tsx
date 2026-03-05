@@ -17,7 +17,7 @@ interface TravellersStoriesItemProps {
   user?: StoryCardUser;
   categoryName: string;
   priority?: boolean;
-  mode?: 'default' | 'own'; // 👈 Додано
+  mode?: 'default' | 'own'; // 👈 ДОБАВИЛИ
 }
 
 export default function TravellersStoriesItem({
@@ -25,6 +25,7 @@ export default function TravellersStoriesItem({
   user,
   categoryName,
   priority = false,
+  mode = 'default', // 👈 ПО УМОЛЧАНИЮ
 }: TravellersStoriesItemProps) {
   // Локальна перевірка авторизації тільки для цієї картки.
   // Як відкотити: видаліть цей блок і поверніть використання useAuth().
