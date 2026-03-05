@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers';
 import serverApi from '@/app/api/api';
-import nextServer from './api';
 import { User } from '@/types/user';
 import { Story } from '@/types/story';
 import axios from 'axios';
@@ -21,8 +20,14 @@ export async function getMeServer(): Promise<User | null> {
 
     return data;
   } catch (e) {
-    if (axios.isAxiosError(e) && e.response?.status === 401) return null;
-    throw e;
+    // На будь-яку помилку повертаємо null
+    // Це дозволяє додатку працювати без аутентифікованого користувача
+    if (axios.isAxiosError(e)) {
+      console.warn(`[getMeServer] API error: ${e.response?.status}`, e.message);
+    } else {
+      console.warn('[getMeServer] Unknown error:', e);
+    }
+    return null;
   }
 }
 
