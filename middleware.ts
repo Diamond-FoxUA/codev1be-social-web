@@ -31,7 +31,6 @@ export async function middleware(request: NextRequest) {
   // ACCESS TOKEN НЕМАЄ, АЛЕ Є REFRESH TOKEN
   if (!accessToken && refreshToken) {
     const data = await checkServerSession();
-
     const setCookies = data.headers.getSetCookie();
 
     if (setCookies.length > 0) {
