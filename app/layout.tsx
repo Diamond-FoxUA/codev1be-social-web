@@ -79,11 +79,10 @@ export default async function RootLayout({
           <AuthInitializer initialUser={user}>
             {children}
 
-          {children}
-
-          <ToastProvider />
-          <AuthNavModal />
-          <div id="modal-root" />
+            <ToastProvider />
+            <AuthNavModal />
+            <div id="modal-root" />
+          </AuthInitializer>
         </QueryProvider>
       </body>
     </html>
