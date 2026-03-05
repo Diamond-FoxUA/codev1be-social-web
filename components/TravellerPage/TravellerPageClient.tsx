@@ -26,9 +26,11 @@ export default function TravellerPageClient({ traveller }: Props) {
   useEffect(() => {
     const updatePerPage = () => {
       const width = window.innerWidth;
-      if (width < 768) setPerPage(4);        // моб завантажуємо 4 картки
-      else if (width < 1440) setPerPage(4);  // таб 4 картки
-      else setPerPage(6);                     // деск 6 карток
+      if (width < 768)
+        setPerPage(4); // моб завантажуємо 4 картки
+      else if (width < 1440)
+        setPerPage(4); // таб 4 картки
+      else setPerPage(6); // деск 6 карток
     };
     updatePerPage();
     window.addEventListener('resize', updatePerPage);
@@ -40,7 +42,11 @@ export default function TravellerPageClient({ traveller }: Props) {
     setLoading(true);
 
     try {
-      const data = await fetchStories({ ownerId: traveller._id, page: nextPage, perPage });
+      const data = await fetchStories({
+        ownerId: traveller._id,
+        page: nextPage,
+        perPage,
+      });
 
       if (!data.stories || data.stories.length === 0) {
         setHasMore(false);
@@ -49,7 +55,7 @@ export default function TravellerPageClient({ traveller }: Props) {
 
       if (nextPage === 1) firstLoadCountRef.current = data.stories.length;
 
-      setStories(prev => [...prev, ...data.stories]);
+      setStories((prev) => [...prev, ...data.stories]);
       if (data.stories.length < perPage) setHasMore(false);
       setPage(nextPage);
 
@@ -58,13 +64,14 @@ export default function TravellerPageClient({ traveller }: Props) {
         const width = window.innerWidth;
 
         let scrollAmount = 0;
-        if (width < 768) scrollAmount = 4 * 575 + 3 * 24;       // моб: 4 рядки × 575 + 3 гепи
-        else if (width < 1440) scrollAmount = 2 * 578 + 24;     // таб: 2 рядки × 578 + 1 геп
-        else scrollAmount = 2 * 677 + 24;                       // деск: 2 рядки × 677 + 1 геп
+        if (width < 768)
+          scrollAmount = 4 * 575 + 3 * 24; // моб: 4 рядки × 575 + 3 гепи
+        else if (width < 1440)
+          scrollAmount = 2 * 578 + 24; // таб: 2 рядки × 578 + 1 геп
+        else scrollAmount = 2 * 677 + 24; // деск: 2 рядки × 677 + 1 геп
 
         window.scrollBy({ top: scrollAmount, behavior: 'smooth' });
       }
-
     } catch (err) {
       console.error('Failed to load stories', err);
     } finally {
@@ -73,16 +80,22 @@ export default function TravellerPageClient({ traveller }: Props) {
     }
   };
 
-  useEffect(() => { 
-    if (perPage !== null) loadStories(1); 
+  useEffect(() => {
+    if (perPage !== null) loadStories(1);
   }, [perPage]);
 
   const handleLoadMore = () => loadStories(page + 1);
 
-  const storiesForCard: StoryCard[] = stories.map(story => ({
+  const storiesForCard: StoryCard[] = stories.map((story) => ({
     ...story,
-    category: typeof story.category === 'string' ? story.category : story.category?._id ?? '',
-    ownerId: typeof story.ownerId === 'string' ? story.ownerId : story.ownerId?._id ?? '',
+    category:
+      typeof story.category === 'string'
+        ? story.category
+        : (story.category?._id ?? ''),
+    ownerId:
+      typeof story.ownerId === 'string'
+        ? story.ownerId
+        : (story.ownerId?._id ?? ''),
     ownerUser: typeof story.ownerId === 'string' ? undefined : story.ownerId,
   }));
 
@@ -118,11 +131,17 @@ export default function TravellerPageClient({ traveller }: Props) {
       {!firstLoadFinished && perPage && (
         <div className={css.skeletonGrid}>
           {Array.from({ length: perPage }).map((_, i) => (
-            <Skeleton key={i} width={340} height={
-              window.innerWidth < 768 ? 575 :
-              window.innerWidth < 1440 ? 578 :
-              677
-            } />
+            <Skeleton
+              key={i}
+              width={340}
+              height={
+                window.innerWidth < 768
+                  ? 575
+                  : window.innerWidth < 1440
+                    ? 578
+                    : 677
+              }
+            />
           ))}
         </div>
       )}
@@ -137,7 +156,11 @@ export default function TravellerPageClient({ traveller }: Props) {
         </div>
       ) : (
         <>
-          <TravellersStories stories={storiesForCard} usersMap={usersMap} categoryMap={{}} />
+          <TravellersStories
+            stories={storiesForCard}
+            usersMap={usersMap}
+            categoryMap={{}}
+          />
 
           {/* Кнопка “Показати ще” */}
           {hasMore && (
