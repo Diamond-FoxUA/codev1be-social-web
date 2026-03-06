@@ -12,6 +12,7 @@ export default function MainLayout({
       <Header />
       <main>{children}</main>
       <Footer />
-    </AuthProvider>
+      <div id="modal-root" />
+    <AuthProvider/>
   );
 }
