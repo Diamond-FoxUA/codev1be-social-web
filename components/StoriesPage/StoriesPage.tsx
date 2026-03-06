@@ -174,20 +174,7 @@ export default function StoriesPage() {
 
   const hasMoreStories = page < totalPages;
 
-  // const handleLoadMore = async () => {
-  //   if (page >= totalPages) {
-  //     return;
-  //   }
-
-  //   prevLengthRef.current = allStories.length;
-
-  //   if (!loading) {
-  //     loadStories(page + 1);
-  //   }
-  // };
-
   const handleLoadMore = () => {
-    // Якщо ми вже вантажимо дані АБО це остання сторінка — нічого не робимо
     if (loading || page >= totalPages) return;
 
     prevLengthRef.current = allStories.length;
@@ -197,11 +184,6 @@ export default function StoriesPage() {
   const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
-
-  // const handleCategoryChange = (categoryId: string) => {
-  //   setSelectedCategory(categoryId);
-  //   setIsDropdownOpen(false);
-  // };
 
   const handleCategoryChange = (categoryId: string) => {
     setAllStories([]);
