@@ -60,7 +60,6 @@ export default function StoriesPage() {
     });
   }, []);
 
-  // Визначення perPage по ширині екрана
   const updatePerPage = useCallback(() => {
     const isTablet = window.matchMedia(
       '(min-width:768px) and (max-width:1439px)',
@@ -75,7 +74,6 @@ export default function StoriesPage() {
     return () => window.removeEventListener('resize', updatePerPage);
   }, [updatePerPage]);
 
-  // Функція завантаження stories
   const loadStories = useCallback(
     async (nextPage = 1) => {
       if (!isPerPageReady) return;
@@ -99,21 +97,16 @@ export default function StoriesPage() {
           ownerUser: getOwnerUser(story.ownerId),
         }));
 
-        setAllStories((prev) =>
-          nextPage === 1 ? normalizedData : [...prev, ...normalizedData],
-        );
+        setAllStories((prev) => {
+          if (nextPage === 1) {
+            prevLengthRef.current = 0;
+            return normalizedData;
+          }
+          return [...prev, ...normalizedData];
+        });
 
         setPage(nextPage);
-        const responseTotalPages = response.data.totalPages || 1;
-        setTotalPages(responseTotalPages);
-
-        // Показуємо toast якщо щойно завантажили останню сторінку через "Показати ще"
-        if (nextPage > 1 && nextPage >= responseTotalPages) {
-          iziToast?.info({
-            message: 'Це остання сторінка',
-            position: 'topRight',
-          });
-        }
+        setTotalPages(response.data.totalPages || 1);
       } catch (err) {
         console.error('Failed to load stories', err);
       } finally {
@@ -123,36 +116,33 @@ export default function StoriesPage() {
     [selectedCategory, perPage, isPerPageReady],
   );
 
-  // Завантаження при монтуванні і зміні категорії
   useEffect(() => {
     loadStories(1);
   }, [loadStories]);
 
-  // Auto-scroll до нової картки після завантаження
   useEffect(() => {
     const wrapper = gridRef.current;
     if (!wrapper) return;
 
-    const prevLength = prevLengthRef.current;
-    const currentLength = allStories.length;
-
-    if (currentLength <= prevLength) return;
-
-    // Знаходимо grid всередині wrapper
     const grid = wrapper.querySelector('[class*="grid"]');
     if (!grid) return;
 
-    const newCard = grid.children[prevLength];
+    const currentLength = allStories.length;
+    const prevLength = prevLengthRef.current;
 
-    if (newCard instanceof HTMLElement) {
-      newCard.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+    if (currentLength <= prevLength || page === 1) {
+      prevLengthRef.current = currentLength;
+      return;
     }
-  }, [allStories]);
 
-  // Dropdown outside click handler
+    const newCard = grid.children[prevLength];
+    if (newCard instanceof HTMLElement) {
+      newCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    prevLengthRef.current = currentLength;
+  }, [allStories, page]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -190,7 +180,15 @@ export default function StoriesPage() {
     e.preventDefault();
   };
 
+  // const handleCategoryChange = (categoryId: string) => {
+  //   setSelectedCategory(categoryId);
+  //   setIsDropdownOpen(false);
+  // };
+
   const handleCategoryChange = (categoryId: string) => {
+    setAllStories([]);
+    setPage(1);
+    setTotalPages(1);
     setSelectedCategory(categoryId);
     setIsDropdownOpen(false);
   };
