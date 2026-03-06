@@ -2,6 +2,7 @@ import StoryPage from '@/components/StoryPage/StoryPage';
 import { fetchStoryByIdServer } from '@/lib/api/serverApi';
 import css from '@/components/StoryPage/StoryPage.module.css';
 import PopularStoriesSection from '@/components/PopularStoriesSection/PopularStoriesSection';
+import { notFound } from 'next/navigation';
 
 type Props = {
   params: Promise<{ id: string }>;
