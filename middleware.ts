@@ -1,9 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { parse } from 'cookie';
-import { checkServerSession } from '@/lib/api/serverApi';
+import { NextRequest, NextResponse } from "next/server";
+import { checkServerSession } from "./lib/api/serverApi";
 
 const privateRoutes = ['/profile', '/stories/create'];
 const publicRoutes = ['/login', '/register'];
+
+function extractCookieValue(setCookie: string, name: string) {
+  const match = setCookie.match(new RegExp(`${name}=([^;]+)`));
+  return match?.[1];
+}
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -37,25 +41,43 @@ export async function middleware(request: NextRequest) {
       const response = NextResponse.next();
 
       for (const cookieStr of setCookies) {
-        const parsed = parse(cookieStr);
+        // ✅ Правильно витягуємо значення з Set-Cookie заголовку
+        const accessTokenValue = extractCookieValue(cookieStr, 'accessToken');
+        const refreshTokenValue = extractCookieValue(cookieStr, 'refreshToken');
+        const sessionIdValue = extractCookieValue(cookieStr, 'sessionId');
 
-        const options = {
-          expires: parsed.Expires ? new Date(parsed.Expires) : undefined,
-          path: parsed.Path ?? '/',
-          maxAge: parsed['Max-Age'] ? Number(parsed['Max-Age']) : undefined,
-          httpOnly: true,
-        };
+        // Декодуємо значення (можуть бути URL-encoded)
+        const access = accessTokenValue ? decodeURIComponent(accessTokenValue) : null;
+        const refresh = refreshTokenValue ? decodeURIComponent(refreshTokenValue) : null;
+        const session = sessionIdValue ? decodeURIComponent(sessionIdValue) : null;
 
-        if (parsed.accessToken) {
-          response.cookies.set('accessToken', parsed.accessToken, options);
+        const secure = process.env.NODE_ENV === 'production';
+
+        if (access) {
+          response.cookies.set('accessToken', access, {
+            httpOnly: true,
+            secure,
+            sameSite: 'lax',
+            path: '/',
+          });
         }
 
-        if (parsed.refreshToken) {
-          response.cookies.set('refreshToken', parsed.refreshToken, options);
+        if (refresh) {
+          response.cookies.set('refreshToken', refresh, {
+            httpOnly: true,
+            secure,
+            sameSite: 'lax',
+            path: '/',
+          });
         }
 
-        if (parsed.sessionId) {
-          response.cookies.set('sessionId', parsed.sessionId, options);
+        if (session) {
+          response.cookies.set('sessionId', session, {
+            httpOnly: true,
+            secure,
+            sameSite: 'lax',
+            path: '/',
+          });
         }
       }
 
