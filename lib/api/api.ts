@@ -44,7 +44,8 @@ nextServer.interceptors.response.use(
     if (
       refreshDenied ||
       url.includes('/auth/refresh') ||
-      url.includes('/auth/login')
+      url.includes('/auth/login') ||
+      url.includes('/auth/register')
     ) {
       return Promise.reject(error);
     }

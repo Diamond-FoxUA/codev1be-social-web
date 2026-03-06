@@ -1,25 +1,10 @@
-// import { NextRequest, NextResponse } from 'next/server';
-// import serverApi from '@/app/api/api';
-
-// export async function POST(req: NextRequest) {
-//   const body = await req.json();
-
-//   const res = await serverApi.post('/auth/login', body);
-
-//   return NextResponse.json(res.data);
-// }
-
 import { NextRequest, NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { parse } from 'cookie';
-import { isAxiosError } from 'axios';
 import serverApi from '@/app/api/api';
 
 function extractCookieValue(setCookie: string, name: string) {
   const match = setCookie.match(new RegExp(`${name}=([^;]+)`));
   return match?.[1];
 }
-// работает
 
 export async function POST(req: NextRequest) {
   try {
@@ -76,7 +61,7 @@ export async function POST(req: NextRequest) {
     }
 
     return response;
-  } catch (error) {
+  } catch {
     return NextResponse.json({ message: 'Login failed' }, { status: 500 });
   }
 }
