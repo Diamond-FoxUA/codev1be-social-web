@@ -16,8 +16,7 @@ export async function POST(req: NextRequest) {
     console.log('register upstream status:', upstream.status);
     console.log('register upstream data:', upstream.data);
 
-    const setCookie = upstream.headers['set-cookie'] ?? [];
-    const arr = Array.isArray(setCookie) ? setCookie : [setCookie];
+    const apiRes = await serverApi.post('/auth/register', body);
 
     const accessRaw = arr
       .map((s) => extractCookieValue(s, 'accessToken'))
