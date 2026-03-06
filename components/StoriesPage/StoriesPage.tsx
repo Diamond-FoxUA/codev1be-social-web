@@ -78,6 +78,13 @@ export default function StoriesPage() {
     async (nextPage = 1) => {
       if (!isPerPageReady) return;
 
+      console.log(
+        'ЗАПИТ ДО СЕРВЕРА. Сторінка:',
+        nextPage,
+        'Категорія ID:',
+        selectedCategory,
+      );
+
       setLoading(true);
       try {
         const response = await nextServer.get<ApiResponse>('/stories', {
@@ -98,11 +105,14 @@ export default function StoriesPage() {
         }));
 
         setAllStories((prev) => {
-          if (nextPage === 1) {
-            prevLengthRef.current = 0;
-            return normalizedData;
-          }
-          return [...prev, ...normalizedData];
+          if (nextPage === 1) return normalizedData;
+
+          const uniqueNewStories = normalizedData.filter(
+            (newStory) =>
+              !prev.some((oldStory) => oldStory._id === newStory._id),
+          );
+
+          return [...prev, ...uniqueNewStories];
         });
 
         setPage(nextPage);
@@ -164,16 +174,24 @@ export default function StoriesPage() {
 
   const hasMoreStories = page < totalPages;
 
-  const handleLoadMore = async () => {
-    if (page >= totalPages) {
-      return;
-    }
+  // const handleLoadMore = async () => {
+  //   if (page >= totalPages) {
+  //     return;
+  //   }
+
+  //   prevLengthRef.current = allStories.length;
+
+  //   if (!loading) {
+  //     loadStories(page + 1);
+  //   }
+  // };
+
+  const handleLoadMore = () => {
+    // Якщо ми вже вантажимо дані АБО це остання сторінка — нічого не робимо
+    if (loading || page >= totalPages) return;
 
     prevLengthRef.current = allStories.length;
-
-    if (!loading) {
-      loadStories(page + 1);
-    }
+    loadStories(page + 1);
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
