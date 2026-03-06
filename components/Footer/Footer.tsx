@@ -48,7 +48,7 @@ function Footer() {
           </ul>
 
           <nav className={css.nav} aria-label="Навігація футера">
-            <ul className={css.navList}>
+            <ul className={css.nav}>
               <NavLinks showProfile={isAuthenticated} />
             </ul>
           </nav>
