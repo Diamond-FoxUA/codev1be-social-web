@@ -2,6 +2,7 @@ import { fetchStoryByIdServer } from '@/lib/api/serverApi';
 import AddStoryForm from '@/components/AddStoryForm/AddStoryForm';
 import css from '@/app/(main)/(private routes)/stories/create/CreateStory.module.css';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Edit a new story',
@@ -29,6 +30,10 @@ const EditStoryPage = async ({ params }: Props) => {
   const { id } = await params;
 
   const story = await fetchStoryByIdServer(id);
+
+  if (!story) {
+    notFound();
+  }
 
   const initialValues = {
     _id: story._id,
