@@ -22,6 +22,7 @@ export default function OurTravellers() {
         const data = await fetchUsers({
           page: 1,
           perPage: 4,
+          sortBy: 'articlesAmount',
         });
 
         setTravellers(data.users);

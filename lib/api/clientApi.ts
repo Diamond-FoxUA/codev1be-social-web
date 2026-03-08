@@ -57,6 +57,7 @@ export const checkSession = async (): Promise<boolean> => {
 export interface FetchUsersProps {
   page: number;
   perPage: number;
+  sortBy?: string;
 }
 
 export interface UsersHttpResponse {
