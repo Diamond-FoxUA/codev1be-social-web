@@ -3,7 +3,6 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   const res = NextResponse.json({ ok: true });
 
-  // localhost => http => secure must be false
   const opts = {
     httpOnly: true,
     secure: false,

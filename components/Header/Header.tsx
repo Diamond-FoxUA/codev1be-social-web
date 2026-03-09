@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 
 import MobileMenu from '../MobileMenu/MobileMenu';
 import { useAuthStore } from '@/lib/store/authStore';
+import ThemeToggle from '@/components/ThemeToggle/ThemeToggle';
 
 function Header() {
   const { isAuthenticated } = useAuthStore();
@@ -35,9 +36,12 @@ function Header() {
               <NavLinks isDark={isHomePage} showProfile={isAuthenticated} />
               <AuthNavigation isDark={isHomePage} />
             </ul>
+            <ThemeToggle />
           </nav>
 
           <div className={css.mobileActions}>
+            <ThemeToggle />
+
             {isAuthenticated && <PublishButton isDark={isHomePage} />}
             <button
               className={css.menuBtn}

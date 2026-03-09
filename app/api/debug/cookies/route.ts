@@ -10,7 +10,6 @@ export async function GET() {
     cookieHeaderFromRequest: h.get('cookie') ?? null,
     cookiesParsedByNext: cookieStore.getAll().map((c) => ({
       name: c.name,
-      // value не показываю целиком, чтобы не утекло — оставим длину
       valueLength: c.value.length,
     })),
   });
