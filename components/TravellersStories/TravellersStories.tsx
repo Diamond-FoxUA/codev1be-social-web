@@ -37,15 +37,15 @@ export default function TravellersStories({
 
   const categories = categoryMap ?? CATEGORY_MAP;
 
+  const uniqueStories = Array.from(
+    new Map(stories.map((story) => [story._id, story])).values(),
+  );
+
   return (
     <div className={styles.grid}>
-      {stories.map((story, index) => {
-        /**
-         * USER NORMALIZATION
-         */
+      {uniqueStories.map((story, index) => {
         let user: StoryCardUser | undefined = story.ownerUser;
 
-        // якщо ownerUser немає, але ownerId прийшов як об'єкт (mongoose populate)
         if (
           !user &&
           typeof story.ownerId === 'object' &&
@@ -60,14 +60,10 @@ export default function TravellersStories({
           };
         }
 
-        // fallback через usersMap
         if (!user && typeof story.ownerId === 'string') {
           user = usersMap[story.ownerId];
         }
 
-        /**
-         * CATEGORY NORMALIZATION
-         */
         let categoryId: string | undefined;
 
         if (typeof story.category === 'string') {
@@ -77,7 +73,6 @@ export default function TravellersStories({
           story.category !== null
         ) {
           const cat = story.category as CategoryObject;
-
           categoryId = cat._id || cat.$oid || cat.id;
         }
 

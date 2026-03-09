@@ -22,7 +22,6 @@ export default function TravellerPageClient({ traveller, allStories }: Props) {
   const prevLengthRef = useRef(0);
   const gridRef = useRef<HTMLDivElement>(null);
 
-  // Визначаємо перPage адаптивно
   useEffect(() => {
     const update = () => setPerPage(getPerPage());
     update();
@@ -35,11 +34,10 @@ export default function TravellerPageClient({ traveller, allStories }: Props) {
   }, [perPage]);
 
   const handleLoadMore = () => {
-    prevLengthRef.current = visibleCount; // для скролу
+    prevLengthRef.current = visibleCount;
     setVisibleCount((prev) => prev + perPage);
   };
 
-  // щоб ховер не залишався після кліку
   const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
@@ -71,17 +69,22 @@ export default function TravellerPageClient({ traveller, allStories }: Props) {
 
   const hasMore = visibleCount < allStories.length;
 
-  // скрол після кліку на "Показати ще"
   useEffect(() => {
-    if (prevLengthRef.current === 0) return; // перший рендер не скролить
+    if (prevLengthRef.current === 0) return;
+
     const wrapper = gridRef.current;
     if (!wrapper) return;
+
     const grid = wrapper.querySelector('[class*="grid"]');
     if (!grid) return;
 
     const newCard = grid.children[prevLengthRef.current];
+
     if (newCard instanceof HTMLElement) {
-      newCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      newCard.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
   }, [visibleCount]);
 
