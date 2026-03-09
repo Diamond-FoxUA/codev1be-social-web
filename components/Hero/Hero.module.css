@@ -126,3 +126,40 @@
     font-size: 18px;
   }
 }
+
+/* ------------------------ThemeToggle-------------------------- */
+[data-theme='dark'] .heroSection {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+    image-set(
+      url('/img/sections/hero/hero-bg-mob.webp') 1x,
+      url('/img/sections/hero/hero-bg-mob@2x.webp') 2x
+    );
+}
+[data-theme='dark'] .title,
+[data-theme='dark'] .description {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+@media (min-width: 768px) {
+  [data-theme='dark'] .heroSection {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+      image-set(
+        url('/img/sections/hero/hero-bg-tab.webp') 1x,
+        url('/img/sections/hero/hero-bg-tab@2x.webp') 2x
+      );
+  }
+}
+
+@media (min-width: 1440px) {
+  [data-theme='dark'] .heroSection {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+      image-set(
+        url('/img/sections/hero/hero-bg-desktop.webp') 1x,
+        url('/img/sections/hero/hero-bg-desktop@2x.webp') 2x
+      );
+  }
+}

@@ -130,3 +130,40 @@
     margin-top: 8px;
   }
 }
+
+/* ── Темна тема ── */
+[data-theme='dark'] .contentContainer {
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    image-set(
+      url('/img/sections/Join/mob/join-background.webp') 1x,
+      url('/img/sections/Join/mob/join-background@2x.webp') 2x
+    );
+}
+[data-theme='dark'] .sectionHeading,
+[data-theme='dark'] .sectionParagraph {
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+@media screen and (min-width: 768px) {
+  [data-theme='dark'] .contentContainer {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      image-set(
+        url('/img/sections/Join/tab/join-background-tablet.webp') 1x,
+        url('/img/sections/Join/tab/join-background-tablet@2x.webp') 2x
+      );
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  [data-theme='dark'] .contentContainer {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      image-set(
+        url('/img/sections/Join/desk/join-background-desktop.webp') 1x,
+        url('/img/sections/Join/desk/join-background-desktop.webp') 2x
+      );
+  }
+}

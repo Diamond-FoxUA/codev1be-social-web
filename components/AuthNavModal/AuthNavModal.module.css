@@ -66,7 +66,7 @@
   text-align: center;
 
   padding: 12px 0;
-  transition: 
+  transition:
     color 300ms ease-in-out,
     background-color 300ms ease-in-out;
 }
@@ -130,4 +130,48 @@
     max-width: 768px;
     padding: 64px;
   }
+}
+
+/* ThemeToggle */
+:global([data-theme='dark']) .modal {
+  background: #1e1e30;
+}
+
+:global([data-theme='dark']) .title {
+  color: #e8eeff;
+}
+
+:global([data-theme='dark']) .text {
+  color: rgba(232, 238, 255, 0.7);
+}
+
+:global([data-theme='dark']) .close {
+  color: #e8eeff;
+}
+
+:global([data-theme='dark']) .loginBtn {
+  color: #e8eeff;
+  background-color: transparent;
+  border-color: rgba(232, 238, 255, 0.3);
+}
+
+:global([data-theme='dark']) .loginBtn:hover {
+  background-color: #818cf8;
+  border-color: #818cf8;
+  color: #fff;
+}
+
+:global([data-theme='dark']) .registerBtn {
+  background-color: #818cf8;
+  border-color: #818cf8;
+}
+
+:global([data-theme='dark']) .registerBtn:hover {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+:global([data-theme='dark']) .close svg {
+  color: #e8eeff;
+  fill: #e8eeff;
 }

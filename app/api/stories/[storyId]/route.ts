@@ -25,7 +25,6 @@ export async function PATCH(
     const res = await serverApi.patch(`/stories/${storyId}`, formData, {
       headers: {
         cookie,
-        // НЕ ставим Content-Type — axios сам выставит boundary
       },
     });
 
