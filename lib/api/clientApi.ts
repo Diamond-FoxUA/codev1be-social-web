@@ -101,14 +101,19 @@ export const updateAvatar = async (file: File): Promise<string> => {
 export interface StoriesHttpResponse {
   stories: Story[];
   totalStories: number;
-  page: number;
-  perPage: number;
-  totalPages: number;
+  offset?: number;
+  limit?: number;
+  hasMore?: boolean;
+  page?: number;
+  perPage?: number;
+  totalPages?: number;
 }
 
 export interface FetchStoriesProps {
   page?: number;
   perPage?: number;
+  offset?: number;
+  limit?: number;
   category?: string;
 }
 

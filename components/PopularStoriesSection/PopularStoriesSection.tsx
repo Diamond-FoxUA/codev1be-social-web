@@ -2,25 +2,33 @@
 
 import css from './PopularStoriesSection.module.css';
 import Link from 'next/link';
-import { fetchStories } from '@/lib/api/clientApi';
+import { fetchStories, StoriesHttpResponse } from '@/lib/api/clientApi';
 import { useQuery } from '@tanstack/react-query';
 import Skeleton from '../Skeleton/Skeleton';
-import { Story } from '@/types/story';
+// import { Story } from '@/types/story';
 import { StoryItem } from './PopularStoryItem';
 
-type Resp = {
-  stories: Story[];
-  totalStories: number;
-  page: number;
-  perPage: number;
-  totalPages: number;
-};
+// type Resp = {
+//   stories: Story[];
+//   totalStories: number;
+//   offset: number;
+//   limit: number;
+//   hasMore: boolean;
+// };
 
-const getStories = async (): Promise<Resp> => {
-  return await fetchStories({
-    page: 1,
-    perPage: 4,
+const getStories = async (): Promise<StoriesHttpResponse> => {
+  const data = await fetchStories({
+    offset: 0,
+    limit: 3,
   });
+
+  console.log('POPULAR STORIES COUNT:', data.stories.length);
+  console.log(
+    'POPULAR STORIES IDS:',
+    data.stories.map((story) => story._id),
+  );
+
+  return data;
 };
 
 export default function PopularStoriesSection() {
