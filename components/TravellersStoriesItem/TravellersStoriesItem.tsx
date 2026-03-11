@@ -130,7 +130,7 @@ export default function TravellersStoriesItem({
           <span className={styles.tag}>{categoryName}</span>
           <h3 className={styles.title}>{story.title}</h3>
           <p className={styles.description}>
-            {articleText.substring(0, 80) || 'Опис відсутній'}...
+            {articleText || 'Опис відсутній'}
           </p>
         </div>
 
