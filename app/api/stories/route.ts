@@ -6,22 +6,20 @@ import { Story } from '@/types/story';
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
     const page = req.nextUrl.searchParams.get('page');
-
     const perPage = req.nextUrl.searchParams.get('perPage');
-
+    const offset = req.nextUrl.searchParams.get('offset');
+    const limit = req.nextUrl.searchParams.get('limit');
     const category = req.nextUrl.searchParams.get('category');
 
-    const res = await serverApi.get<StoriesHttpResponse>(
-      '/stories',
-
-      {
-        params: {
-          page,
-          perPage,
-          ...(category ? { category } : {}),
-        },
+    const res = await serverApi.get<StoriesHttpResponse>('/stories', {
+      params: {
+        ...(page ? { page } : {}),
+        ...(perPage ? { perPage } : {}),
+        ...(offset ? { offset } : {}),
+        ...(limit ? { limit } : {}),
+        ...(category ? { category } : {}),
       },
-    );
+    });
 
     return NextResponse.json(res.data);
   } catch (error) {
@@ -31,7 +29,6 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       {
         message: err.response?.data?.message || 'Internal server error',
       },
-
       {
         status: err.response?.status || 500,
       },

@@ -37,13 +37,9 @@ export default function TravellersStories({
 
   const categories = categoryMap ?? CATEGORY_MAP;
 
-  const uniqueStories = Array.from(
-    new Map(stories.map((story) => [story._id, story])).values(),
-  );
-
   return (
     <div className={styles.grid}>
-      {uniqueStories.map((story, index) => {
+      {stories.map((story, index) => {
         let user: StoryCardUser | undefined = story.ownerUser;
 
         if (
