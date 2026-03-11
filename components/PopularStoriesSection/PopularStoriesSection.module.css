@@ -81,7 +81,6 @@
   text-overflow: ellipsis;
   font-family: 'Nunito Sans', sans-serif;
   font-weight: 400;
-  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -217,6 +216,11 @@
   .seeMore {
     display: none;
   }
+
+  .articleTxt {
+    font-size: 16px;
+    height: 72px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -334,6 +338,10 @@
   .seeMore {
     width: 163px;
     font-size: 18px;
+  }
+  .articleTxt {
+    font-size: 18px;
+    height: 87px;
   }
 }
 

@@ -1,32 +1,46 @@
 'use client';
 
+import { useCallback, useEffect, useState } from 'react';
 import css from './PopularStoriesSection.module.css';
 import Link from 'next/link';
-import { fetchStories } from '@/lib/api/clientApi';
+import { fetchStories, StoriesHttpResponse } from '@/lib/api/clientApi';
 import { useQuery } from '@tanstack/react-query';
 import Skeleton from '../Skeleton/Skeleton';
-import { Story } from '@/types/story';
 import { StoryItem } from './PopularStoryItem';
 
-type Resp = {
-  stories: Story[];
-  totalStories: number;
-  page: number;
-  perPage: number;
-  totalPages: number;
-};
+const getPopularLimit = () => {
+  const isTablet = window.matchMedia(
+    '(min-width: 768px) and (max-width: 1439px)',
+  ).matches;
 
-const getStories = async (): Promise<Resp> => {
-  return await fetchStories({
-    page: 1,
-    perPage: 4,
-  });
+  return isTablet ? 4 : 3;
 };
 
 export default function PopularStoriesSection() {
+  const [limit, setLimit] = useState(3);
+  const [isReady, setIsReady] = useState(false);
+
+  const updateLimit = useCallback(() => {
+    const nextLimit = getPopularLimit();
+    setLimit(nextLimit);
+    setIsReady(true);
+  }, []);
+
+  useEffect(() => {
+    updateLimit();
+    window.addEventListener('resize', updateLimit);
+
+    return () => window.removeEventListener('resize', updateLimit);
+  }, [updateLimit]);
+
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['stories'],
-    queryFn: getStories,
+    queryKey: ['popular-stories', limit],
+    queryFn: async (): Promise<StoriesHttpResponse> =>
+      fetchStories({
+        offset: 0,
+        limit,
+      }),
+    enabled: isReady,
   });
 
   if (isError) return <p className={css.msg}>Error</p>;
@@ -38,15 +52,15 @@ export default function PopularStoriesSection() {
 
         {isLoading ? (
           <div className={css.loader}>
-            {Array.from({ length: 3 }).map((_, i) => (
+            {Array.from({ length: limit }).map((_, i) => (
               <Skeleton key={i} height={397} />
             ))}
           </div>
         ) : (
           <ul className={css.articleList}>
-            {data?.stories.map((story) => {
-              return <StoryItem key={story._id} story={story} />;
-            })}
+            {data?.stories.map((story) => (
+              <StoryItem key={story._id} story={story} />
+            ))}
           </ul>
         )}
 

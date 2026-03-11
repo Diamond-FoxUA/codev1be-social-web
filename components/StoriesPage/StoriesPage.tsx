@@ -2,16 +2,8 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import TravellersStories from '@/components/TravellersStories/TravellersStories';
-
-let iziToast: typeof import('izitoast').default | null = null;
 import nextServer from '@/lib/api/api';
-import type {
-  Category,
-  Owner,
-  StoriesResponse,
-  StoryCard,
-  StoryCardUser,
-} from '@/types/story';
+import type { Category, Owner, StoryCard, StoryCardUser } from '@/types/story';
 
 import styles from './StoriesPage.module.css';
 import { CATEGORIES, CATEGORY_MAP } from './constants';
@@ -24,8 +16,12 @@ type ApiStory = Omit<StoryCard, 'category' | 'ownerId' | 'ownerUser'> & {
   ownerId: StoryOwner;
 };
 
-type ApiResponse = Omit<StoriesResponse, 'stories'> & {
+type ApiResponse = {
   stories: ApiStory[];
+  totalStories: number;
+  offset: number;
+  limit: number;
+  hasMore: boolean;
 };
 
 type NormalizedStory = StoryCard;
@@ -39,51 +35,94 @@ const getOwnerId = (owner: StoryOwner) =>
 const getOwnerUser = (owner: StoryOwner) =>
   typeof owner === 'string' ? undefined : owner;
 
+const getPaginationConfig = () => {
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+  const isTablet = window.matchMedia(
+    '(min-width: 768px) and (max-width: 1439px)',
+  ).matches;
+
+  if (isMobile) {
+    return {
+      device: 'mobile',
+      initialLimit: 9,
+      nextLimit: 6,
+    };
+  }
+
+  if (isTablet) {
+    return {
+      device: 'tablet',
+      initialLimit: 8,
+      nextLimit: 8,
+    };
+  }
+
+  return {
+    device: 'desktop',
+    initialLimit: 9,
+    nextLimit: 9,
+  };
+};
+
 export default function StoriesPage() {
   const [allStories, setAllStories] = useState<NormalizedStory[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [perPage, setPerPage] = useState(9);
-  const [isPerPageReady, setIsPerPageReady] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const [hasMoreStories, setHasMoreStories] = useState(false);
+  const [initialLimit, setInitialLimit] = useState(9);
+  const [nextLimit, setNextLimit] = useState(9);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement | null>(null);
   const prevLengthRef = useRef(0);
-  const loadMoreBtnRef = useRef<HTMLButtonElement>(null);
 
-  useEffect(() => {
-    import('izitoast').then((mod) => {
-      iziToast = mod.default;
-    });
-  }, []);
+  const updatePaginationConfig = useCallback(() => {
+    const config = getPaginationConfig();
 
-  const updatePerPage = useCallback(() => {
-    const isTablet = window.matchMedia(
-      '(min-width:768px) and (max-width:1439px)',
-    ).matches;
-    setPerPage(isTablet ? 8 : 9);
-    setIsPerPageReady(true);
+    console.log('DEVICE:', config.device);
+    console.log('INITIAL LIMIT:', config.initialLimit);
+    console.log('NEXT LIMIT:', config.nextLimit);
+
+    setInitialLimit(config.initialLimit);
+    setNextLimit(config.nextLimit);
+    setIsReady(true);
   }, []);
 
   useEffect(() => {
-    updatePerPage();
-    window.addEventListener('resize', updatePerPage);
-    return () => window.removeEventListener('resize', updatePerPage);
-  }, [updatePerPage]);
+    updatePaginationConfig();
+    window.addEventListener('resize', updatePaginationConfig);
+
+    return () => window.removeEventListener('resize', updatePaginationConfig);
+  }, [updatePaginationConfig]);
 
   const loadStories = useCallback(
-    async (nextPage = 1) => {
-      if (!isPerPageReady) return;
+    async ({
+      offset,
+      limit,
+      replace = false,
+    }: {
+      offset: number;
+      limit: number;
+      replace?: boolean;
+    }) => {
+      if (!isReady) return;
 
       setLoading(true);
+
       try {
+        console.log('REQUEST PARAMS:', {
+          offset,
+          limit,
+          category: selectedCategory,
+          replace,
+        });
+
         const response = await nextServer.get<ApiResponse>('/stories', {
           params: {
-            page: nextPage,
-            perPage,
+            offset,
+            limit,
             ...(selectedCategory !== 'all'
               ? { category: selectedCategory }
               : {}),
@@ -97,28 +136,50 @@ export default function StoriesPage() {
           ownerUser: getOwnerUser(story.ownerId),
         }));
 
+        console.log('RECEIVED:', normalizedData.length);
+        console.log(
+          'IDS:',
+          normalizedData.map((story) => story._id),
+        );
+        console.log('HAS MORE:', response.data.hasMore);
+
         setAllStories((prev) => {
-          if (nextPage === 1) {
-            prevLengthRef.current = 0;
-            return normalizedData;
-          }
-          return [...prev, ...normalizedData];
+          const nextStories = replace
+            ? normalizedData
+            : [...prev, ...normalizedData];
+
+          console.log('BEFORE MERGE:', prev.length);
+          console.log('AFTER MERGE:', nextStories.length);
+
+          return nextStories;
         });
 
-        setPage(nextPage);
-        setTotalPages(response.data.totalPages || 1);
+        setHasMoreStories(response.data.hasMore);
       } catch (err) {
         console.error('Failed to load stories', err);
       } finally {
         setLoading(false);
       }
     },
-    [selectedCategory, perPage, isPerPageReady],
+    [selectedCategory, isReady],
   );
 
   useEffect(() => {
-    loadStories(1);
-  }, [loadStories]);
+    prevLengthRef.current = 0;
+    setAllStories([]);
+    setHasMoreStories(false);
+
+    console.log('INITIAL LOAD START');
+    console.log('CATEGORY:', selectedCategory);
+    console.log('INITIAL OFFSET:', 0);
+    console.log('INITIAL LIMIT:', initialLimit);
+
+    loadStories({
+      offset: 0,
+      limit: initialLimit,
+      replace: true,
+    });
+  }, [selectedCategory, initialLimit, loadStories]);
 
   useEffect(() => {
     const wrapper = gridRef.current;
@@ -130,18 +191,20 @@ export default function StoriesPage() {
     const currentLength = allStories.length;
     const prevLength = prevLengthRef.current;
 
-    if (currentLength <= prevLength || page === 1) {
+    if (currentLength <= prevLength) {
       prevLengthRef.current = currentLength;
       return;
     }
 
-    const newCard = grid.children[prevLength];
-    if (newCard instanceof HTMLElement) {
-      newCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (prevLength > 0) {
+      const newCard = grid.children[prevLength];
+      if (newCard instanceof HTMLElement) {
+        newCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
 
     prevLengthRef.current = currentLength;
-  }, [allStories, page]);
+  }, [allStories]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -162,39 +225,33 @@ export default function StoriesPage() {
     };
   }, [isDropdownOpen]);
 
-  const hasMoreStories = page < totalPages;
-
-  const handleLoadMore = async () => {
-    if (page >= totalPages) {
-      return;
-    }
+  const handleLoadMore = () => {
+    if (loading || !hasMoreStories) return;
 
     prevLengthRef.current = allStories.length;
 
-    if (!loading) {
-      loadStories(page + 1);
-    }
+    console.log('LOAD MORE CLICK');
+    console.log('NEXT OFFSET:', allStories.length);
+    console.log('NEXT LIMIT:', nextLimit);
+
+    loadStories({
+      offset: allStories.length,
+      limit: nextLimit,
+    });
   };
 
   const handleMouseDown = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
 
-  // const handleCategoryChange = (categoryId: string) => {
-  //   setSelectedCategory(categoryId);
-  //   setIsDropdownOpen(false);
-  // };
-
   const handleCategoryChange = (categoryId: string) => {
-    setAllStories([]);
-    setPage(1);
-    setTotalPages(1);
+    console.log('CATEGORY CHANGE:', categoryId);
     setSelectedCategory(categoryId);
     setIsDropdownOpen(false);
   };
 
   const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+    setIsDropdownOpen((prev) => !prev);
   };
 
   const selectedCategoryName =
@@ -280,7 +337,6 @@ export default function StoriesPage() {
 
             {hasMoreStories && (
               <button
-                ref={loadMoreBtnRef}
                 type="button"
                 className={styles.loadMoreBtn}
                 onClick={handleLoadMore}
