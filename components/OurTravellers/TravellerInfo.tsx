@@ -37,14 +37,13 @@ export default function TravellerInfo({ traveller, variant = 'card' }: Props) {
           {traveller.description ?? 'Немає опису'}
         </p>
       </div>
-      {!isProfile && (
-        <Link
-          href={`/travellers/${traveller._id}`}
-          className={`${css.buttonBase} ${css.profileButton}`}
-        >
-          Переглянути профіль
-        </Link>
-      )}
+      <Link
+        style={{display: 'flex'}}
+        href={`/travellers/${traveller._id}`}
+        className={`${css.buttonBase} ${css.profileButton}`}
+      >
+        Переглянути профіль
+      </Link>
     </div>
   );
 }
