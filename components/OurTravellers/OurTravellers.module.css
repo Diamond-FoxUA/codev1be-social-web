@@ -109,7 +109,7 @@
    Базові стилі для кнопок
 ======================== */
 .buttonBase {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   height: 48px;
